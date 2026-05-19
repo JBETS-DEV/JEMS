@@ -1,19 +1,6 @@
 {
-  "name": "jems-backend",
-  "version": "1.0.0",
-  "description": "Backend engine for JEMS elite soccer portal",
-  "main": "server.js",
-  "scripts": {
-    "start": "node server.js"
-  },
   "dependencies": {
-    "@whiskeysockets/baileys": "^6.7.1",
-    "cors": "^2.8.5",
     "express": "^4.19.2",
-    "pg": "^8.11.5",
-    "qrcode": "^1.5.3"
-  },
-  "engines": {
-    "node": ">=24.14.1"
+    "@whiskeysockets/baileys": "^6.7.1"
   }
 }
