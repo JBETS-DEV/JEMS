@@ -14,29 +14,28 @@ const pool = new Pool({
 let pairingCode = null;
 let isConnected = false;
 
-// Page d'accueil web pour récupérer votre code de connexion simplement
 app.get('/', (req, res) => {
     if (isConnected) {
         return res.send("<h1 style='color:green; text-align:center; font-family:sans-serif;'>✅ JEMS Bot connecté avec succès à votre WhatsApp! ⚽</h1>");
     }
     if (!pairingCode) {
-        return res.send("<h1 style='text-align:center; font-family:sans-serif;'>🔄 JEMS génère votre code de connexion... Patientez 10 secondes et rafraîchissez la page.</h1>");
+        return res.send("<h1 style='text-align:center; font-family:sans-serif;'>🔄 JEMS initialise le tunnel sécurisé... Patientez 15 secondes et rafraîchissez la page pour obtenir votre code.</h1>");
     }
     res.send(`
-        <div style="text-align:center; margin-top:60px; font-family:sans-serif; background:#f4f4f9; padding:30px; border-radius:10px; display:inline-block; margin-left:auto; margin-right:auto;">
+        <div style="text-align:center; margin-top:60px; font-family:sans-serif; background:#f4f4f9; padding:30px; border-radius:10px; display:inline-block; max-width:500px;">
             <h1 style="color:#25D366;">⚽ Liaison WhatsApp JEMS ⚽</h1>
-            <p style="font-size:18px;">Sur votre téléphone : Ouvrez WhatsApp -> Appareils connectés -> Connecter un appareil -> <b>Lier avec le numéro de téléphone</b>.</p>
-            <p style="font-size:16px; color:#555;">Entrez ensuite le code suivant :</p>
-            <div style="font-size:42px; font-weight:bold; letter-spacing:5px; background:#fff; padding:15px; border:2px dashed #25D366; display:inline-block; margin:20px; color:#333;">
+            <p style="font-size:16px; text-align:left;">1. Ouvrez WhatsApp sur votre téléphone.<br/>2. Allez dans <b>Appareils connectés</b> -> <b>Connecter un appareil</b>.<br/>3. Cliquez sur <b>"Lier avec le numéro de téléphone plutôt"</b> en bas.</p>
+            <p style="font-size:16px; color:#555; font-weight:bold;">Entrez ce code sur votre téléphone :</p>
+            <div style="font-size:42px; font-weight:bold; letter-spacing:5px; background:#fff; padding:15px; border:2px dashed #25D366; display:inline-block; margin:10px; color:#333; border-radius:5px;">
                 ${pairingCode}
             </div>
-            <br/>
-            <small style="color:#888;">Ce code expire rapidement. Rafraîchissez la page si nécessaire.</small>
+            <br/><br/>
+            <small style="color:#aa0000; font-weight:bold;">⚠️ Le code expire après 2 minutes. Rafraîchissez la page si nécessaire.</small>
         </div>
     `);
 });
 
-// Vos routes API pour JEMS
+// APIs de tri des équipes
 app.post('/api/matches/:matchId/generate-teams', async (req, res) => {
     const { matchId } = req.params;
     try {
@@ -68,29 +67,47 @@ app.post('/api/matches/:matchId/generate-teams', async (req, res) => {
     } catch (err) { res.status(500).send("Error"); }
 });
 
-// Initialisation et gestion de la connexion WhatsApp
+app.post('/api/bibs/report-status', async (req, res) => {
+    const { playerId, matchId, hasWashed } = req.body;
+    try {
+        const playerRes = await pool.query("SELECT * FROM players WHERE id = $1", [playerId]);
+        const player = playerRes.rows[0];
+        if (hasWashed) {
+            await pool.query("UPDATE bibs_rotation SET washed_status = 'Washed' WHERE player_id = $1 AND match_id = $2", [playerId, matchId]);
+            await pool.query("UPDATE players SET bibs_refusal_streak = 0 WHERE id = $1", [playerId]);
+            return res.json({ message: "Rotation cleared." });
+        } else {
+            const newStreak = player.bibs_refusal_streak + 1;
+            await pool.query("UPDATE bibs_rotation SET washed_status = 'Refused' WHERE player_id = $1 AND match_id = $2", [playerId, matchId]);
+            await pool.query("UPDATE players SET bibs_refusal_streak = $1 WHERE id = $2", [newStreak, playerId]);
+            return res.json({ message: "Infraction logged." });
+        }
+    } catch (err) { res.status(500).send("Server Error"); }
+});
+
+// Connexion WhatsApp avec gestion des blocages d'IP
 async function connectToWhatsApp() {
     const { state, saveCreds } = await useMultiFileAuthState('/tmp/auth_info_baileys');
     
     const sock = makeWASocket({
         auth: state,
         printQRInTerminal: false,
-        mobile: false
+        logger: require('pino')({ level: 'silent' }), // Rend le terminal propre
+        browser: ["Ubuntu", "Chrome", "110.0.5481.177"] // Simule un navigateur classique pour éviter les blocages
     });
 
     sock.ev.on('creds.update', saveCreds);
 
-    // Demande du code d'association textuel si l'appareil n'est pas encore enregistré
     if (!sock.authState.creds.registered) {
         setTimeout(async () => {
             try {
-                // Utilisation du numéro de Michael vu sur votre WhatsApp
+                // Numéro d'admin Michael configuré par défaut
                 pairingCode = await sock.requestPairingCode("16133058730");
-                console.log(`>>> CODE D'ASSOCIATION GÉNÉRÉ : ${pairingCode} <<<`);
+                console.log(`✅ CODE GÉNÉRÉ DISPONIBLE SUR LA PAGE WEB`);
             } catch (err) {
-                console.error("Erreur de génération du code :", err);
+                pairingCode = null;
             }
-        }, 5000);
+        }, 8000);
     }
 
     sock.ev.on('connection.update', (update) => {
@@ -98,19 +115,20 @@ async function connectToWhatsApp() {
         if (connection === 'close') {
             isConnected = false;
             pairingCode = null;
-            const shouldReconnect = (lastDisconnect?.error)?.output?.statusCode !== DisconnectReason.loggedOut;
-            console.log('Connexion perdue. Reconnexion automatique :', shouldReconnect);
-            if (shouldReconnect) { connectToWhatsApp(); }
+            const reason = lastDisconnect?.error?.output?.statusCode;
+            // Évite de boucler si WhatsApp rejette l'adresse IP, attend avant de réessayer
+            const delay = reason === DisconnectReason.restartRequired ? 1000 : 15000;
+            setTimeout(connectToWhatsApp, delay);
         } else if (connection === 'open') {
             isConnected = true;
             pairingCode = null;
-            console.log('✅ JEMS Bot connecté avec succès à WhatsApp !');
+            console.log('✅ JEMS Bot connecté à WhatsApp avec succès !');
         }
     });
 }
 
 const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
-    console.log(`JEMS engine running on port ${PORT}`);
+    console.log(`JEMS engine listening on port ${PORT}`);
     connectToWhatsApp().catch(err => console.error(err));
 });
