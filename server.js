@@ -27,7 +27,6 @@ app.post('/api/matches/:matchId/generate-teams', async (req, res) => {
 
         let playersList = checkedIn.rows;
         
-        // Random Shuffle (Fisher-Yates)
         for (let i = playersList.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [playersList[i], playersList[j]] = [playersList[j], playersList[i]];
@@ -99,12 +98,6 @@ app.post('/api/bibs/report-status', async (req, res) => {
                 punishment = "CRITICAL: Player permanently excluded from the roster.";
             }
 
-            const checkMajor = await pool.query("SELECT major_sanctions_count FROM players WHERE id = $1", [playerId]);
-            if (checkMajor.rows[0].major_sanctions_count >= 2) {
-                await pool.query("UPDATE players SET status = 'Excluded' WHERE id = $1", [playerId]);
-                punishment = "CRITICAL: 2 Major Sanctions reached. Permanent Exclusion enforced.";
-            }
-
             return res.json({ message: "Infraction logged.", punishment });
         }
     } catch (err) {
@@ -114,10 +107,9 @@ app.post('/api/bibs/report-status', async (req, res) => {
 });
 
 // =========================================================================
-// 3. MOTEUR WHATSAPP EN LECTURE TEMPS RÉEL (Corrected for Render Storage)
+// 3. MOTEUR WHATSAPP EN LECTURE TEMPS RÉEL
 // =========================================================================
 async function connectToWhatsApp() {
-    // Utilisation obligatoire de /tmp pour stocker la session sur l'environnement gratuit de Render
     const { state, saveCreds } = await useMultiFileAuthState('/tmp/auth_info_baileys');
     
     const sock = makeWASocket({
@@ -155,7 +147,6 @@ async function connectToWhatsApp() {
     });
 }
 
-// Démarrage de l'infrastructure
 const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
     console.log(`JEMS core engine humming on port ${PORT}`);
