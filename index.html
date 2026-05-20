@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>JEMS | Pickup Soccer Games Management</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      margin: 0;
+      background: #050816;
+      color: #f5f5f5;
+    }
+    header {
+      padding: 16px 24px;
+      background: #0b1020;
+      border-bottom: 1px solid #222;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 20px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    header span {
+      font-size: 12px;
+      opacity: 0.7;
+    }
+    main {
+      padding: 16px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .card {
+      background: #0f172a;
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 16px;
+      border: 1px solid #1f2937;
+    }
+    .card h2 {
+      margin-top: 0;
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+    .card h3 {
+      margin-top: 0;
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+    input, select, button, textarea {
+      font-family: inherit;
+      font-size: 14px;
+    }
+    input, select, textarea {
+      background: #020617;
+      border: 1px solid #1f2937;
+      border-radius: 6px;
+      padding: 8px 10px;
+      color: #f9fafb;
+      width: 100%;
+      box-sizing: border-box;
+      margin-bottom: 8px;
+    }
+    input::placeholder {
+      color: #6b7280;
+    }
+    button {
+      border-radius: 6px;
+      border: none;
+      padding: 8px 14px;
+      cursor: pointer;
+      background: #22c55e;
+      color: #020617;
+      font-weight: 600;
+      margin-right: 6px;
+      margin-top: 4px;
+    }
+    button.secondary {
+      background: #111827;
+      color: #e5e7eb;
+      border: 1px solid #374151;
+    }
+    button.danger {
+      background: #b91c1c;
+      color: #f9fafb;
+    }
+    button:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .col-2 {
+      flex: 1 1 260px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      background: #111827;
+      border: 1px solid #374151;
+      color: #e5e7eb;
+      margin-left: 6px;
+    }
+    .badge.admin {
+      background: #064e3b;
+      border-color: #22c55e;
+      color: #bbf7d0;
+    }
+    .badge.player {
+      background: #1e293b;
+      border-color: #38bdf8;
+      color: #e0f2fe;
+    }
+    .status-bar {
+      font-size: 13px;
+      padding: 8px 10px;
+      border-radius: 6px;
+      background: #020617;
+      border: 1px solid #1f2937;
+      margin-top: 8px;
+      white-space: pre-line;
+    }
+    .list {
+      max-height: 260px;
+      overflow-y: auto;
+      border-radius: 8px;
+      border: 1px solid #1f2937;
+      background: #020617;
+      padding: 8px;
+      font-size: 13px;
+    }
+    .list-item {
+      padding: 6px 8px;
+      border-radius: 6px;
+      border-bottom: 1px solid #111827;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+    .list-item:last-child {
+      border-bottom: none;
+    }
+    .list-item strong {
+      font-size: 13px;
+    }
+    .pill {
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      border: 1px solid #374151;
+    }
+    .pill.green {
+      background: #022c22;
+      color: #bbf7d0;
+      border-color: #16a34a;
+    }
+    .pill.red {
+      background: #450a0a;
+      color: #fecaca;
+      border-color: #ef4444;
+    }
+    .pill.blue {
+      background: #0b1120;
+      color: #bfdbfe;
+      border-color: #3b82f6;
+    }
+    .pill.yellow {
+      background: #422006;
+      color: #fef3c7;
+      border-color: #facc15;
+    }
+    .section-title {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #9ca3af;
+      margin-bottom: 4px;
+    }
+    .divider {
+      height: 1px;
+      background: #111827;
+      margin: 10px 0;
+    }
+    .muted {
+      color: #6b7280;
+      font-size: 12px;
+    }
+    .tagline {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: #6b7280;
+    }
+    @media (max-width: 720px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+      }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>JEMS</h1>
+    <span class="tagline">Pickup Soccer Games • Players • Payments • Presence</span>
+  </div>
+  <div id="header-user" class="muted">
+    Not logged in
+  </div>
+</header>
+
+<main>
+  <!-- LOGIN CARD -->
+  <section class="card" id="login-card">
+    <h2>Player Login</h2>
+    <p class="muted">
+      Enter your phone number in international format (e.g. <strong>+16134495094</strong>).<br>
+      If your number exists in <code>players</code>, you’ll be logged in as that player.
+    </p>
+    <div class="row">
+      <div class="col-2">
+        <label class="section-title">Phone number</label>
+        <input id="phone" placeholder="+16134495094" />
+        <button id="btn-send-code" onclick="sendLoginCode()">Send SMS Code</button>
+      </div>
+      <div class="col-2">
+        <label class="section-title">SMS code</label>
+        <input id="code" placeholder="123456" />
+        <button id="btn-verify-code" onclick="verifyLoginCode()">Verify & Login</button>
+      </div>
+    </div>
+    <div id="recaptcha-container"></div>
+    <div id="login-status" class="status-bar">
+      Not logged in.
+    </div>
+  </section>
+
+  <!-- DASHBOARD CARD -->
+  <section class="card" id="dashboard-card" style="display:none;">
+    <h2>
+      Dashboard
+      <span id="role-badge" class="badge">Player</span>
+    </h2>
+    <div id="user-summary" class="status-bar">
+      Loading profile…
+    </div>
+    <button class="secondary" onclick="logout()">Logout</button>
+  </section>
+
+  <!-- ADMIN PANEL -->
+  <section class="card" id="admin-panel" style="display:none;">
+    <h2>Admin Panel <span class="badge admin">Admin</span></h2>
+    <p class="muted">
+      As an admin, you can manage players, games, attendance and payments.
+    </p>
+
+    <div class="row">
+      <!-- PLAYERS -->
+      <div class="col-2">
+        <h3>Players</h3>
+        <div class="muted" style="margin-bottom:6px;">Add or view players.</div>
+        <div>
+          <input id="admin-player-name" placeholder="Player name (e.g. THEONE)" />
+          <input id="admin-player-phone" placeholder="Phone (e.g. +16134495094)" />
+          <select id="admin-player-isAdmin">
+            <option value="false">Regular player</option>
+            <option value="true">Admin</option>
+          </select>
+          <button onclick="adminAddPlayer()">Add / Update Player</button>
+        </div>
+        <div class="divider"></div>
+        <div class="list" id="players-list">
+          <div class="muted">Loading players…</div>
+        </div>
+      </div>
+
+      <!-- GAMES -->
+      <div class="col-2">
+        <h3>Games</h3>
+        <div class="muted" style="margin-bottom:6px;">Create and manage pickup games.</div>
+        <input id="game-title" placeholder="Game title (e.g. Sunday Night Pickup)" />
+        <input id="game-date" type="datetime-local" />
+        <input id="game-location" placeholder="Location (e.g. RA Centre, Ottawa)" />
+        <button onclick="adminCreateGame()">Create Game</button>
+        <div class="divider"></div>
+        <div class="list" id="games-list-admin">
+          <div class="muted">No games yet.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" style="margin-top:16px;">
+      <!-- ATTENDANCE -->
+      <div class="col-2">
+        <h3>Attendance</h3>
+        <div class="muted" style="margin-bottom:6px;">
+          Select a game and toggle players as present/absent.
+        </div>
+        <select id="attendance-game-select"></select>
+        <div class="divider"></div>
+        <div class="list" id="attendance-list">
+          <div class="muted">Select a game to manage attendance.</div>
+        </div>
+      </div>
+
+      <!-- PAYMENTS -->
+      <div class="col-2">
+        <h3>Payments</h3>
+        <div class="muted" style="margin-bottom:6px;">
+          Record payments per player per game.
+        </div>
+        <select id="payment-player-select"></select>
+        <select id="payment-game-select"></select>
+        <input id="payment-amount" type="number" step="0.01" placeholder="Amount (e.g. 10)" />
+        <input id="payment-notes" placeholder="Notes (e.g. Cash, e-transfer…)" />
+        <button onclick="adminAddPayment()">Add Payment</button>
+        <div class="divider"></div>
+        <div class="list" id="payments-list-admin">
+          <div class="muted">Payments will appear here.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLAYER PANEL -->
+  <section class="card" id="player-panel" style="display:none;">
+    <h2>Player View <span class="badge player">Player</span></h2>
+    <div class="row">
+      <div class="col-2">
+        <h3>My Games</h3>
+        <div class="muted" style="margin-bottom:6px;">
+          See upcoming games and mark your presence.
+        </div>
+        <div class="list" id="games-list-player">
+          <div class="muted">No games yet.</div>
+        </div>
+      </div>
+      <div class="col-2">
+        <h3>My Payments</h3>
+        <div class="muted" style="margin-bottom:6px;">
+          Payments recorded under your name.
+        </div>
+        <div class="list" id="payments-list-player">
+          <div class="muted">No payments yet.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- FIREBASE + APP LOGIC -->
+<script type="module">
+  // --- Firebase imports ---
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import {
+    getAuth,
+    RecaptchaVerifier,
+    signInWithPhoneNumber,
+    onAuthStateChanged,
+    signOut
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+  import {
+    getFirestore,
+    doc,
+    getDoc,
+    setDoc,
+    updateDoc,
+    collection,
+    addDoc,
+    getDocs,
+    query,
+    where,
+    orderBy,
+    serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  // --- Your Firebase config (from you) ---
+  const firebaseConfig = {
+    apiKey: "AIzaSyCVDnhS6bWIkFeddWLWXr1T0ihk3uaAdg0",
+    authDomain: "jbets-dev-jems.firebaseapp.com",
+    databaseURL: "https://jbets-dev-jems-default-rtdb.firebaseio.com",
+    projectId: "jbets-dev-jems",
+    storageBucket: "jbets-dev-jems.firebasestorage.app",
+    messagingSenderId: "367595249956",
+    appId: "1:367595249956:web:7789a131fd4a61675213b1"
+  };
+
+  // --- Init Firebase ---
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  // --- UI helpers ---
+  const $ = (id) => document.getElementById(id);
+
+  const loginStatusEl = $("login-status");
+  const headerUserEl = $("header-user");
+  const dashboardCard = $("dashboard-card");
+  const adminPanel = $("admin-panel");
+  const playerPanel = $("player-panel");
+  const roleBadge = $("role-badge");
+  const userSummary = $("user-summary");
+
+  let currentPlayerDoc = null; // Firestore doc data for logged-in player
+  let currentUserPhone = null;
+  let isCurrentAdmin = false;
+
+  // --- Recaptcha ---
+  window.recaptchaVerifier = new RecaptchaVerifier(auth, "recaptcha-container", {
+    size: "invisible"
+  });
+
+  let confirmationResultGlobal = null;
+
+  // --- LOGIN FLOW ---
+
+  window.sendLoginCode = async () => {
+    const phoneInput = $("phone").value.trim();
+    if (!phoneInput.startsWith("+")) {
+      alert("Phone must be in international format, e.g. +16134495094");
+      return;
+    }
+    $("btn-send-code").disabled = true;
+    loginStatusEl.textContent = "Sending SMS code…";
+    try {
+      confirmationResultGlobal = await signInWithPhoneNumber(
+        auth,
+        phoneInput,
+        window.recaptchaVerifier
+      );
+      loginStatusEl.textContent = "Code sent. Check your SMS and enter it above.";
+    } catch (e) {
+      console.error(e);
+      alert("Error sending code: " + e.message);
+      loginStatusEl.textContent = "Error sending code.";
+    } finally {
+      $("btn-send-code").disabled = false;
+    }
+  };
+
+  window.verifyLoginCode = async () => {
+    const code = $("code").value.trim();
+    if (!confirmationResultGlobal) {
+      alert("You must request a code first.");
+      return;
+    }
+    $("btn-verify-code").disabled = true;
+    loginStatusEl.textContent = "Verifying code…";
+    try {
+      const result = await confirmationResultGlobal.confirm(code);
+      const user = result.user;
+      const phoneNumber = user.phoneNumber;
+      currentUserPhone = phoneNumber;
+
+      // Check if player exists
+      const playerRef = doc(db, "players", phoneNumber);
+      const snap = await getDoc(playerRef);
+      if (!snap.exists()) {
+        loginStatusEl.textContent =
+          "Your number is not registered as a player. Ask an admin to add you.";
+        await signOut(auth);
+        $("btn-verify-code").disabled = false;
+        return;
+      }
+
+      currentPlayerDoc = snap.data();
+      isCurrentAdmin = !!currentPlayerDoc.isAdmin;
+
+      loginStatusEl.textContent = `Logged in as ${currentPlayerDoc.name} (${phoneNumber}). Admin: ${isCurrentAdmin}`;
+      headerUserEl.textContent = `${currentPlayerDoc.name} (${phoneNumber})`;
+      showDashboard();
+      await loadAllData();
+    } catch (e) {
+      console.error(e);
+      alert("Error verifying code: " + e.message);
+      loginStatusEl.textContent = "Error verifying code.";
+    } finally {
+      $("btn-verify-code").disabled = false;
+    }
+  };
+
+  // --- AUTH STATE LISTENER ---
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      currentPlayerDoc = null;
+      currentUserPhone = null;
+      isCurrentAdmin = false;
+      headerUserEl.textContent = "Not logged in";
+      dashboardCard.style.display = "none";
+      adminPanel.style.display = "none";
+      playerPanel.style.display = "none";
+      return;
+    }
+    const phoneNumber = user.phoneNumber;
+    currentUserPhone = phoneNumber;
+    const snap = await getDoc(doc(db, "players", phoneNumber));
+    if (!snap.exists()) {
+      headerUserEl.textContent = "Unknown player (not in players collection)";
+      return;
+    }
+    currentPlayerDoc = snap.data();
+    isCurrentAdmin = !!currentPlayerDoc.isAdmin;
+    headerUserEl.textContent = `${currentPlayerDoc.name} (${phoneNumber})`;
+    showDashboard();
+    await loadAllData();
+  });
+
+  // --- LOGOUT ---
+  window.logout = async () => {
+    await signOut(auth);
+    loginStatusEl.textContent = "Not logged in.";
+    headerUserEl.textContent = "Not logged in";
+    dashboardCard.style.display = "none";
+    adminPanel.style.display = "none";
+    playerPanel.style.display = "none";
+  };
+
+  // --- DASHBOARD DISPLAY ---
+  function showDashboard() {
+    if (!currentPlayerDoc) return;
+    dashboardCard.style.display = "block";
+    userSummary.textContent =
+      `Name: ${currentPlayerDoc.name}\n` +
+      `Phone: ${currentUserPhone}\n` +
+      `Admin: ${isCurrentAdmin}`;
+
+    if (isCurrentAdmin) {
+      roleBadge.textContent = "Admin";
+      roleBadge.classList.remove("player");
+      roleBadge.classList.add("admin");
+      adminPanel.style.display = "block";
+    } else {
+      roleBadge.textContent = "Player";
+      roleBadge.classList.remove("admin");
+      roleBadge.classList.add("player");
+      adminPanel.style.display = "none";
+    }
+    playerPanel.style.display = "block";
+  }
+
+  // --- LOAD DATA (PLAYERS, GAMES, PAYMENTS, ATTENDANCE) ---
+  async function loadAllData() {
+    await Promise.all([
+      loadPlayers(),
+      loadGamesForAdmin(),
+      loadGamesForPlayer(),
+      loadPaymentsForAdmin(),
+      loadPaymentsForPlayer(),
+      refreshAttendanceSelectors(),
+      refreshPaymentSelectors()
+    ]);
+  }
+
+  // --- PLAYERS (ADMIN) ---
+  async function loadPlayers() {
+    if (!isCurrentAdmin) return;
+    const listEl = $("players-list");
+    listEl.innerHTML = "<div class='muted'>Loading players…</div>";
+    try {
+      const q = query(collection(db, "players"), orderBy("name", "asc"));
+      const snap = await getDocs(q);
+      if (snap.empty) {
+        listEl.innerHTML = "<div class='muted'>No players yet.</div>";
+        return;
+      }
+      listEl.innerHTML = "";
+      snap.forEach((docSnap) => {
+        const data = docSnap.data();
+        const div = document.createElement("div");
+        div.className = "list-item";
+        const left = document.createElement("div");
+        left.innerHTML =
+          `<strong>${data.name}</strong><br>` +
+          `<span class="muted">${docSnap.id}</span>`;
+        const right = document.createElement("div");
+        const pill = document.createElement("span");
+        pill.className = "pill " + (data.isAdmin ? "green" : "blue");
+        pill.textContent = data.isAdmin ? "Admin" : "Player";
+        right.appendChild(pill);
+        div.appendChild(left);
+        div.appendChild(right);
+        listEl.appendChild(div);
+      });
+    } catch (e) {
+      console.error(e);
+      listEl.innerHTML = "<div class='muted'>Error loading players.</div>";
+    }
+  }
+
+  window.adminAddPlayer = async () => {
+    if (!isCurrentAdmin) {
+      alert("Only admins can add players.");
+      return;
+    }
+    const name = $("admin-player-name").value.trim();
+    const phone = $("admin-player-phone").value.trim();
+    const isAdminVal = $("admin-player-isAdmin").value === "true";
+
+    if (!name || !phone) {
+      alert("Name and phone are required.");
+      return;
+    }
+    if (!phone.startsWith("+")) {
+      alert("Phone must be in international format, e.g. +16134495094");
+      return;
+    }
+
+    try {
+      const ref = doc(db, "players", phone);
+      await setDoc(
+        ref,
+        {
+          name,
+          phone,
+          isAdmin: isAdminVal,
+          profileCompleted: true,
+          updatedAt: serverTimestamp(),
+          createdAt: serverTimestamp()
+        },
+        { merge: true }
+      );
+      alert("Player added/updated.");
+      await loadPlayers();
+      await refreshPaymentSelectors();
+    } catch (e) {
+      console.error(e);
+      alert("Error adding player: " + e.message);
+    }
+  };
+
+  // --- GAMES (ADMIN + PLAYER) ---
+  window.adminCreateGame = async () => {
+    if (!isCurrentAdmin) {
+      alert("Only admins can create games.");
+      return;
+    }
+    const title = $("game-title").value.trim();
+    const dateVal = $("game-date").value;
+    const location = $("game-location").value.trim();
+
+    if (!title || !dateVal || !location) {
+      alert("Title, date and location are required.");
+      return;
+    }
+
+    try {
+      const gamesRef = collection(db, "games");
+      await addDoc(gamesRef, {
+        title,
+        date: new Date(dateVal).toISOString(),
+        location,
+        createdAt: serverTimestamp()
+      });
+      alert("Game created.");
+      $("game-title").value = "";
+      $("game-date").value = "";
+      $("game-location").value = "";
+      await loadGamesForAdmin();
+      await loadGamesForPlayer();
+      await refreshAttendanceSelectors();
+      await refreshPaymentSelectors();
+    } catch (e) {
+      console.error(e);
+      alert("Error creating game: " + e.message);
+    }
+  };
+
+  async function loadGamesForAdmin() {
+    if (!isCurrentAdmin) return;
+    const listEl = $("games-list-admin");
+    listEl.innerHTML = "<div class='muted'>Loading games…</div>";
+    try {
+      const q = query(collection(db, "games"), orderBy("date", "desc"));
+      const snap = await getDocs(q);
+      if (snap.empty) {
+        listEl.innerHTML = "<div class='muted'>No games yet.</div>";
+        return;
+      }
+      listEl.innerHTML = "";
+      snap.forEach((docSnap) => {
+        const data = docSnap.data();
+        const div = document.createElement("div");
+        div.className = "list-item";
+        const left = document.createElement("div");
+        const dateStr = new Date(data.date).toLocaleString();
+        left.innerHTML =
+          `<strong>${data.title}</strong><br>` +
+          `<span class="muted">${dateStr} • ${data.location}</span>`;
+        const right = document.createElement("div");
+        const pill = document.createElement("span");
+        pill.className = "pill yellow";
+        pill.textContent = "Game";
+        right.appendChild(pill);
+        div.appendChild(left);
+        div.appendChild(right);
+        listEl.appendChild(div);
+      });
+    } catch (e) {
+      console.error(e);
+      listEl.innerHTML = "<div class='muted'>Error loading games.</div>";
+    }
+  }
+
+  async function loadGamesForPlayer() {
+    const listEl = $("games-list-player");
+    listEl.innerHTML = "<div class='muted'>Loading games…</div>";
+    try {
+      const q = query(collection(db, "games"), orderBy("date", "desc"));
+      const snap = await getDocs(q);
+      if (snap.empty) {
+        listEl.innerHTML = "<div class='muted'>No games yet.</div>";
+        return;
+      }
+      listEl.innerHTML = "";
+      snap.forEach((docSnap) => {
+        const data = docSnap.data();
+        const div = document.createElement("div");
+        div.className = "list-item";
+        const left = document.createElement("div");
+        const dateStr = new Date(data.date).toLocaleString();
+        left.innerHTML =
+          `<strong>${data.title}</strong><br>` +
+          `<span class="muted">${dateStr} • ${data.location}</span>`;
+        const right = document.createElement("div");
+        const btn = document.createElement("button");
+        btn.className = "secondary";
+        btn.textContent = "Toggle Presence";
+        btn.onclick = () => playerToggleAttendance(docSnap.id);
+        right.appendChild(btn);
+        div.appendChild(left);
+        div.appendChild(right);
+        listEl.appendChild(div);
+      });
+    } catch (e) {
+      console.error(e);
+      listEl.innerHTML = "<div class='muted'>Error loading games.</div>";
+    }
+  }
+
+  // --- ATTENDANCE (ADMIN + PLAYER) ---
+  async function refreshAttendanceSelectors() {
+    if (!isCurrentAdmin) return;
+    const select = $("attendance-game-select");
+    select.innerHTML = "";
+    try {
+      const q = query(collection(db, "games"), orderBy("date", "desc"));
+      const snap = await getDocs(q);
+      if (snap.empty) {
+        const opt = document.createElement("option");
+        opt.value = "";
+        opt.textContent = "No games";
+        select.appendChild(opt);
+        $("attendance-list").innerHTML =
+          "<div class='muted'>No games available.</div>";
+        return;
+      }
+      snap.forEach((docSnap) => {
+        const data = docSnap.data();
+        const opt = document.createElement("option");
+        opt.value = docSnap.id;
+        opt.textContent =
+          data.title + " — " + new Date(data.date).toLocaleString();
+        select.appendChild(opt);
+      });
+      select.onchange = () => loadAttendanceForGame(select.value);
+      loadAttendanceForGame(select.value);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  async function loadAttendanceForGame(gameId) {
+    const listEl = $("attendance-list");
+    if (!gameId) {
+      listEl.innerHTML = "<div class='muted'>Select a game.</div>";
+      return;
+    }
+    listEl.innerHTML = "<div class='muted'>Loading attendance…</div>";
+    try {
+      // Load all players
+      const playersSnap = await getDocs(
+        query(collection(db, "players"), orderBy("name", "asc"))
+      );
+      // Load attendance docs for this game
+      const attSnap = await getDocs(
+        query(
+          collection(db, "attendance"),
+          where("gameId", "==", gameId)
+        )
+      );
+      const attendanceMap = {};
+      attSnap.forEach((docSnap) => {
+        const data = docSnap.data();
+        attendanceMap[data.playerPhone] = data.present;
+      });
+
+      listEl.innerHTML = "";
+      playersSnap.forEach((playerDoc) => {
+        const p = playerDoc.data();
+        const present = !!attendanceMap[playerDoc.id];
+        const div = document.createElement("div");
+        div.className = "list-item";
+        const left = document.createElement("div");
+        left.innerHTML =
+          `<strong>${p.name}</strong><br>` +
+          `<span class="muted">${playerDoc.id}</span>`;
+        const right = document.createElement("div");
+        const pill = document.createElement("span");
+        pill.className = "pill " + (present ? "green" : "red");
+        pill.textContent = present ? "Present" : "Absent";
+        const btn = document.createElement("button");
+        btn.className = "secondary";
+        btn.textContent = "Toggle";
+        btn.onclick = () =>
+          adminToggleAttendance(gameId, playerDoc.id, !present);
+        right.appendChild(pill);
+        right.appendChild(btn);
+        div.appendChild(left);
+        div.appendChild(right);
+        listEl.appendChild(div);
+      });
+    } catch (e) {
+      console.error(e);
+      listEl.innerHTML = "<div class='muted'>Error loading attendance.</div>";
+    }
+  }
+
+  async function adminToggleAttendance(gameId, playerPhone, present) {
+    if (!isCurrentAdmin) {
+      alert("Only admins can change attendance.");
+      return;
+    }
+    try {
+      const attRef = doc(db, "attendance", `${gameId}_${playerPhone}`);
+      await setDoc(
+        attRef,
+        {
+          gameId,
+          playerPhone,
+          present,
+          updatedAt: serverTimestamp()
+        },
+        { merge: true }
+      );
+      await loadAttendanceForGame(gameId);
+    } catch (e) {
+      console.error(e);
+      alert("Error updating attendance: " + e.message);
+    }
+  }
+
+  async function playerToggleAttendance(gameId) {
+    if (!currentUserPhone) {
+      alert("You must be logged in.");
+      return;
+    }
+    try {
+      const attRef = doc(db, "attendance", `${gameId}_${currentUserPhone}`);
+      const snap = await getDoc(attRef);
+      const newPresent = !snap.exists() ? true : !snap.data().present;
+      await setDoc(
+        attRef,
+        {
+          gameId,
+          playerPhone: currentUserPhone,
+          present: newPresent,
+          updatedAt: serverTimestamp()
+        },
+        { merge: true }
+      );
+      await loadGamesForPlayer();
+      if (isCurrentAdmin) {
+        await loadAttendanceForGame($("attendance-game-select").value);
+      }
+    } catch (e) {
+      console.error(e);
+      alert("Error toggling attendance: " + e.message);
+    }
+  }
+
+  // --- PAYMENTS (ADMIN + PLAYER) ---
+  async function refreshPaymentSelectors() {
+    if (!isCurrentAdmin) return;
+    const playerSelect = $("payment-player-select");
+    const gameSelect = $("payment-game-select");
+    playerSelect.innerHTML = "";
+    gameSelect.innerHTML = "";
+
+    try {
+      // Players
+      const playersSnap = await getDocs(
+        query(collection(db, "players"), orderBy("name", "asc"))
+      );
+      if (playersSnap.empty) {
+        const opt = document.createElement("option");
+        opt.value = "";
+        opt.textContent = "No players";
+        playerSelect.appendChild(opt);
+      } else {
+        playersSnap.forEach((docSnap) => {
+          const data = docSnap.data();
+          const opt = document.createElement("option");
+          opt.value = docSnap.id;
+          opt.textContent = `${data.name} (${docSnap.id})`;
+          playerSelect.appendChild(opt);
+        });
+      }
+
+      // Games
+      const gamesSnap = await getDocs(
+        query(collection(db, "games"), orderBy("date", "desc"))
+      );
+      if (gamesSnap.empty) {
+        const opt = document.createElement("option");
+        opt.value = "";
+        opt.textContent = "No games";
+        gameSelect.appendChild(opt);
+      } else {
+        gamesSnap.forEach((docSnap) => {
+          const data = docSnap.data();
+          const opt = document.createElement("option");
+          opt.value = docSnap.id;
+          opt.textContent =
+            data.title + " — " + new Date(data.date).toLocaleString();
+          gameSelect.appendChild(opt);
+        });
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  window.adminAddPayment = async () => {
+    if (!isCurrentAdmin) {
+      alert("Only admins can add payments.");
+      return;
+    }
+    const playerPhone = $("payment-player-select").value;
+    const gameId = $("payment-game-select").value;
+    const amountStr = $("payment-amount").value;
+    const notes = $("payment-notes").value.trim();
+
+    if (!playerPhone || !gameId || !amountStr) {
+      alert("Player, game and amount are required.");
+      return;
+    }
+    const amount = parseFloat(amountStr);
+    if (isNaN(amount) || amount <= 0) {
+      alert("Amount must be a positive number.");
+      return;
+    }
+
+    try {
+      const paymentsRef = collection(db, "payments");
+      await addDoc(paymentsRef, {
+        playerPhone,
+        gameId,
+        amount,
+        notes,
+        createdAt: serverTimestamp()
+      });
+      alert("Payment added.");
+      $("payment-amount").value = "";
+      $("payment-notes").value = "";
+      await loadPaymentsForAdmin();
+      await loadPaymentsForPlayer();
+    } catch (e) {
+      console.error(e);
+      alert("Error adding payment: " + e.message);
+    }
+  };
+
+  async function loadPaymentsForAdmin() {
+    if (!isCurrentAdmin) return;
+    const listEl = $("payments-list-admin");
+    listEl.innerHTML = "<div class='muted'>Loading payments…</div>";
+    try {
+      const snap = await getDocs(
+        query(collection(db, "payments"), orderBy("createdAt", "desc"))
+      );
+      if (snap.empty) {
+        listEl.innerHTML = "<div class='muted'>No payments yet.</div>";
+        return;
+      }
+      listEl.innerHTML = "";
+      for (const docSnap of snap.docs) {
+        const data = docSnap.data();
+        const playerSnap = await getDoc(doc(db, "players", data.playerPhone));
+        const gameSnap = await getDoc(doc(db, "games", data.gameId));
+        const playerName = playerSnap.exists()
+          ? playerSnap.data().name
+          : data.playerPhone;
+        const gameTitle = gameSnap.exists()
+          ? gameSnap.data().title
+          : data.gameId;
+        const div = document.createElement("div");
+        div.className = "list-item";
+        const left = document.createElement("div");
+        left.innerHTML =
+          `<strong>${playerName}</strong> paid <strong>$${data.amount.toFixed(
+            2
+          )}</strong><br>` +
+          `<span class="muted">${gameTitle} • ${data.notes || ""}</span>`;
+        const right = document.createElement("div");
+        const pill = document.createElement("span");
+        pill.className = "pill green";
+        pill.textContent = "Payment";
+        right.appendChild(pill);
+        div.appendChild(left);
+        div.appendChild(right);
+        listEl.appendChild(div);
+      }
+    } catch (e) {
+      console.error(e);
+      listEl.innerHTML = "<div class='muted'>Error loading payments.</div>";
+    }
+  }
+
+  async function loadPaymentsForPlayer() {
+    if (!currentUserPhone) return;
+    const listEl = $("payments-list-player");
+    listEl.innerHTML = "<div class='muted'>Loading payments…</div>";
+    try {
+      const snap = await getDocs(
+        query(
+          collection(db, "payments"),
+          where("playerPhone", "==", currentUserPhone)
+        )
+      );
+      if (snap.empty) {
+        listEl.innerHTML = "<div class='muted'>No payments yet.</div>";
+        return;
+      }
+      listEl.innerHTML = "";
+      for (const docSnap of snap.docs) {
+        const data = docSnap.data();
+        const gameSnap = await getDoc(doc(db, "games", data.gameId));
+        const gameTitle = gameSnap.exists()
+          ? gameSnap.data().title
+          : data.gameId;
+        const div = document.createElement("div");
+        div.className = "list-item";
+        const left = document.createElement("div");
+        left.innerHTML =
+          `<strong>$${data.amount.toFixed(
+            2
+          )}</strong> for <strong>${gameTitle}</strong><br>` +
+          `<span class="muted">${data.notes || ""}</span>`;
+        const right = document.createElement("div");
+        const pill = document.createElement("span");
+        pill.className = "pill green";
+        pill.textContent = "Paid";
+        right.appendChild(pill);
+        div.appendChild(left);
+        div.appendChild(right);
+        listEl.appendChild(div);
+      }
+    } catch (e) {
+      console.error(e);
+      listEl.innerHTML = "<div class='muted'>Error loading payments.</div>";
+    }
+  }
+</script>
+</body>
+</html>
