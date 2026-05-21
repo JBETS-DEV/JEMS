@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>UNITYVERSE · Elite Pickup Soccer Platform</title>
+  <title>UNITYVERSE · Where Passion Meets Respect and Fun!!!</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root {
@@ -20,9 +20,11 @@
       --shadow: 0 22px 60px rgba(0,0,0,0.75);
       --radius-lg: 18px;
       --radius-md: 14px;
-      --bottom-nav-height: 60px;
+      --bottom-nav-height: 64px;
     }
+
     * { box-sizing: border-box; }
+
     body {
       margin: 0;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
@@ -35,10 +37,11 @@
       display: flex;
       flex-direction: column;
     }
+
     a { color: var(--gold); text-decoration: none; }
     a:hover { text-decoration: underline; }
 
-    /* Top bar */
+    /* Layout */
     header {
       position: sticky;
       top: 0;
@@ -51,15 +54,18 @@
       background: linear-gradient(to right, rgba(5,6,12,0.96), rgba(5,6,12,0.82));
       border-bottom: 1px solid rgba(212,175,55,0.25);
     }
+
     .brand {
       display: flex;
       align-items: center;
       gap: 10px;
     }
+
+    /* Logo: V embracing U with ball + Fair Play flag */
     .crest {
-      width: 34px;
-      height: 34px;
-      border-radius: 12px;
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
       background:
         radial-gradient(circle at 30% 20%, #ffffff, #f5f5f7 18%, #d4af37 19%, #10121b 60%),
         linear-gradient(135deg, #0033a0, #000814);
@@ -69,17 +75,1135 @@
       position: relative;
       overflow: hidden;
     }
-    .crest-inner-v {
+
+    .crest-v {
       position: absolute;
       inset: 6px;
-      border-radius: 10px;
-      border: 2px solid rgba(212,175,55,0.9);
-      clip-path: polygon(50% 100%, 0 0, 18% 0, 50% 70%, 82% 0, 100% 0);
+      border-radius: 12px;
+      border: 3px solid rgba(212,175,55,0.95);
+      clip-path: polygon(
+        50% 100%,
+        0 0,
+        18% 0,
+        50% 70%,
+        82% 0,
+        100% 0
+      );
     }
-    .crest-inner-u {
+
+    .crest-u {
       position: absolute;
-      inset: 7px;
-      border-radius: 10px;
-      border: 2px solid rgba(0,51,160,0.9);
-      clip-path: polygon(0 0, 0 60%, 20% 100%, 80% 100%, 100% 60%, 100 0, 82% 0, 82% 58%, 70% 80%, 30% 80%, 18% 58%, 18% 0);
+      inset: 8px;
+      border-radius: 12px;
+      border: 3px solid rgba(0,51,160,0.95);
+      clip-path: polygon(
+        0 0,
+        0 60%,
+        20% 100%,
+        80% 100%,
+        100% 60%,
+        100% 0,
+        82% 0,
+        82% 58%,
+        70% 80%,
+        30% 80%,
+        18% 58%,
+        18% 0
+      );
     }
+
+    .crest-ball {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 30% 30%, #ffffff, #f5f5f7 40%, #d4d4d4 60%, #111 100%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -40%);
+      box-shadow: 0 0 0 2px rgba(0,0,0,0.6);
+      overflow: hidden;
+    }
+
+    .crest-ball::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 30% 30%, transparent 45%, rgba(0,0,0,0.4) 70%);
+      mix-blend-mode: multiply;
+    }
+
+    .crest-flag {
+      position: absolute;
+      width: 26px;
+      height: 10px;
+      background: linear-gradient(90deg, #005BBB 0%, #F6C700 50%, #005BBB 100%);
+      top: 58%;
+      left: 50%;
+      transform: translate(-50%, -10%) skewX(-10deg);
+      border-radius: 6px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .brand-name {
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      color: #f9fafb;
+    }
+
+    .brand-tagline {
+      font-size: 0.7rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .pill {
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(212,175,55,0.6);
+      background: radial-gradient(circle at top left, rgba(212,175,55,0.18), transparent 60%);
+      font-size: 0.7rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pill-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #16a34a;
+      box-shadow: 0 0 0 4px rgba(22,163,74,0.35);
+    }
+
+    .avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #ffffff, #d4af37 40%, #0033a0 80%);
+      box-shadow: 0 0 0 1px rgba(212,175,55,0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: #020617;
+    }
+
+    main {
+      flex: 1;
+      padding: 12px 12px calc(var(--bottom-nav-height) + 16px);
+      max-width: 1100px;
+      width: 100%;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(0, 2.2fr) minmax(0, 1.4fr);
+      gap: 12px;
+    }
+
+    @media (max-width: 900px) {
+      main {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 720px) {
+      main {
+        padding: 10px 10px calc(var(--bottom-nav-height) + 18px);
+      }
+    }
+
+    .card {
+      background: radial-gradient(circle at top left, rgba(212,175,55,0.08), transparent 55%),
+                  radial-gradient(circle at bottom right, rgba(0,51,160,0.18), transparent 60%),
+                  rgba(5,6,15,0.96);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(34,36,51,0.9);
+      box-shadow: var(--shadow);
+      padding: 14px 14px 12px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      gap: 10px;
+    }
+
+    .card-title {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+    }
+
+    .card-subtitle {
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .chip {
+      font-size: 0.7rem;
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.6);
+      color: var(--muted);
+      background: rgba(15,23,42,0.8);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: default;
+    }
+
+    .chip.gold {
+      border-color: rgba(212,175,55,0.9);
+      color: #fef9c3;
+      background: radial-gradient(circle at top left, rgba(212,175,55,0.35), rgba(24,24,27,0.95));
+    }
+
+    .chip.red {
+      border-color: rgba(248,113,113,0.9);
+      color: #fee2e2;
+      background: radial-gradient(circle at top left, rgba(248,113,113,0.35), rgba(24,24,27,0.95));
+    }
+
+    .chip-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #22c55e;
+    }
+
+    .chip-dot.red {
+      background: #ef4444;
+    }
+
+    .section-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .section-title {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: #9ca3af;
+    }
+
+    .section-pill {
+      font-size: 0.7rem;
+      color: var(--muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .section-pill span {
+      font-size: 0.65rem;
+      opacity: 0.8;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.1fr);
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .hero-main {
+      padding: 10px 10px 12px;
+      border-radius: var(--radius-md);
+      background:
+        radial-gradient(circle at top left, rgba(212,175,55,0.18), transparent 60%),
+        radial-gradient(circle at bottom right, rgba(0,51,160,0.25), transparent 60%),
+        rgba(15,23,42,0.96);
+      border: 1px solid rgba(55,65,81,0.9);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-badge-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      gap: 8px;
+    }
+
+    .hero-badge {
+      font-size: 0.7rem;
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(212,175,55,0.7);
+      background: rgba(15,23,42,0.9);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #fef9c3;
+    }
+
+    .hero-badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 4px rgba(34,197,94,0.35);
+    }
+
+    .hero-title {
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .hero-tagline {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .hero-stat {
+      padding: 8px 8px 7px;
+      border-radius: 12px;
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(75,85,99,0.9);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .hero-stat-label {
+      font-size: 0.65rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .hero-stat-value {
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .hero-stat-sub {
+      font-size: 0.65rem;
+      color: #22c55e;
+    }
+
+    .hero-cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .btn {
+      border-radius: 999px;
+      padding: 7px 14px;
+      font-size: 0.8rem;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #d4af37, #facc15);
+      color: #111827;
+      box-shadow:
+        0 10px 25px rgba(0,0,0,0.8),
+        0 0 0 1px rgba(161,98,7,0.8);
+    }
+
+    .btn-ghost {
+      background: rgba(15,23,42,0.9);
+      color: #e5e7eb;
+      border: 1px solid rgba(148,163,184,0.8);
+    }
+
+    .hero-footnote {
+      font-size: 0.65rem;
+      color: var(--muted);
+    }
+
+    .hero-side {
+      padding: 10px 10px 12px;
+      border-radius: var(--radius-md);
+      background:
+        radial-gradient(circle at top, rgba(0,51,160,0.35), transparent 60%),
+        rgba(15,23,42,0.96);
+      border: 1px solid rgba(55,65,81,0.9);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .hero-side-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+    }
+
+    .hero-side-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 8px;
+      border-radius: 10px;
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(75,85,99,0.9);
+      font-size: 0.75rem;
+      gap: 8px;
+    }
+
+    .hero-side-item-main {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .hero-side-label {
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    .hero-side-value {
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .hero-side-tag {
+      font-size: 0.65rem;
+      padding: 3px 7px;
+      border-radius: 999px;
+      border: 1px solid rgba(212,175,55,0.8);
+      color: #fef9c3;
+      background: rgba(24,24,27,0.95);
+    }
+
+    /* Tabs / sections */
+    .tabs-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .tab-pill {
+      font-size: 0.75rem;
+      padding: 5px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(75,85,99,0.9);
+      background: rgba(15,23,42,0.9);
+      color: var(--muted);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tab-pill.active {
+      border-color: rgba(212,175,55,0.9);
+      color: #fef9c3;
+      background: radial-gradient(circle at top left, rgba(212,175,55,0.35), rgba(24,24,27,0.95));
+    }
+
+    .tab-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #22c55e;
+    }
+
+    .tab-dot.red {
+      background: #ef4444;
+    }
+
+    .tab-content {
+      display: none;
+      font-size: 0.8rem;
+      color: #e5e7eb;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .list-item {
+      padding: 7px 8px;
+      border-radius: 10px;
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(55,65,81,0.9);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 0.75rem;
+    }
+
+    .list-main {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .list-title {
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .list-meta {
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    .badge {
+      font-size: 0.65rem;
+      padding: 3px 7px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.9);
+      color: #e5e7eb;
+      background: rgba(15,23,42,0.9);
+    }
+
+    .badge.green {
+      border-color: rgba(34,197,94,0.9);
+      color: #bbf7d0;
+    }
+
+    .badge.gold {
+      border-color: rgba(212,175,55,0.9);
+      color: #fef9c3;
+    }
+
+    .badge.red {
+      border-color: rgba(248,113,113,0.9);
+      color: #fee2e2;
+    }
+
+    /* Right column cards */
+    .stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .presence-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .presence-avatars {
+      display: flex;
+      align-items: center;
+    }
+
+    .presence-avatar {
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      border: 1px solid rgba(15,23,42,0.9);
+      background: radial-gradient(circle at 30% 20%, #ffffff, #d4d4d4 40%, #111827 80%);
+      margin-left: -7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: #020617;
+    }
+
+    .presence-avatar:first-child {
+      margin-left: 0;
+    }
+
+    .presence-count {
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    .presence-status {
+      font-size: 0.7rem;
+      color: #22c55e;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .presence-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 4px rgba(34,197,94,0.35);
+    }
+
+    .feed {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .feed-item {
+      padding: 7px 8px;
+      border-radius: 10px;
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(55,65,81,0.9);
+      font-size: 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .feed-meta {
+      font-size: 0.65rem;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 6px;
+    }
+
+    .poll {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .poll-option {
+      padding: 6px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(75,85,99,0.9);
+      background: rgba(15,23,42,0.9);
+      font-size: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      cursor: pointer;
+    }
+
+    .poll-option.selected {
+      border-color: rgba(212,175,55,0.9);
+      background: radial-gradient(circle at top left, rgba(212,175,55,0.25), rgba(24,24,27,0.95));
+    }
+
+    .poll-bar {
+      height: 4px;
+      border-radius: 999px;
+      background: rgba(31,41,55,0.9);
+      overflow: hidden;
+      margin-top: 3px;
+    }
+
+    .poll-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #d4af37, #facc15);
+      width: 0%;
+      transition: width 0.25s ease-out;
+    }
+
+    .admin-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .admin-tile {
+      padding: 7px 8px;
+      border-radius: 10px;
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(55,65,81,0.9);
+      font-size: 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      cursor: pointer;
+    }
+
+    .admin-label {
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    .admin-value {
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .admin-tag {
+      font-size: 0.65rem;
+      color: #22c55e;
+    }
+
+    /* Auth + community forms */
+    .form {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .form-row {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    label {
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    input, textarea, select {
+      border-radius: 9px;
+      border: 1px solid rgba(75,85,99,0.9);
+      background: rgba(15,23,42,0.95);
+      color: #e5e7eb;
+      padding: 6px 8px;
+      font-size: 0.8rem;
+      outline: none;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: rgba(212,175,55,0.9);
+      box-shadow: 0 0 0 1px rgba(212,175,55,0.5);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 60px;
+    }
+
+    .form-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .hint {
+      font-size: 0.65rem;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+
+    .status {
+      font-size: 0.7rem;
+      margin-top: 4px;
+    }
+
+    .status.ok {
+      color: #22c55e;
+    }
+
+    .status.err {
+      color: #f97373;
+    }
+
+    /* Bottom nav */
+    .bottom-nav {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: var(--bottom-nav-height);
+      background: radial-gradient(circle at top, rgba(15,23,42,0.96), rgba(3,7,18,0.98));
+      border-top: 1px solid rgba(31,41,55,0.95);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: 6px 10px;
+      z-index: 50;
+      backdrop-filter: blur(18px);
+    }
+
+    .bottom-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      font-size: 0.65rem;
+      color: var(--muted);
+      cursor: pointer;
+    }
+
+    .bottom-item-icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      border: 1px solid rgba(75,85,99,0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      background: rgba(15,23,42,0.95);
+    }
+
+    .bottom-item.active {
+      color: #fef9c3;
+    }
+
+    .bottom-item.active .bottom-item-icon {
+      border-color: rgba(212,175,55,0.9);
+      background: radial-gradient(circle at top left, rgba(212,175,55,0.35), rgba(24,24,27,0.95));
+    }
+
+    /* Simple fade */
+    .fade {
+      opacity: 0;
+      transform: translateY(4px);
+      animation: fadeInUp 0.35s ease-out forwards;
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="crest">
+        <div class="crest-v"></div>
+        <div class="crest-u"></div>
+        <div class="crest-ball"></div>
+        <div class="crest-flag"></div>
+      </div>
+      <div class="brand-text">
+        <div class="brand-name">UNITYVERSE</div>
+        <div class="brand-tagline">Where Passion Meets Respect and Fun!!!</div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <div class="pill">
+        <div class="pill-dot"></div>
+        <span id="authStatusLabel">Guest mode · Not signed in</span>
+      </div>
+      <div class="avatar" id="avatarInitials">UV</div>
+    </div>
+  </header>
+
+  <main>
+    <!-- LEFT COLUMN -->
+    <section class="card fade" id="homeCard">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Matchday Control Center</div>
+          <div class="card-subtitle">Pickup soccer · Community · Fair Play</div>
+        </div>
+        <div class="chip gold">
+          <span class="chip-dot"></span>
+          Live Session
+        </div>
+      </div>
+
+      <div class="hero">
+        <div class="hero-main">
+          <div class="hero-badge-row">
+            <div class="hero-badge">
+              <div class="hero-badge-dot"></div>
+              UnityVerse · Fair Play First
+            </div>
+            <div class="section-pill">
+              <span>Powered by JEMS</span>
+            </div>
+          </div>
+
+          <div class="hero-title">Elite Pickup Soccer Platform</div>
+          <div class="hero-tagline">
+            Organize games, protect vibes, and reward respect — all in one universe.
+          </div>
+
+          <div class="hero-grid">
+            <div class="hero-stat">
+              <div class="hero-stat-label">Players Online</div>
+              <div class="hero-stat-value" id="statPlayersOnline">24</div>
+              <div class="hero-stat-sub">Across 3 communities</div>
+            </div>
+            <div class="hero-stat">
+              <div class="hero-stat-label">Tonight's Games</div>
+              <div class="hero-stat-value" id="statGamesTonight">5</div>
+              <div class="hero-stat-sub">2 competitive · 3 chill</div>
+            </div>
+            <div class="hero-stat">
+              <div class="hero-stat-label">Fair Play Score</div>
+              <div class="hero-stat-value" id="statFairPlay">9.4</div>
+              <div class="hero-stat-sub">Last 30 days</div>
+            </div>
+          </div>
+
+          <div class="hero-cta-row">
+            <button class="btn btn-primary" id="btnPrimaryAction">
+              Join Tonight's Pickup
+            </button>
+            <button class="btn btn-ghost" id="btnSecondaryAction">
+              Explore Communities
+            </button>
+          </div>
+
+          <div class="hero-footnote">
+            Sign in to sync your pinnies, presence, and payments across all your games.
+          </div>
+        </div>
+
+        <div class="hero-side">
+          <div class="hero-side-title">Tonight's Highlights</div>
+
+          <div class="hero-side-item">
+            <div class="hero-side-item-main">
+              <div class="hero-side-label">Featured Game</div>
+              <div class="hero-side-value">7v7 · High Tempo · Mixed</div>
+            </div>
+            <div class="hero-side-tag">9:00 PM</div>
+          </div>
+
+          <div class="hero-side-item">
+            <div class="hero-side-item-main">
+              <div class="hero-side-label">Community Spotlight</div>
+              <div class="hero-side-value">Downtown Respect FC</div>
+            </div>
+            <div class="hero-side-tag">Fair Play 9.7</div>
+          </div>
+
+          <div class="hero-side-item">
+            <div class="hero-side-item-main">
+              <div class="hero-side-label">Pinnie Engine</div>
+              <div class="hero-side-value">Auto-balance by vibe & effort</div>
+            </div>
+            <div class="hero-side-tag">Enabled</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-title-row" style="margin-top: 12px;">
+        <div class="section-title">Game & Session Controls</div>
+        <div class="section-pill">
+          <span id="sessionModeLabel">Session: Pickup · Open</span>
+        </div>
+      </div>
+
+      <div class="tabs-row">
+        <button class="tab-pill active" data-tab="tab-games">
+          <span class="tab-dot"></span> Games
+        </button>
+        <button class="tab-pill" data-tab="tab-pinnies">
+          <span class="tab-dot"></span> Pinnies
+        </button>
+        <button class="tab-pill" data-tab="tab-attendance">
+          <span class="tab-dot"></span> Attendance
+        </button>
+        <button class="tab-pill" data-tab="tab-payments">
+          <span class="tab-dot"></span> Payments
+        </button>
+        <button class="tab-pill" data-tab="tab-admin">
+          <span class="tab-dot red"></span> Admin
+        </button>
+      </div>
+
+      <!-- TAB: GAMES -->
+      <div class="tab-content active" id="tab-games">
+        <div class="list">
+          <div class="list-item">
+            <div class="list-main">
+              <div class="list-title">7v7 · High Tempo</div>
+              <div class="list-meta">Field 1 · 9:00–10:00 PM · 14/14 players</div>
+            </div>
+            <div class="badge green">Locked In</div>
+          </div>
+          <div class="list-item">
+            <div class="list-main">
+              <div class="list-title">6v6 · Chill Vibes</div>
+              <div class="list-meta">Field 2 · 8:00–9:00 PM · 9/12 players</div>
+            </div>
+            <div class="badge gold">Spots Left</div>
+          </div>
+          <div class="list-item">
+            <div class="list-main">
+              <div class="list-title">5v5 · Technical</div>
+              <div class="list-meta">Court A · 7:00–8:00 PM · 8/10 players</div>
+            </div>
+            <div class="badge">Waitlist</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: PINNIES -->
+      <div class="tab-content" id="tab-pinnies">
+        <div class="list">
+          <div class="list-item">
+            <div class="list-main">
+              <div class="list-title">Auto-Balance Teams</div>
+              <div class="list-meta">Uses vibe, effort, and Fair Play score</div>
+            </div>
+            <button class="btn btn-ghost" id="btnRunPinnieEngine">Run Engine</button>
+          </div>
+          <div class="list-item">
+            <div class="list-main">
+              <div class="list-title">Current Split</div>
+              <div class="list-meta" id="pinnieSplitLabel">Gold 7 · Dark 7</div>
+            </div>
+            <div class="badge gold">Balanced</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: ATTENDANCE -->
+      <div class="tab-content" id="tab-attendance">
+        <div class="list">
+          <div class="list-item">
+            <div class="list-main">
+              <div class="list-title">Check-In QR</div>
+              <div class="list-meta">Players scan to confirm presence</div>
+            </div>
+            <div class="badge green">Live</div>
+          </div>
+          <div class="list-item">
+            <div class="list-main">
+              <div class="list-title">No-Show Protection</div>
+              <div class="list-meta">Auto-flag repeat no-shows</div>
+            </div>
+            <div class="badge red">3 flagged</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: PAYMENTS -->
+      <div class="tab-content" id="tab-payments">
+        <div class="list">
+          <div class="list-item">
+            <div class="list-main">
+              <div class="list-title">Session Fee</div>
+              <div class="list-meta">$12 per player · Pay before kickoff</div>
+            </div>
+            <div class="badge gold">Tap to Pay</div>
+          </div>
+          <div class="list-item">
+            <div class="list-main">
+              <div class="list-title">Outstanding Balances</div>
+              <div class="list-meta">3 players · $36 total</div>
+            </div>
+            <div class="badge red">Review</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: ADMIN -->
+      <div class="tab-content" id="tab-admin">
+        <div class="admin-grid">
+          <div class="admin-tile" id="adminTileCommunities">
+            <div class="admin-label">Communities</div>
+            <div class="admin-value">3 active</div>
+            <div class="admin-tag">Manage rosters & captains</div>
+          </div>
+          <div class="admin-tile" id="adminTileRules">
+            <div class="admin-label">Rules & Fair Play</div>
+            <div class="admin-value">Custom presets</div>
+            <div class="admin-tag">Respect > Scoreboard</div>
+          </div>
+          <div class="admin-tile" id="adminTileAccess">
+            <div class="admin-label">Access Control</div>
+            <div class="admin-value">Invite-only</div>
+            <div class="admin-tag">Code: UNITY</div>
+          </div>
+          <div class="admin-tile" id="adminTileReports">
+            <div class="admin-label">Reports</div>
+            <div class="admin-value">Last 30 days</div>
+            <div class="admin-tag">Download CSV</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT COLUMN -->
+    <section class="stack">
+      <!-- PRESENCE + COMMUNITY FEED -->
+      <section class="card fade" id="communityCard">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Community Pulse</div>
+            <div class="card-subtitle">Live updates from your pickup universe</div>
+          </div>
+          <div class="chip">
+            <div class="chip-dot"></div>
+            <span id="communityStatusLabel">Synced</span>
+          </div>
+        </div>
+
+        <div class="presence-row">
+          <div>
+            <div class="section-title">Presence</div>
+            <div class="presence-count" id="presenceCountLabel">24 players · 3 games</div>
+          </div>
+          <div>
+            <div class="presence-avatars">
+              <div class="presence-avatar">A</div>
+              <div class="presence-avatar">M</div>
+              <div class="presence-avatar">S</div>
+              <div class="presence-avatar">J</div>
+            </div>
