@@ -20,6 +20,7 @@
       --shadow: 0 22px 60px rgba(0,0,0,0.75);
       --radius-lg: 18px;
       --radius-md: 14px;
+      --bottom-nav-height: 60px;
     }
     * { box-sizing: border-box; }
     body {
@@ -41,8 +42,8 @@
     header {
       position: sticky;
       top: 0;
-      z-index: 20;
-      padding: 14px 22px;
+      z-index: 40;
+      padding: 10px 16px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -53,83 +54,180 @@
     .brand {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
     .crest {
-      width: 40px;
-      height: 40px;
-      border-radius: 14px;
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
       background:
         radial-gradient(circle at 30% 20%, #ffffff, #f5f5f7 18%, #d4af37 19%, #10121b 60%),
         linear-gradient(135deg, #0033a0, #000814);
       box-shadow:
         0 0 0 1px rgba(212,175,55,0.7),
-        0 14px 30px rgba(0,0,0,0.8);
+        0 10px 24px rgba(0,0,0,0.8);
       position: relative;
       overflow: hidden;
     }
     .crest-inner-v {
       position: absolute;
-      inset: 7px;
-      border-radius: 12px;
+      inset: 6px;
+      border-radius: 10px;
       border: 2px solid rgba(212,175,55,0.9);
       clip-path: polygon(50% 100%, 0 0, 18% 0, 50% 70%, 82% 0, 100% 0);
     }
     .crest-inner-u {
       position: absolute;
-      inset: 9px;
-      border-radius: 12px;
+      inset: 7px;
+      border-radius: 10px;
       border: 2px solid rgba(0,51,160,0.9);
-      clip-path: polygon(0 0, 0 60%, 20% 100%, 80% 100%, 100% 60%, 100% 0, 82% 0, 82% 58%, 70% 80%, 30% 80%, 18% 58%, 18% 0);
+      clip-path: polygon(0 0, 0 60%, 20% 100%, 80% 100%, 100% 60%, 100 0, 82% 0, 82% 58%, 70% 80%, 30% 80%, 18% 58%, 18% 0);
     }
     .brand-text-main {
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 800;
       letter-spacing: 0.18em;
       text-transform: uppercase;
     }
-    .brand-text-main span {
-      color: var(--gold);
-    }
+    .brand-text-main span { color: var(--gold); }
     .brand-text-sub {
-      font-size: 11px;
+      font-size: 10px;
       text-transform: uppercase;
       letter-spacing: 0.18em;
       color: var(--muted);
     }
 
-    nav {
+    .top-nav {
+      display: none;
+      gap: 16px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+    }
+    .top-nav span {
+      cursor: pointer;
+      padding-bottom: 3px;
+      border-bottom: 2px solid transparent;
+    }
+    .top-nav span.active {
+      color: var(--gold);
+      border-color: var(--gold);
+    }
+
+    .hamburger {
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.6);
       display: flex;
-      gap: 18px;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .hamburger-line {
+      width: 14px;
+      height: 2px;
+      background: var(--text);
+      border-radius: 999px;
+      position: relative;
+    }
+    .hamburger-line::before,
+    .hamburger-line::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      width: 14px;
+      height: 2px;
+      background: var(--text);
+      border-radius: 999px;
+    }
+    .hamburger-line::before { top: -4px; }
+    .hamburger-line::after { top: 4px; }
+
+    /* Drawer */
+    .drawer-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 35;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+    .drawer-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .drawer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 260px;
+      height: 100%;
+      background: #050509;
+      border-right: 1px solid rgba(212,175,55,0.25);
+      box-shadow: 12px 0 40px rgba(0,0,0,0.8);
+      transform: translateX(-100%);
+      transition: transform 0.25s ease;
+      z-index: 36;
+      padding: 16px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .drawer.open { transform: translateX(0); }
+    .drawer-title {
       font-size: 12px;
       text-transform: uppercase;
       letter-spacing: 0.16em;
       color: var(--muted);
+      margin-bottom: 6px;
     }
-    nav span {
+    .drawer-section {
+      margin-bottom: 10px;
+    }
+    .drawer-link {
+      font-size: 13px;
+      padding: 6px 8px;
+      border-radius: 999px;
+      color: var(--text);
       cursor: pointer;
-      padding-bottom: 4px;
-      border-bottom: 2px solid transparent;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
-    nav span.active {
-      color: var(--gold);
-      border-color: var(--gold);
+    .drawer-link span {
+      font-size: 11px;
+      color: var(--muted);
+    }
+    .drawer-link:hover {
+      background: rgba(148,163,184,0.16);
     }
 
     /* Layout */
     main {
       flex: 1;
-      padding: 20px 22px 30px;
+      padding: 14px 14px calc(14px + var(--bottom-nav-height));
       max-width: 1360px;
       margin: 0 auto;
+    }
+    .page {
+      display: none;
+    }
+    .page.active {
+      display: block;
+    }
+
+    .grid-main {
       display: grid;
       grid-template-columns: minmax(0, 2.1fr) minmax(0, 1.4fr);
-      gap: 18px;
+      gap: 16px;
     }
-    @media (max-width: 980px) {
-      main { grid-template-columns: minmax(0, 1fr); }
+    @media (max-width: 960px) {
+      .grid-main { grid-template-columns: minmax(0, 1fr); }
     }
-    .col { display: flex; flex-direction: column; gap: 18px; }
+    .col { display: flex; flex-direction: column; gap: 14px; }
 
     .card {
       background:
@@ -137,7 +235,7 @@
         radial-gradient(circle at bottom right, rgba(0,51,160,0.18), transparent 55%),
         var(--card);
       border-radius: var(--radius-lg);
-      padding: 16px 16px 14px;
+      padding: 14px 14px 12px;
       border: 1px solid rgba(148,163,184,0.25);
       box-shadow: var(--shadow);
       position: relative;
@@ -147,10 +245,11 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
+      gap: 8px;
     }
     .card-title {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 600;
       letter-spacing: 0.12em;
       text-transform: uppercase;
@@ -160,7 +259,7 @@
       color: var(--muted);
     }
     .pill {
-      font-size: 11px;
+      font-size: 10px;
       padding: 3px 9px;
       border-radius: 999px;
       border: 1px solid rgba(212,175,55,0.55);
@@ -169,6 +268,7 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
+      white-space: nowrap;
     }
     .pill-dot {
       width: 7px;
@@ -182,35 +282,33 @@
     .hero {
       display: grid;
       grid-template-columns: minmax(0, 1.7fr) minmax(0, 1.1fr);
-      gap: 16px;
+      gap: 12px;
     }
     @media (max-width: 780px) {
       .hero { grid-template-columns: minmax(0, 1fr); }
     }
     .hero-main-title {
-      font-size: 22px;
+      font-size: 20px;
       font-weight: 700;
       letter-spacing: 0.16em;
       text-transform: uppercase;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
-    .hero-main-title span {
-      color: var(--gold);
-    }
+    .hero-main-title span { color: var(--gold); }
     .hero-main-sub {
-      font-size: 13px;
+      font-size: 12px;
       color: var(--muted);
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     .hero-tags {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
-      margin-bottom: 12px;
+      gap: 5px;
+      margin-bottom: 10px;
     }
     .hero-tag {
-      font-size: 11px;
-      padding: 3px 9px;
+      font-size: 10px;
+      padding: 3px 8px;
       border-radius: 999px;
       background: rgba(5,6,12,0.9);
       border: 1px solid rgba(148,163,184,0.4);
@@ -224,16 +322,17 @@
     }
     .btn {
       border-radius: 999px;
-      padding: 7px 16px;
+      padding: 7px 14px;
       border: none;
       cursor: pointer;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 600;
       letter-spacing: 0.12em;
       text-transform: uppercase;
       display: inline-flex;
       align-items: center;
       gap: 6px;
+      white-space: nowrap;
     }
     .btn-primary {
       background: linear-gradient(135deg, var(--gold), #ffecb3);
@@ -248,22 +347,22 @@
     .hero-metric-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 10px;
-      margin-top: 6px;
+      gap: 8px;
+      margin-top: 4px;
     }
     .metric {
-      padding: 8px 10px;
+      padding: 7px 8px;
       border-radius: var(--radius-md);
       background: rgba(5,6,12,0.9);
       border: 1px solid rgba(148,163,184,0.4);
     }
     .metric-label {
-      font-size: 11px;
+      font-size: 10px;
       color: var(--muted);
       margin-bottom: 2px;
     }
     .metric-value {
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 600;
     }
     .metric-chip {
@@ -271,7 +370,7 @@
       color: var(--gold);
     }
     .pill-game {
-      font-size: 11px;
+      font-size: 10px;
       padding: 3px 9px;
       border-radius: 999px;
       background: rgba(5,6,12,0.9);
@@ -281,9 +380,9 @@
 
     /* Lists & tables */
     .scroll-y {
-      max-height: 260px;
+      max-height: 230px;
       overflow-y: auto;
-      padding-right: 4px;
+      padding-right: 3px;
     }
     .scroll-y::-webkit-scrollbar { width: 4px; }
     .scroll-y::-webkit-scrollbar-thumb {
@@ -294,15 +393,15 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 12px;
+      font-size: 11px;
     }
     th, td {
-      padding: 6px 6px;
+      padding: 5px 5px;
       border-bottom: 1px solid rgba(31,41,55,0.9);
     }
     th {
       text-align: left;
-      font-size: 11px;
+      font-size: 10px;
       text-transform: uppercase;
       letter-spacing: 0.12em;
       color: var(--muted);
@@ -310,8 +409,8 @@
     tr:last-child td { border-bottom: none; }
 
     .badge {
-      font-size: 10px;
-      padding: 2px 7px;
+      font-size: 9px;
+      padding: 2px 6px;
       border-radius: 999px;
       text-transform: uppercase;
       letter-spacing: 0.08em;
@@ -322,7 +421,7 @@
     .badge-excl { background: rgba(248,113,113,0.16); color: #f97373; }
     .badge-info { background: rgba(0,51,160,0.3); color: #bfdbfe; }
 
-    .muted { color: var(--muted); font-size: 11px; }
+    .muted { color: var(--muted); font-size: 10px; }
 
     .feed-list, .alert-list {
       list-style: none;
@@ -330,17 +429,17 @@
       margin: 0;
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      font-size: 12px;
+      gap: 7px;
+      font-size: 11px;
     }
     .feed-item, .alert-item {
-      padding: 7px 9px;
+      padding: 6px 8px;
       border-radius: var(--radius-md);
       background: rgba(5,6,12,0.9);
       border: 1px solid rgba(31,41,55,0.9);
       display: flex;
       justify-content: space-between;
-      gap: 10px;
+      gap: 8px;
     }
     .feed-main, .alert-main {
       display: flex;
@@ -348,22 +447,22 @@
       gap: 2px;
     }
     .feed-title, .alert-title {
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 500;
     }
     .feed-meta, .alert-meta {
-      font-size: 11px;
+      font-size: 10px;
       color: var(--muted);
     }
 
     .chip-row {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
+      gap: 5px;
       margin-top: 4px;
     }
     .chip {
-      font-size: 10px;
+      font-size: 9px;
       padding: 2px 7px;
       border-radius: 999px;
       background: rgba(5,6,12,0.9);
@@ -383,15 +482,16 @@
       border: 1px solid rgba(55,65,81,0.9);
       padding: 6px 10px;
       color: var(--text);
-      font-size: 12px;
+      font-size: 11px;
       outline: none;
       min-width: 0;
+      flex: 1;
     }
     input::placeholder { color: rgba(148,163,184,0.7); }
 
     .status-dot {
-      width: 8px;
-      height: 8px;
+      width: 7px;
+      height: 7px;
       border-radius: 999px;
       display: inline-block;
       margin-right: 4px;
@@ -400,16 +500,85 @@
     .status-dot-off { background: #6b7280; }
 
     footer {
-      padding: 10px 22px 16px;
-      font-size: 11px;
+      padding: 8px 14px 10px;
+      font-size: 10px;
       color: var(--muted);
       text-align: center;
       border-top: 1px solid rgba(148,163,184,0.25);
       background: radial-gradient(circle at top, rgba(0,51,160,0.4), transparent 60%);
     }
+
+    /* Bottom nav */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: var(--bottom-nav-height);
+      background: rgba(5,6,12,0.96);
+      border-top: 1px solid rgba(148,163,184,0.35);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 45;
+      backdrop-filter: blur(18px);
+    }
+    .bottom-item {
+      flex: 1;
+      text-align: center;
+      font-size: 10px;
+      color: var(--muted);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      cursor: pointer;
+    }
+    .bottom-item-icon {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+    }
+    .bottom-item.active {
+      color: var(--gold);
+    }
+    .bottom-item.active .bottom-item-icon {
+      border-color: var(--gold);
+      background: radial-gradient(circle at 30% 20%, rgba(212,175,55,0.4), transparent 60%);
+    }
+
+    /* Desktop tweaks */
+    @media (min-width: 960px) {
+      .top-nav { display: flex; }
+      .bottom-nav { display: none; }
+      main { padding-bottom: 18px; }
+    }
   </style>
 </head>
 <body>
+  <!-- Drawer -->
+  <div class="drawer-backdrop" id="drawerBackdrop"></div>
+  <div class="drawer" id="drawer">
+    <div class="drawer-section">
+      <div class="drawer-title">Unityverse sections</div>
+      <div class="drawer-link" data-page="home">Home <span>Dashboard</span></div>
+      <div class="drawer-link" data-page="community">Community <span>Feed & news</span></div>
+      <div class="drawer-link" data-page="games">Games <span>Schedule</span></div>
+      <div class="drawer-link" data-page="players">Players <span>Profiles</span></div>
+      <div class="drawer-link" data-page="admin">Admin <span>Discipline</span></div>
+    </div>
+    <div class="drawer-section">
+      <div class="drawer-title">Advanced</div>
+      <div class="drawer-link">Stats <span>Soon</span></div>
+      <div class="drawer-link">Settings <span>Portal</span></div>
+    </div>
+  </div>
+
   <header>
     <div class="brand">
       <div class="crest">
@@ -421,146 +590,163 @@
         <div class="brand-text-sub">Elite pickup soccer · Kingston</div>
       </div>
     </div>
-    <nav>
-      <span class="active">Home</span>
-      <span>Community</span>
-      <span>Games</span>
-      <span>Players</span>
-      <span>Admin</span>
-    </nav>
+    <div style="display:flex;align-items:center;gap:14px;">
+      <div class="top-nav" id="topNav">
+        <span data-page="home" class="active">Home</span>
+        <span data-page="community">Community</span>
+        <span data-page="games">Games</span>
+        <span data-page="players">Players</span>
+        <span data-page="admin">Admin</span>
+      </div>
+      <div class="hamburger" id="hamburger">
+        <div class="hamburger-line"></div>
+      </div>
+    </div>
   </header>
 
   <main>
-    <!-- LEFT COLUMN -->
-    <div class="col">
-      <!-- HERO -->
-      <div class="card">
-        <div class="hero">
-          <div>
-            <div class="hero-main-title"><span>Unityverse</span> · Kingston Nights</div>
-            <div class="hero-main-sub">
-              One portal for presence, payments, sanctions, pinnies, polls, and community—auto‑enforced, zero manual chasing.
-            </div>
-            <div class="hero-tags">
-              <span class="hero-tag">Elite design</span>
-              <span class="hero-tag">Real‑time sanctions</span>
-              <span class="hero-tag">Pinnie rotation</span>
-              <span class="hero-tag">Community feed</span>
-              <span class="hero-tag">Portal & polls</span>
-            </div>
-            <div class="hero-cta-row">
-              <button class="btn btn-primary" id="btnQuickStart">
-                Start game flow
-              </button>
-              <button class="btn btn-ghost" id="btnAdminPanel">
-                Open admin console
-              </button>
-              <span class="pill">
-                <span class="pill-dot"></span>
-                Live session · UNITYVERSE
-              </span>
+    <!-- HOME PAGE -->
+    <section class="page active" id="page-home">
+      <div class="grid-main">
+        <div class="col">
+          <div class="card">
+            <div class="hero">
+              <div>
+                <div class="hero-main-title"><span>Unityverse</span> · Kingston Nights</div>
+                <div class="hero-main-sub">
+                  One portal for presence, payments, sanctions, pinnies, polls, and community—auto‑enforced, zero manual chasing.
+                </div>
+                <div class="hero-tags">
+                  <span class="hero-tag">Elite design</span>
+                  <span class="hero-tag">Real‑time sanctions</span>
+                  <span class="hero-tag">Pinnie rotation</span>
+                  <span class="hero-tag">Community feed</span>
+                  <span class="hero-tag">Portal & polls</span>
+                </div>
+                <div class="hero-cta-row">
+                  <button class="btn btn-primary" id="btnQuickStart">Start game flow</button>
+                  <button class="btn btn-ghost" id="btnAdminPanel">Open admin console</button>
+                  <span class="pill">
+                    <span class="pill-dot"></span>
+                    Live session · UNITYVERSE
+                  </span>
+                </div>
+              </div>
+              <div>
+                <div class="hero-metric-grid">
+                  <div class="metric">
+                    <div class="metric-label">Players checked‑in</div>
+                    <div class="metric-value" id="metricPresent">0</div>
+                    <div class="metric-chip" id="metricPresentChip">waiting</div>
+                  </div>
+                  <div class="metric">
+                    <div class="metric-label">Payments cleared</div>
+                    <div class="metric-value" id="metricPaid">0</div>
+                    <div class="metric-chip" id="metricPaidChip">$ / game</div>
+                  </div>
+                  <div class="metric">
+                    <div class="metric-label">Active sanctions</div>
+                    <div class="metric-value" id="metricSanctions">0</div>
+                    <div class="metric-chip" id="metricSanctionsChip">clean sheet</div>
+                  </div>
+                </div>
+                <div style="margin-top:8px; font-size:10px; color:var(--muted);">
+                  <span class="pill-game">Game #<span id="currentGame">1</span></span>
+                  ·
+                  <span>Portal: <span class="status-dot status-dot-ok"></span>online</span>
+                </div>
+              </div>
             </div>
           </div>
-          <div>
-            <div class="hero-metric-grid">
-              <div class="metric">
-                <div class="metric-label">Players checked‑in</div>
-                <div class="metric-value" id="metricPresent">0</div>
-                <div class="metric-chip" id="metricPresentChip">waiting</div>
+
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Community feed & news</div>
+                <div class="card-sub">Announcements, results, and social updates for your pickup group.</div>
               </div>
-              <div class="metric">
-                <div class="metric-label">Payments cleared</div>
-                <div class="metric-value" id="metricPaid">0</div>
-                <div class="metric-chip" id="metricPaidChip">$ / game</div>
-              </div>
-              <div class="metric">
-                <div class="metric-label">Active sanctions</div>
-                <div class="metric-value" id="metricSanctions">0</div>
-                <div class="metric-chip" id="metricSanctionsChip">clean sheet</div>
-              </div>
+              <span class="pill">Kingston · Live</span>
             </div>
-            <div style="margin-top:10px; font-size:11px; color:var(--muted);">
-              <span class="pill-game">Game #<span id="currentGame">1</span></span>
-              ·
-              <span>Portal: <span class="status-dot status-dot-ok"></span>online</span>
+            <div class="scroll-y">
+              <ul class="feed-list" id="feedList"></ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Presence & payments</div>
+                <div class="card-sub">Who’s here, who’s paid, and who’s locked out by sanctions.</div>
+              </div>
+              <span class="pill">Synced with discipline</span>
+            </div>
+            <div class="scroll-y">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Player</th>
+                    <th>Presence</th>
+                    <th>Payment</th>
+                    <th>Portal</th>
+                    <th>Notif</th>
+                  </tr>
+                </thead>
+                <tbody id="presenceTableBody"></tbody>
+              </table>
+            </div>
+            <div class="muted" style="margin-top:6px;">
+              Suspended players are automatically removed from presence, blocked from portal, and excluded from notifications.
             </div>
           </div>
         </div>
       </div>
+    </section>
 
-      <!-- COMMUNITY FEED / NEWS -->
+    <!-- COMMUNITY PAGE -->
+    <section class="page" id="page-community">
       <div class="card">
         <div class="card-header">
           <div>
-            <div class="card-title">Community feed & news</div>
-            <div class="card-sub">Announcements, results, and social updates for your pickup group.</div>
+            <div class="card-title">Community & social</div>
+            <div class="card-sub">News, comments, and social interactions.</div>
           </div>
-          <span class="pill">Kingston · Live</span>
+          <span class="pill">Feed</span>
         </div>
         <div class="scroll-y">
-          <ul class="feed-list" id="feedList"></ul>
+          <ul class="feed-list" id="feedListCommunity"></ul>
         </div>
       </div>
+    </section>
 
-      <!-- PRESENCE & PAYMENTS -->
+    <!-- GAMES PAGE -->
+    <section class="page" id="page-games">
       <div class="card">
         <div class="card-header">
           <div>
-            <div class="card-title">Presence & payments</div>
-            <div class="card-sub">Who’s here, who’s paid, and who’s locked out by sanctions.</div>
+            <div class="card-title">Games & schedule</div>
+            <div class="card-sub">Tonight’s pickup and upcoming sessions.</div>
           </div>
-          <span class="pill">Synced with discipline</span>
+          <span class="pill">Games</span>
+        </div>
+        <div class="muted">
+          Demo view. Later we can plug your real schedule from Firebase.
+        </div>
+      </div>
+    </section>
+
+    <!-- PLAYERS PAGE -->
+    <section class="page" id="page-players">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Players & sanctions</div>
+            <div class="card-sub">Overview of players, fines, bans, and exclusions.</div>
+          </div>
+          <span class="pill">Roster</span>
         </div>
         <div class="scroll-y">
-          <table>
-            <thead>
-              <tr>
-                <th>Player</th>
-                <th>Presence</th>
-                <th>Payment</th>
-                <th>Portal</th>
-                <th>Notifications</th>
-              </tr>
-            </thead>
-            <tbody id="presenceTableBody"></tbody>
-          </table>
-        </div>
-        <div class="muted" style="margin-top:6px;">
-          Suspended players are automatically removed from presence, blocked from portal, and excluded from notifications.
-        </div>
-      </div>
-    </div>
-
-    <!-- RIGHT COLUMN -->
-    <div class="col">
-      <!-- GAME & PINNIE CONTROL -->
-      <div class="card">
-        <div class="card-header">
-          <div>
-            <div class="card-title">Game & pinnie discipline engine</div>
-            <div class="card-sub">Rotation, failures, fines, bans, and exclusions—fully automated.</div>
-          </div>
-          <span class="pill">Sanctions core</span>
-        </div>
-        <div style="font-size:12px; margin-bottom:8px;">
-          <div><strong>Current washer:</strong> <span id="currentWasher">None assigned yet</span></div>
-          <div style="margin-top:4px;">
-            <span class="muted">Ladder:</span>
-            <div class="chip-row">
-              <span class="chip">1st fail → +15$ & same player again</span>
-              <span class="chip">2nd fail → +15$ & 1‑game ban</span>
-              <span class="chip">3rd fail → +15$ & 3‑game ban</span>
-              <span class="chip">4th fail → +15$, 3‑game ban & exclusion</span>
-            </div>
-          </div>
-        </div>
-        <div class="input-row">
-          <button class="btn btn-primary" id="nextGameBtn">Next game & assign washer</button>
-          <button class="btn btn-ghost" id="markWashedBtn" disabled>Mark as washed</button>
-          <button class="btn btn-ghost" id="reportFailBtn" disabled>Report failure</button>
-        </div>
-        <div class="muted" id="systemMsg" style="margin-top:6px;"></div>
-        <div class="scroll-y" style="margin-top:10px;">
           <table>
             <thead>
               <tr>
@@ -569,65 +755,184 @@
                 <th>Fine</th>
                 <th>Banned until</th>
                 <th>Status</th>
-                <th>Washed</th>
               </tr>
             </thead>
-            <tbody id="playersTableBody"></tbody>
+            <tbody id="playersTableBodyPlayers"></tbody>
           </table>
         </div>
       </div>
+    </section>
 
-      <!-- ALERTS -->
-      <div class="card">
-        <div class="card-header">
-          <div>
-            <div class="card-title">System alerts</div>
-            <div class="card-sub">Warnings, bans, exclusions, and important notices.</div>
+    <!-- ADMIN PAGE -->
+    <section class="page" id="page-admin">
+      <div class="grid-main">
+        <div class="col">
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Game & pinnie discipline engine</div>
+                <div class="card-sub">Rotation, failures, fines, bans, and exclusions—fully automated.</div>
+              </div>
+              <span class="pill">Sanctions core</span>
+            </div>
+            <div style="font-size:11px; margin-bottom:6px;">
+              <div><strong>Current washer:</strong> <span id="currentWasher">None assigned yet</span></div>
+              <div style="margin-top:4px;">
+                <span class="muted">Ladder:</span>
+                <div class="chip-row">
+                  <span class="chip">1st fail → +15$ & same player again</span>
+                  <span class="chip">2nd fail → +15$ & 1‑game ban</span>
+                  <span class="chip">3rd fail → +15$ & 3‑game ban</span>
+                  <span class="chip">4th fail → +15$, 3‑game ban & exclusion</span>
+                </div>
+              </div>
+            </div>
+            <div class="input-row">
+              <button class="btn btn-primary" id="nextGameBtn">Next game & assign washer</button>
+              <button class="btn btn-ghost" id="markWashedBtn" disabled>Mark as washed</button>
+              <button class="btn btn-ghost" id="reportFailBtn" disabled>Report failure</button>
+            </div>
+            <div class="muted" id="systemMsg" style="margin-top:6px;"></div>
+            <div class="scroll-y" style="margin-top:8px;">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Player</th>
+                    <th>Fails</th>
+                    <th>Fine</th>
+                    <th>Banned until</th>
+                    <th>Status</th>
+                    <th>Washed</th>
+                  </tr>
+                </thead>
+                <tbody id="playersTableBody"></tbody>
+              </table>
+            </div>
           </div>
-          <span class="pill">Live log</span>
         </div>
-        <ul class="alert-list" id="alertList"></ul>
-      </div>
 
-      <!-- POLLS & NOTIFICATIONS -->
-      <div class="card">
-        <div class="card-header">
-          <div>
-            <div class="card-title">Polls & notifications</div>
-            <div class="card-sub">Only eligible players receive polls and push alerts.</div>
+        <div class="col">
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">System alerts</div>
+                <div class="card-sub">Warnings, bans, exclusions, and important notices.</div>
+              </div>
+              <span class="pill">Live log</span>
+            </div>
+            <ul class="alert-list" id="alertList"></ul>
           </div>
-          <span class="pill">Respect sanctions</span>
-        </div>
-        <div class="input-row">
-          <input id="pollQuestion" placeholder="Ask the group a question (e.g. 'Who’s in for Sunday?')" />
-          <button class="btn btn-primary" id="sendPollBtn">Send poll</button>
-        </div>
-        <div class="muted" id="pollLog" style="margin-top:6px;"></div>
-      </div>
 
-      <!-- PORTAL LOGIN SIM -->
-      <div class="card">
-        <div class="card-header">
-          <div>
-            <div class="card-title">Portal access simulation</div>
-            <div class="card-sub">See how bans and exclusions lock accounts automatically.</div>
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Polls & notifications</div>
+                <div class="card-sub">Only eligible players receive polls and push alerts.</div>
+              </div>
+              <span class="pill">Respect sanctions</span>
+            </div>
+            <div class="input-row">
+              <input id="pollQuestion" placeholder="Ask the group a question (e.g. 'Who’s in for Sunday?')" />
+              <button class="btn btn-primary" id="sendPollBtn">Send poll</button>
+            </div>
+            <div class="muted" id="pollLog" style="margin-top:6px;"></div>
           </div>
-          <span class="pill">Player portal</span>
+
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Portal access simulation</div>
+                <div class="card-sub">See how bans and exclusions lock accounts automatically.</div>
+              </div>
+              <span class="pill">Player portal</span>
+            </div>
+            <div class="input-row">
+              <input id="portalPlayerId" placeholder="Player ID (e.g. p1)" />
+              <button class="btn btn-ghost" id="portalLoginBtn">Simulate login</button>
+            </div>
+            <div class="muted" id="portalMsg" style="margin-top:6px;"></div>
+          </div>
         </div>
-        <div class="input-row">
-          <input id="portalPlayerId" placeholder="Player ID (e.g. p1)" />
-          <button class="btn btn-ghost" id="portalLoginBtn">Simulate login</button>
-        </div>
-        <div class="muted" id="portalMsg" style="margin-top:6px;"></div>
       </div>
-    </div>
+    </section>
   </main>
 
   <footer>
     UNITYVERSE · Kingston Pickup Soccer · Presence · Payments · Sanctions · Pinnie Rotation · Community · All in one.
   </footer>
 
+  <!-- Bottom nav -->
+  <nav class="bottom-nav" id="bottomNav">
+    <div class="bottom-item active" data-page="home">
+      <div class="bottom-item-icon">🏠</div>
+      <div>Home</div>
+    </div>
+    <div class="bottom-item" data-page="community">
+      <div class="bottom-item-icon">💬</div>
+      <div>Community</div>
+    </div>
+    <div class="bottom-item" data-page="games">
+      <div class="bottom-item-icon">⚽</div>
+      <div>Games</div>
+    </div>
+    <div class="bottom-item" data-page="players">
+      <div class="bottom-item-icon">👥</div>
+      <div>Players</div>
+    </div>
+    <div class="bottom-item" data-page="admin">
+      <div class="bottom-item-icon">⚙️</div>
+      <div>Admin</div>
+    </div>
+  </nav>
+
   <script>
+    // -----------------------------
+    // NAVIGATION (tabs + drawer + bottom bar)
+    // -----------------------------
+    const pages = ['home','community','games','players','admin'];
+
+    function setActivePage(page){
+      pages.forEach(p=>{
+        const sec = document.getElementById('page-'+p);
+        if (sec) sec.classList.toggle('active', p === page);
+      });
+
+      document.querySelectorAll('.top-nav span').forEach(el=>{
+        el.classList.toggle('active', el.dataset.page === page);
+      });
+      document.querySelectorAll('.bottom-item').forEach(el=>{
+        el.classList.toggle('active', el.dataset.page === page);
+      });
+    }
+
+    document.querySelectorAll('.top-nav span').forEach(el=>{
+      el.addEventListener('click', ()=> setActivePage(el.dataset.page));
+    });
+    document.querySelectorAll('.bottom-item').forEach(el=>{
+      el.addEventListener('click', ()=> setActivePage(el.dataset.page));
+    });
+    document.querySelectorAll('.drawer-link[data-page]').forEach(el=>{
+      el.addEventListener('click', ()=>{
+        setActivePage(el.dataset.page);
+        closeDrawer();
+      });
+    });
+
+    const drawer = document.getElementById('drawer');
+    const drawerBackdrop = document.getElementById('drawerBackdrop');
+    const hamburger = document.getElementById('hamburger');
+
+    function openDrawer(){
+      drawer.classList.add('open');
+      drawerBackdrop.classList.add('open');
+    }
+    function closeDrawer(){
+      drawer.classList.remove('open');
+      drawerBackdrop.classList.remove('open');
+    }
+    hamburger.addEventListener('click', openDrawer);
+    drawerBackdrop.addEventListener('click', closeDrawer);
+
     // -----------------------------
     // GLOBAL STATE & DATA
     // -----------------------------
@@ -830,184 +1135,4 @@
     function nextGame(){
       globalState.currentGame += 1;
       document.getElementById('currentGame').textContent = globalState.currentGame;
-      setSystemMsg(`Game advanced to #${globalState.currentGame}. Assigning washer...`);
-      pushAlert('info', `Game advanced to #${globalState.currentGame}.`);
-      assignWasher();
-    }
-
-    // -----------------------------
-    // POLLS & NOTIFICATIONS
-    // -----------------------------
-    function sendPoll(){
-      const question = document.getElementById('pollQuestion').value.trim();
-      const logEl = document.getElementById('pollLog');
-      if (!question){
-        logEl.textContent = 'Enter a question before sending a poll.';
-        return;
-      }
-      const recipients = [];
-      state.players.forEach(p=>{
-        enforcePlayerState(p);
-        if (!p.notificationsEnabled) return;
-        recipients.push(p.name);
-      });
-      if (recipients.length === 0){
-        logEl.textContent = 'No eligible players to receive poll (all suspended/excluded).';
-      } else {
-        logEl.textContent = `Poll sent to: ${recipients.join(', ')}`;
-      }
-      pushAlert('info', `Poll sent: "${question}"`);
-      document.getElementById('pollQuestion').value = '';
-    }
-
-    // -----------------------------
-    // PORTAL LOGIN SIM
-    // -----------------------------
-    function simulatePortalLogin(){
-      const id = document.getElementById('portalPlayerId').value.trim();
-      const msgEl = document.getElementById('portalMsg');
-      const p = getPlayer(id);
-      if (!p){
-        msgEl.textContent = 'Player not found.';
-        return;
-      }
-      enforcePlayerState(p);
-      if (!p.portalAccess){
-        msgEl.textContent = `${p.name}: your account is temporarily suspended.`;
-      } else {
-        msgEl.textContent = `${p.name}: portal access granted.`;
-      }
-    }
-
-    // -----------------------------
-    // RENDERING
-    // -----------------------------
-    function renderPresenceAndMetrics(){
-      const tbody = document.getElementById('presenceTableBody');
-      tbody.innerHTML = '';
-      let presentCount = 0;
-      let paidCount = 0;
-      let sanctionsCount = 0;
-
-      state.players.forEach(p=>{
-        enforcePlayerState(p);
-        if (p.present) presentCount++;
-        if (p.paid) paidCount++;
-        if (p.excluded || (p.bannedUntilGame && p.bannedUntilGame > globalState.currentGame)) sanctionsCount++;
-
-        tbody.innerHTML += `
-          <tr>
-            <td>${p.name}</td>
-            <td>${p.present ? '✅' : '❌'}</td>
-            <td>${p.paid ? '💰' : '❌'}</td>
-            <td>${p.portalAccess ? '✅' : '⛔'}</td>
-            <td>${p.notificationsEnabled ? '✅' : '⛔'}</td>
-          </tr>`;
-      });
-
-      document.getElementById('metricPresent').textContent = presentCount;
-      document.getElementById('metricPaid').textContent = paidCount;
-      document.getElementById('metricSanctions').textContent = sanctionsCount;
-      document.getElementById('metricPresentChip').textContent = presentCount ? 'checked‑in' : 'waiting';
-      document.getElementById('metricPaidChip').textContent = paidCount ? 'cleared' : 'pending';
-      document.getElementById('metricSanctionsChip').textContent = sanctionsCount ? 'active cases' : 'clean sheet';
-    }
-
-    function renderPlayersTable(){
-      const tbody = document.getElementById('playersTableBody');
-      tbody.innerHTML = '';
-      state.players.forEach(p=>{
-        enforcePlayerState(p);
-        const status = (() => {
-          if (p.excluded) return {label:'Excluded', cls:'badge-excl'};
-          if (p.bannedUntilGame && p.bannedUntilGame > globalState.currentGame) return {label:'Banned', cls:'badge-ban'};
-          if (p.failCount === 0) return {label:'Clean', cls:'badge-ok'};
-          if (p.failCount === 1) return {label:'Warned', cls:'badge-warn'};
-          if (p.failCount === 2) return {label:'Repeat', cls:'badge-warn'};
-          if (p.failCount === 3) return {label:'High risk', cls:'badge-ban'};
-          return {label:'Excluded', cls:'badge-excl'};
-        })();
-
-        tbody.innerHTML += `
-          <tr>
-            <td>${p.name}</td>
-            <td>${p.failCount}</td>
-            <td>${p.fine.toFixed(2)}</td>
-            <td>${p.bannedUntilGame ?? '-'}</td>
-            <td><span class="badge ${status.cls}">${status.label}</span></td>
-            <td>${p.washedThisCycle ? 'Yes' : 'No'}</td>
-          </tr>`;
-      });
-    }
-
-    function renderAlerts(){
-      const list = document.getElementById('alertList');
-      list.innerHTML = '';
-      state.alerts.forEach(a=>{
-        const li = document.createElement('li');
-        li.className = 'alert-item';
-        li.innerHTML = `
-          <div class="alert-main">
-            <div class="alert-title">${a.text}</div>
-            <div class="alert-meta">System · just now</div>
-          </div>
-          <span class="badge ${a.cls}">${a.type.toUpperCase()}</span>
-        `;
-        list.appendChild(li);
-      });
-    }
-
-    function renderFeed(){
-      const list = document.getElementById('feedList');
-      list.innerHTML = '';
-      state.feed.forEach(item=>{
-        const li = document.createElement('li');
-        li.className = 'feed-item';
-        li.innerHTML = `
-          <div class="feed-main">
-            <div class="feed-title">${item.title}</div>
-            <div class="feed-meta">${item.meta}</div>
-          </div>
-          <span class="badge badge-info">Feed</span>
-        `;
-        list.appendChild(li);
-      });
-    }
-
-    function updateUI(){
-      document.getElementById('currentGame').textContent = globalState.currentGame;
-      const washer = state.currentWasherId ? getPlayer(state.currentWasherId) : null;
-      document.getElementById('currentWasher').textContent = washer ? washer.name : 'None assigned';
-      document.getElementById('markWashedBtn').disabled = !washer;
-      document.getElementById('reportFailBtn').disabled = !washer;
-      renderPresenceAndMetrics();
-      renderPlayersTable();
-    }
-
-    // -----------------------------
-    // EVENT WIRING
-    // -----------------------------
-    document.getElementById('nextGameBtn').addEventListener('click', nextGame);
-    document.getElementById('markWashedBtn').addEventListener('click', markWashed);
-    document.getElementById('reportFailBtn').addEventListener('click', reportFailure);
-    document.getElementById('sendPollBtn').addEventListener('click', sendPoll);
-    document.getElementById('portalLoginBtn').addEventListener('click', simulatePortalLogin);
-
-    document.getElementById('btnQuickStart').addEventListener('click', () => {
-      pushAlert('info', 'Quick game flow started.');
-      nextGame();
-    });
-    document.getElementById('btnAdminPanel').addEventListener('click', () => {
-      pushAlert('info', 'Admin console opened (demo).');
-    });
-
-    // -----------------------------
-    // INITIALIZE
-    // -----------------------------
-    state.players.forEach(enforcePlayerState);
-    renderFeed();
-    assignWasher();
-    updateUI();
-  </script>
-</body>
-</html>
+      setSystem
