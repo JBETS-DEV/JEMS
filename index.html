@@ -2,78 +2,108 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>JEMS · Pickup Soccer Community Platform</title>
+  <title>UNITYVERSE · Elite Pickup Soccer Platform</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root {
-      --bg: #050816;
-      --bg-alt: #0b1020;
-      --card: #111827;
-      --accent: #38bdf8;
-      --accent-soft: rgba(56,189,248,0.15);
-      --accent-strong: #0ea5e9;
-      --danger: #f97373;
-      --warn: #facc15;
-      --ok: #4ade80;
-      --text: #e5e7eb;
-      --muted: #9ca3af;
-      --border: #1f2937;
-      --radius: 14px;
-      --shadow: 0 18px 45px rgba(0,0,0,0.55);
+      --royal: #0033a0;
+      --royal-soft: rgba(0,51,160,0.6);
+      --gold: #d4af37;
+      --gold-soft: rgba(212,175,55,0.35);
+      --red: #c1121f;
+      --bg: #050509;
+      --bg-alt: #0b0c12;
+      --card: #10121b;
+      --border: #222433;
+      --text: #f5f5f7;
+      --muted: #9ca3b5;
+      --shadow: 0 22px 60px rgba(0,0,0,0.75);
+      --radius-lg: 18px;
+      --radius-md: 14px;
     }
     * { box-sizing: border-box; }
     body {
       margin: 0;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
-      background: radial-gradient(circle at top, #0f172a 0, #020617 55%, #000 100%);
+      background:
+        radial-gradient(circle at top left, rgba(0,51,160,0.45), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(193,18,31,0.45), transparent 55%),
+        #020308;
       color: var(--text);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
     }
-    a { color: var(--accent); text-decoration: none; }
+    a { color: var(--gold); text-decoration: none; }
     a:hover { text-decoration: underline; }
 
-    /* Layout */
+    /* Top bar */
     header {
-      padding: 16px 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid rgba(148,163,184,0.2);
-      backdrop-filter: blur(16px);
-      background: linear-gradient(to right, rgba(15,23,42,0.9), rgba(15,23,42,0.6));
       position: sticky;
       top: 0;
       z-index: 20;
+      padding: 14px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      backdrop-filter: blur(22px);
+      background: linear-gradient(to right, rgba(5,6,12,0.96), rgba(5,6,12,0.82));
+      border-bottom: 1px solid rgba(212,175,55,0.25);
     }
     .brand {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
     }
-    .brand-logo {
-      width: 32px;
-      height: 32px;
-      border-radius: 10px;
-      background: radial-gradient(circle at 30% 20%, #38bdf8, #0f172a);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
+    .crest {
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      background:
+        radial-gradient(circle at 30% 20%, #ffffff, #f5f5f7 18%, #d4af37 19%, #10121b 60%),
+        linear-gradient(135deg, #0033a0, #000814);
+      box-shadow:
+        0 0 0 1px rgba(212,175,55,0.7),
+        0 14px 30px rgba(0,0,0,0.8);
+      position: relative;
+      overflow: hidden;
+    }
+    .crest-inner-v {
+      position: absolute;
+      inset: 7px;
+      border-radius: 12px;
+      border: 2px solid rgba(212,175,55,0.9);
+      clip-path: polygon(50% 100%, 0 0, 18% 0, 50% 70%, 82% 0, 100% 0);
+    }
+    .crest-inner-u {
+      position: absolute;
+      inset: 9px;
+      border-radius: 12px;
+      border: 2px solid rgba(0,51,160,0.9);
+      clip-path: polygon(0 0, 0 60%, 20% 100%, 80% 100%, 100% 60%, 100% 0, 82% 0, 82% 58%, 70% 80%, 30% 80%, 18% 58%, 18% 0);
+    }
+    .brand-text-main {
       font-size: 18px;
-      color: #e5f2ff;
-      box-shadow: 0 0 0 1px rgba(148,163,184,0.4);
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
     }
-    .brand-text-main { font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; font-size: 14px; }
-    .brand-text-sub { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.16em; }
+    .brand-text-main span {
+      color: var(--gold);
+    }
+    .brand-text-sub {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--muted);
+    }
 
     nav {
       display: flex;
       gap: 18px;
-      font-size: 13px;
+      font-size: 12px;
       text-transform: uppercase;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.16em;
       color: var(--muted);
     }
     nav span {
@@ -82,14 +112,15 @@
       border-bottom: 2px solid transparent;
     }
     nav span.active {
-      color: var(--accent);
-      border-color: var(--accent);
+      color: var(--gold);
+      border-color: var(--gold);
     }
 
+    /* Layout */
     main {
       flex: 1;
-      padding: 20px 24px 32px;
-      max-width: 1320px;
+      padding: 20px 22px 30px;
+      max-width: 1360px;
       margin: 0 auto;
       display: grid;
       grid-template-columns: minmax(0, 2.1fr) minmax(0, 1.4fr);
@@ -98,14 +129,16 @@
     @media (max-width: 980px) {
       main { grid-template-columns: minmax(0, 1fr); }
     }
-
     .col { display: flex; flex-direction: column; gap: 18px; }
 
     .card {
-      background: radial-gradient(circle at top left, rgba(56,189,248,0.12), transparent 55%), var(--card);
-      border-radius: var(--radius);
+      background:
+        radial-gradient(circle at top left, rgba(212,175,55,0.12), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(0,51,160,0.18), transparent 55%),
+        var(--card);
+      border-radius: var(--radius-lg);
       padding: 16px 16px 14px;
-      border: 1px solid rgba(148,163,184,0.18);
+      border: 1px solid rgba(148,163,184,0.25);
       box-shadow: var(--shadow);
       position: relative;
       overflow: hidden;
@@ -119,9 +152,8 @@
     .card-title {
       font-size: 14px;
       font-weight: 600;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: #e5e7eb;
     }
     .card-sub {
       font-size: 11px;
@@ -129,26 +161,27 @@
     }
     .pill {
       font-size: 11px;
-      padding: 3px 8px;
+      padding: 3px 9px;
       border-radius: 999px;
-      border: 1px solid rgba(148,163,184,0.4);
-      color: var(--muted);
+      border: 1px solid rgba(212,175,55,0.55);
+      color: var(--gold);
+      background: rgba(0,0,0,0.4);
       display: inline-flex;
       align-items: center;
-      gap: 4px;
+      gap: 6px;
     }
     .pill-dot {
-      width: 6px;
-      height: 6px;
+      width: 7px;
+      height: 7px;
       border-radius: 999px;
       background: #22c55e;
       box-shadow: 0 0 0 4px rgba(34,197,94,0.25);
     }
 
-    /* Hero / status */
+    /* Hero */
     .hero {
       display: grid;
-      grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.1fr);
+      grid-template-columns: minmax(0, 1.7fr) minmax(0, 1.1fr);
       gap: 16px;
     }
     @media (max-width: 780px) {
@@ -157,9 +190,12 @@
     .hero-main-title {
       font-size: 22px;
       font-weight: 700;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
       margin-bottom: 6px;
+    }
+    .hero-main-title span {
+      color: var(--gold);
     }
     .hero-main-sub {
       font-size: 13px;
@@ -176,8 +212,8 @@
       font-size: 11px;
       padding: 3px 9px;
       border-radius: 999px;
-      background: rgba(15,23,42,0.9);
-      border: 1px solid rgba(148,163,184,0.35);
+      background: rgba(5,6,12,0.9);
+      border: 1px solid rgba(148,163,184,0.4);
       color: var(--muted);
     }
     .hero-cta-row {
@@ -188,26 +224,26 @@
     }
     .btn {
       border-radius: 999px;
-      padding: 7px 14px;
+      padding: 7px 16px;
       border: none;
       cursor: pointer;
       font-size: 12px;
       font-weight: 600;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
       display: inline-flex;
       align-items: center;
       gap: 6px;
     }
     .btn-primary {
-      background: linear-gradient(135deg, var(--accent-strong), #22c55e);
-      color: #020617;
-      box-shadow: 0 12px 30px rgba(56,189,248,0.45);
+      background: linear-gradient(135deg, var(--gold), #ffecb3);
+      color: #050509;
+      box-shadow: 0 16px 40px rgba(212,175,55,0.6);
     }
     .btn-ghost {
-      background: rgba(15,23,42,0.9);
+      background: rgba(5,6,12,0.9);
       color: var(--muted);
-      border: 1px solid rgba(148,163,184,0.4);
+      border: 1px solid rgba(148,163,184,0.5);
     }
     .hero-metric-grid {
       display: grid;
@@ -217,9 +253,9 @@
     }
     .metric {
       padding: 8px 10px;
-      border-radius: 12px;
-      background: rgba(15,23,42,0.9);
-      border: 1px solid rgba(148,163,184,0.35);
+      border-radius: var(--radius-md);
+      background: rgba(5,6,12,0.9);
+      border: 1px solid rgba(148,163,184,0.4);
     }
     .metric-label {
       font-size: 11px;
@@ -232,10 +268,29 @@
     }
     .metric-chip {
       font-size: 10px;
-      color: var(--ok);
+      color: var(--gold);
+    }
+    .pill-game {
+      font-size: 11px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: rgba(5,6,12,0.9);
+      border: 1px solid rgba(148,163,184,0.5);
+      color: var(--muted);
     }
 
-    /* Tables & lists */
+    /* Lists & tables */
+    .scroll-y {
+      max-height: 260px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+    .scroll-y::-webkit-scrollbar { width: 4px; }
+    .scroll-y::-webkit-scrollbar-thumb {
+      background: rgba(148,163,184,0.7);
+      border-radius: 999px;
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
@@ -249,10 +304,11 @@
       text-align: left;
       font-size: 11px;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.12em;
       color: var(--muted);
     }
     tr:last-child td { border-bottom: none; }
+
     .badge {
       font-size: 10px;
       padding: 2px 7px;
@@ -264,11 +320,11 @@
     .badge-warn { background: rgba(250,204,21,0.16); color: #facc15; }
     .badge-ban { background: rgba(249,115,22,0.16); color: #fb923c; }
     .badge-excl { background: rgba(248,113,113,0.16); color: #f97373; }
-    .badge-info { background: rgba(56,189,248,0.16); color: #38bdf8; }
+    .badge-info { background: rgba(0,51,160,0.3); color: #bfdbfe; }
 
     .muted { color: var(--muted); font-size: 11px; }
 
-    .news-list, .alert-list, .feed-list {
+    .feed-list, .alert-list {
       list-style: none;
       padding: 0;
       margin: 0;
@@ -277,25 +333,25 @@
       gap: 8px;
       font-size: 12px;
     }
-    .news-item, .alert-item, .feed-item {
+    .feed-item, .alert-item {
       padding: 7px 9px;
-      border-radius: 10px;
-      background: rgba(15,23,42,0.9);
+      border-radius: var(--radius-md);
+      background: rgba(5,6,12,0.9);
       border: 1px solid rgba(31,41,55,0.9);
       display: flex;
       justify-content: space-between;
       gap: 10px;
     }
-    .news-main, .alert-main, .feed-main {
+    .feed-main, .alert-main {
       display: flex;
       flex-direction: column;
       gap: 2px;
     }
-    .news-title, .alert-title, .feed-title {
+    .feed-title, .alert-title {
       font-size: 12px;
       font-weight: 500;
     }
-    .news-meta, .alert-meta, .feed-meta {
+    .feed-meta, .alert-meta {
       font-size: 11px;
       color: var(--muted);
     }
@@ -310,7 +366,7 @@
       font-size: 10px;
       padding: 2px 7px;
       border-radius: 999px;
-      background: rgba(15,23,42,0.9);
+      background: rgba(5,6,12,0.9);
       border: 1px solid rgba(55,65,81,0.9);
       color: var(--muted);
     }
@@ -321,14 +377,15 @@
       margin-top: 6px;
       flex-wrap: wrap;
     }
-    input, select {
-      background: rgba(15,23,42,0.9);
+    input {
+      background: rgba(5,6,12,0.9);
       border-radius: 999px;
       border: 1px solid rgba(55,65,81,0.9);
       padding: 6px 10px;
       color: var(--text);
       font-size: 12px;
       outline: none;
+      min-width: 0;
     }
     input::placeholder { color: rgba(148,163,184,0.7); }
 
@@ -342,33 +399,26 @@
     .status-dot-ok { background: #22c55e; }
     .status-dot-off { background: #6b7280; }
 
-    .small-label { font-size: 11px; color: var(--muted); }
-
-    .scroll-y {
-      max-height: 260px;
-      overflow-y: auto;
-      padding-right: 4px;
-    }
-    .scroll-y::-webkit-scrollbar { width: 4px; }
-    .scroll-y::-webkit-scrollbar-thumb { background: rgba(148,163,184,0.5); border-radius: 999px; }
-
-    .pill-game {
+    footer {
+      padding: 10px 22px 16px;
       font-size: 11px;
-      padding: 3px 8px;
-      border-radius: 999px;
-      background: rgba(15,23,42,0.9);
-      border: 1px solid rgba(55,65,81,0.9);
       color: var(--muted);
+      text-align: center;
+      border-top: 1px solid rgba(148,163,184,0.25);
+      background: radial-gradient(circle at top, rgba(0,51,160,0.4), transparent 60%);
     }
   </style>
 </head>
 <body>
   <header>
     <div class="brand">
-      <div class="brand-logo">J</div>
+      <div class="crest">
+        <div class="crest-inner-v"></div>
+        <div class="crest-inner-u"></div>
+      </div>
       <div>
-        <div class="brand-text-main">JEMS</div>
-        <div class="brand-text-sub">Pickup Soccer · Community Engine</div>
+        <div class="brand-text-main"><span>UNITY</span>VERSE</div>
+        <div class="brand-text-sub">Elite pickup soccer · Kingston</div>
       </div>
     </div>
     <nav>
@@ -383,32 +433,31 @@
   <main>
     <!-- LEFT COLUMN -->
     <div class="col">
-      <!-- HERO / GLOBAL STATUS -->
+      <!-- HERO -->
       <div class="card">
         <div class="hero">
           <div>
-            <div class="hero-main-title">Tonight’s Pickup · Kingston</div>
+            <div class="hero-main-title"><span>Unityverse</span> · Kingston Nights</div>
             <div class="hero-main-sub">
-              Live control of players, payments, presence, sanctions, and pinnie washing—fully automated and synced.
+              One portal for presence, payments, sanctions, pinnies, polls, and community—auto‑enforced, zero manual chasing.
             </div>
             <div class="hero-tags">
-              <span class="hero-tag">Real‑time community</span>
-              <span class="hero-tag">Presence & payments</span>
-              <span class="hero-tag">Sanctions engine</span>
+              <span class="hero-tag">Elite design</span>
+              <span class="hero-tag">Real‑time sanctions</span>
               <span class="hero-tag">Pinnie rotation</span>
-              <span class="hero-tag">Polls & alerts</span>
+              <span class="hero-tag">Community feed</span>
+              <span class="hero-tag">Portal & polls</span>
             </div>
             <div class="hero-cta-row">
               <button class="btn btn-primary" id="btnQuickStart">
-                Start Game Flow
-                <span style="font-size:14px;">▶</span>
+                Start game flow
               </button>
               <button class="btn btn-ghost" id="btnAdminPanel">
-                Open Admin Console
+                Open admin console
               </button>
               <span class="pill">
                 <span class="pill-dot"></span>
-                Live session · JEMS
+                Live session · UNITYVERSE
               </span>
             </div>
           </div>
@@ -417,7 +466,7 @@
               <div class="metric">
                 <div class="metric-label">Players checked‑in</div>
                 <div class="metric-value" id="metricPresent">0</div>
-                <div class="metric-chip" id="metricPresentChip">live</div>
+                <div class="metric-chip" id="metricPresentChip">waiting</div>
               </div>
               <div class="metric">
                 <div class="metric-label">Payments cleared</div>
@@ -427,7 +476,7 @@
               <div class="metric">
                 <div class="metric-label">Active sanctions</div>
                 <div class="metric-value" id="metricSanctions">0</div>
-                <div class="metric-chip" id="metricSanctionsChip">auto‑enforced</div>
+                <div class="metric-chip" id="metricSanctionsChip">clean sheet</div>
               </div>
             </div>
             <div style="margin-top:10px; font-size:11px; color:var(--muted);">
@@ -439,14 +488,14 @@
         </div>
       </div>
 
-      <!-- NEWS + COMMUNITY FEED -->
+      <!-- COMMUNITY FEED / NEWS -->
       <div class="card">
         <div class="card-header">
           <div>
-            <div class="card-title">Club news & community feed</div>
+            <div class="card-title">Community feed & news</div>
             <div class="card-sub">Announcements, results, and social updates for your pickup group.</div>
           </div>
-          <span class="pill">Auto‑curated</span>
+          <span class="pill">Kingston · Live</span>
         </div>
         <div class="scroll-y">
           <ul class="feed-list" id="feedList"></ul>
@@ -458,9 +507,9 @@
         <div class="card-header">
           <div>
             <div class="card-title">Presence & payments</div>
-            <div class="card-sub">Who’s here, who’s paid, and who’s temporarily locked out.</div>
+            <div class="card-sub">Who’s here, who’s paid, and who’s locked out by sanctions.</div>
           </div>
-          <span class="pill">Synced with sanctions</span>
+          <span class="pill">Synced with discipline</span>
         </div>
         <div class="scroll-y">
           <table>
@@ -488,19 +537,21 @@
       <div class="card">
         <div class="card-header">
           <div>
-            <div class="card-title">Game & pinnie washing control</div>
+            <div class="card-title">Game & pinnie discipline engine</div>
             <div class="card-sub">Rotation, failures, fines, bans, and exclusions—fully automated.</div>
           </div>
-          <span class="pill">Discipline engine</span>
+          <span class="pill">Sanctions core</span>
         </div>
         <div style="font-size:12px; margin-bottom:8px;">
           <div><strong>Current washer:</strong> <span id="currentWasher">None assigned yet</span></div>
           <div style="margin-top:4px;">
-            <span class="small-label">Ladder:</span>
-            <span class="chip">1st fail → +15$ & same player again</span>
-            <span class="chip">2nd fail → +15$ & 1‑game ban</span>
-            <span class="chip">3rd fail → +15$ & 3‑game ban</span>
-            <span class="chip">4th fail → +15$, 3‑game ban & excluded</span>
+            <span class="muted">Ladder:</span>
+            <div class="chip-row">
+              <span class="chip">1st fail → +15$ & same player again</span>
+              <span class="chip">2nd fail → +15$ & 1‑game ban</span>
+              <span class="chip">3rd fail → +15$ & 3‑game ban</span>
+              <span class="chip">4th fail → +15$, 3‑game ban & exclusion</span>
+            </div>
           </div>
         </div>
         <div class="input-row">
@@ -530,8 +581,8 @@
       <div class="card">
         <div class="card-header">
           <div>
-            <div class="card-title">Alerts</div>
-            <div class="card-sub">System‑generated warnings, bans, and important notices.</div>
+            <div class="card-title">System alerts</div>
+            <div class="card-sub">Warnings, bans, exclusions, and important notices.</div>
           </div>
           <span class="pill">Live log</span>
         </div>
@@ -572,6 +623,10 @@
     </div>
   </main>
 
+  <footer>
+    UNITYVERSE · Kingston Pickup Soccer · Presence · Payments · Sanctions · Pinnie Rotation · Community · All in one.
+  </footer>
+
   <script>
     // -----------------------------
     // GLOBAL STATE & DATA
@@ -591,9 +646,10 @@
       pendingWasherId: null,
       alerts: [],
       feed: [
-        { title:'New season format announced', body:'We’re moving to a rolling ladder with dynamic teams.', meta:'Club news · 2h ago' },
-        { title:'Last game highlight', body:'Golden goal in extra time—what a finish.', meta:'Match recap · 1d ago' },
-        { title:'New players joined', body:'Welcome to the new faces in the group.', meta:'Community · 3d ago' }
+        { title:'New season format announced', meta:'Club news · 2h ago' },
+        { title:'Last game highlight', meta:'Match recap · 1d ago' },
+        { title:'New players joined', meta:'Community · 3d ago' },
+        { title:'Weather watch', meta:'Kingston · Tonight' }
       ]
     };
 
@@ -864,7 +920,7 @@
         enforcePlayerState(p);
         const status = (() => {
           if (p.excluded) return {label:'Excluded', cls:'badge-excl'};
-          if (p.bannedUntilGame && p.bannedUntilGame > globalState.currentGame) return {label:`Banned`, cls:'badge-ban'};
+          if (p.bannedUntilGame && p.bannedUntilGame > globalState.currentGame) return {label:'Banned', cls:'badge-ban'};
           if (p.failCount === 0) return {label:'Clean', cls:'badge-ok'};
           if (p.failCount === 1) return {label:'Warned', cls:'badge-warn'};
           if (p.failCount === 2) return {label:'Repeat', cls:'badge-warn'};
@@ -937,22 +993,4 @@
     document.getElementById('sendPollBtn').addEventListener('click', sendPoll);
     document.getElementById('portalLoginBtn').addEventListener('click', simulatePortalLogin);
 
-    document.getElementById('btnQuickStart').addEventListener('click', () => {
-      pushAlert('info', 'Quick game flow started.');
-      nextGame();
-    });
-    document.getElementById('btnAdminPanel').addEventListener('click', () => {
-      pushAlert('info', 'Admin console opened (demo).');
-    });
-
-    // -----------------------------
-    // INITIALIZE
-    // -----------------------------
-    state.players.forEach(enforcePlayerState);
-    renderFeed();
-    assignWasher();
-    updateUI();
-  </script>
-</body>
-</html>
-
+    document.getElement
