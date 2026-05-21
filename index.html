@@ -1,12 +1,11 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>JEMS – Pinnie Washing & Sanction System</title>
+  <title>JEMS — Global Player Management & Pinnie System</title>
   <style>
-    body { font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif; margin: 20px; background:#0b0c10; color:#f5f5f5; }
-    h1, h2, h3 { margin-bottom: 0.4rem; }
+    body { font-family: system-ui, sans-serif; background:#0b0c10; color:#f5f5f5; margin:20px; }
+    h1, h2, h3 { margin-bottom:0.4rem; }
     .card { background:#1f2833; padding:16px; border-radius:8px; margin-bottom:16px; box-shadow:0 0 10px rgba(0,0,0,0.4); }
     button { padding:8px 14px; margin:4px 4px 4px 0; border-radius:4px; border:none; cursor:pointer; background:#45a29e; color:#0b0c10; font-weight:600; }
     button:disabled { opacity:0.5; cursor:not-allowed; }
@@ -23,191 +22,196 @@
   </style>
 </head>
 <body>
-  <h1>JEMS – Pinnie Washing Rotation & Sanctions</h1>
+  <h1>JEMS — Players, Presence, Payments & Pinnie Washing</h1>
 
+  <!-- GAME + PINNIE CONTROL -->
   <div class="card">
-    <h2>Game Control</h2>
-    <p><strong>Current game:</strong> <span id="currentGame">1</span></p>
-    <p><strong>Current washer:</strong> <span id="currentWasher">None assigned yet</span></p>
-    <button id="nextGameBtn">Next game & assign washer</button>
-    <button id="markWashedBtn" disabled>Mark as washed (completed)</button>
-    <button id="reportFailBtn" disabled>Report failure</button>
+    <h2>Game & Pinnie Control</h2>
+    <p><strong>Current Game:</strong> <span id="currentGame">1</span></p>
+    <p><strong>Current Washer:</strong> <span id="currentWasher">None assigned yet</span></p>
+    <button id="nextGameBtn">Next Game & Assign Washer</button>
+    <button id="markWashedBtn" disabled>Mark as Washed</button>
+    <button id="reportFailBtn" disabled>Report Failure</button>
     <p class="muted" id="systemMsg"></p>
   </div>
 
+  <!-- PLAYERS STATUS -->
   <div class="card">
-    <h2>Players & Status</h2>
+    <h2>Players & Sanctions</h2>
     <table>
       <thead>
         <tr>
           <th>Player</th>
-          <th>Fail count</th>
-          <th>Fine owed (CAD)</th>
-          <th>Banned until game</th>
+          <th>Fail Count</th>
+          <th>Fine (CAD)</th>
+          <th>Banned Until Game</th>
           <th>Status</th>
-          <th>Washed this cycle</th>
+          <th>Washed This Cycle</th>
         </tr>
       </thead>
       <tbody id="playersTableBody"></tbody>
     </table>
     <p class="muted">
-      Ladder: 1st fail → 15$ & same player again • 2nd fail → +15$ & 1‑game ban • 3rd fail → +15$ & 3‑game ban • 4th fail → +15$, 3‑game ban & excluded.
+      Ladder: 1st fail → 15$ & same player again • 2nd fail → +15$ & 1‑game ban •
+      3rd fail → +15$ & 3‑game ban • 4th fail → +15$, 3‑game ban & excluded.
     </p>
+  </div>
+
+  <!-- PRESENCE & PAYMENTS -->
+  <div class="card">
+    <h2>Presence & Payments</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Player</th>
+          <th>Present?</th>
+          <th>Paid?</th>
+          <th>Portal Access</th>
+          <th>Notifications</th>
+        </tr>
+      </thead>
+      <tbody id="presenceTableBody"></tbody>
+    </table>
+  </div>
+
+  <!-- DEMO POLLS / NOTIFICATIONS -->
+  <div class="card">
+    <h2>Polls & Notifications (Respect Suspensions)</h2>
+    <button id="sendPollBtn">Send Poll to All Eligible Players</button>
+    <p class="muted" id="pollLog"></p>
+  </div>
+
+  <!-- DEMO PORTAL LOGIN -->
+  <div class="card">
+    <h2>Portal Login Simulation</h2>
+    <input id="portalPlayerId" placeholder="Player ID (e.g. p1)" />
+    <button id="portalLoginBtn">Simulate Login</button>
+    <p class="muted" id="portalMsg"></p>
   </div>
 
   <script>
     // -----------------------------
-    // Core data model
+    // GLOBAL STATE
     // -----------------------------
+    const globalState = {
+      currentGame: 1
+    };
+
     const state = {
-      currentGame: 1,
       players: [
-        { id: 'p1', name: 'John', failCount: 0, fine: 0, bannedUntilGame: null, excluded: false, washedThisCycle: false },
-        { id: 'p2', name: 'Marc', failCount: 0, fine: 0, bannedUntilGame: null, excluded: false, washedThisCycle: false },
-        { id: 'p3', name: 'Alex', failCount: 0, fine: 0, bannedUntilGame: null, excluded: false, washedThisCycle: false },
-        { id: 'p4', name: 'Sam',  failCount: 0, fine: 0, bannedUntilGame: null, excluded: false, washedThisCycle: false }
+        { id:'p1', name:'John', failCount:0, fine:0, bannedUntilGame:null, excluded:false, washedThisCycle:false, present:true, paid:true, notificationsEnabled:true, portalAccess:true },
+        { id:'p2', name:'Marc', failCount:0, fine:0, bannedUntilGame:null, excluded:false, washedThisCycle:false, present:true, paid:false, notificationsEnabled:true, portalAccess:true },
+        { id:'p3', name:'Alex', failCount:0, fine:0, bannedUntilGame:null, excluded:false, washedThisCycle:false, present:true, paid:true, notificationsEnabled:true, portalAccess:true },
+        { id:'p4', name:'Sam',  failCount:0, fine:0, bannedUntilGame:null, excluded:false, washedThisCycle:false, present:true, paid:true, notificationsEnabled:true, portalAccess:true }
       ],
-      rotationIndex: 0,
-      currentWasherId: null,
-      forceSameWasher: false,
-      pendingWasherId: null // used after bans: they must wash again when back
+      rotationIndex:0,
+      currentWasherId:null,
+      forceSameWasher:false,
+      pendingWasherId:null
     };
 
     // -----------------------------
-    // Helpers
+    // SHARED / ENFORCEMENT LOGIC
     // -----------------------------
-    function getPlayer(id) {
-      return state.players.find(p => p.id === id) || null;
+    function getPlayer(id){ return state.players.find(p=>p.id===id)||null; }
+
+    function enforcePlayerState(player){
+      const nowGame = globalState.currentGame;
+      const suspended = player.excluded === true ||
+        (player.bannedUntilGame != null && player.bannedUntilGame > nowGame);
+
+      if (suspended) {
+        player.notificationsEnabled = false;
+        player.portalAccess = false;
+        player.present = false;
+      } else {
+        player.notificationsEnabled = true;
+        player.portalAccess = true;
+      }
+      return player;
     }
 
-    function isEligible(p) {
-      if (p.excluded) return false;
-      if (p.bannedUntilGame != null && p.bannedUntilGame > state.currentGame) return false;
-      return true;
+    function isEligibleForWasher(p){
+      enforcePlayerState(p);
+      return !p.excluded && (!p.bannedUntilGame || p.bannedUntilGame <= globalState.currentGame);
     }
 
-    function getEligiblePlayers() {
-      return state.players.filter(isEligible);
+    function getEligiblePlayers(){
+      return state.players.filter(isEligibleForWasher);
     }
 
-    function resetCycleIfNeeded() {
+    function resetCycleIfNeeded(){
       const eligible = getEligiblePlayers();
       if (eligible.length === 0) return;
       const allUsed = eligible.every(p => p.washedThisCycle);
-      if (allUsed) {
-        eligible.forEach(p => { p.washedThisCycle = false; });
-      }
+      if (allUsed) eligible.forEach(p => p.washedThisCycle = false);
     }
 
-    function setSystemMsg(msg) {
+    function setSystemMsg(msg){
       document.getElementById('systemMsg').textContent = msg || '';
     }
 
-    function updateUI() {
-      document.getElementById('currentGame').textContent = state.currentGame;
-
-      const washerSpan = document.getElementById('currentWasher');
-      const washer = state.currentWasherId ? getPlayer(state.currentWasherId) : null;
-      washerSpan.textContent = washer ? `${washer.name} (${washer.id})` : 'None assigned';
-
-      const markBtn = document.getElementById('markWashedBtn');
-      const failBtn = document.getElementById('reportFailBtn');
-      const hasWasher = !!washer;
-      markBtn.disabled = !hasWasher;
-      failBtn.disabled = !hasWasher;
-
-      const tbody = document.getElementById('playersTableBody');
-      tbody.innerHTML = '';
-      state.players.forEach(p => {
-        const tr = document.createElement('tr');
-
-        const status = (() => {
-          if (p.excluded) return { label: 'Excluded', cls: 'excl' };
-          if (p.bannedUntilGame != null && p.bannedUntilGame > state.currentGame) return { label: `Banned (until game ${p.bannedUntilGame})`, cls: 'ban' };
-          if (p.failCount === 0) return { label: 'Clean', cls: 'ok' };
-          if (p.failCount === 1) return { label: 'Warned', cls: 'warn' };
-          if (p.failCount === 2) return { label: 'Repeat offender', cls: 'warn' };
-          if (p.failCount === 3) return { label: 'High risk', cls: 'ban' };
-          return { label: 'Excluded', cls: 'excl' };
-        })();
-
-        tr.innerHTML = `
-          <td>${p.name} (${p.id})</td>
-          <td>${p.failCount}</td>
-          <td>${p.fine.toFixed(2)}</td>
-          <td>${p.bannedUntilGame == null ? '-' : p.bannedUntilGame}</td>
-          <td><span class="badge ${status.cls}">${status.label}</span></td>
-          <td>${p.washedThisCycle ? 'Yes' : 'No'}</td>
-        `;
-        tbody.appendChild(tr);
-      });
-    }
-
     // -----------------------------
-    // Assignment logic
+    // PINNIE SYSTEM
     // -----------------------------
-    function assignWasherForCurrentGame() {
+    function assignWasher(){
       const eligible = getEligiblePlayers();
-
-      if (eligible.length === 0) {
+      if (eligible.length === 0){
         state.currentWasherId = null;
-        setSystemMsg('No eligible players (all banned or excluded).');
+        setSystemMsg('No eligible players (all suspended or excluded).');
         updateUI();
         return;
       }
 
-      // 1) If there is a pending washer (coming back from ban), force them
-      if (state.pendingWasherId) {
+      // Pending washer (post‑ban obligation)
+      if (state.pendingWasherId){
         const p = getPlayer(state.pendingWasherId);
-        if (p && isEligible(p)) {
+        if (p && isEligibleForWasher(p)){
           state.currentWasherId = p.id;
-          state.forceSameWasher = false;
           state.pendingWasherId = null;
-          setSystemMsg(`Washer assigned (post‑ban obligation): ${p.name}.`);
+          state.forceSameWasher = false;
+          setSystemMsg(`Post‑ban washer: ${p.name}`);
           updateUI();
           return;
         }
       }
 
-      // 2) If we must keep the same washer (first failure), and they are eligible
-      if (state.forceSameWasher && state.currentWasherId) {
+      // Same washer again after first failure
+      if (state.forceSameWasher && state.currentWasherId){
         const p = getPlayer(state.currentWasherId);
-        if (p && isEligible(p)) {
-          setSystemMsg(`Same washer again due to failure: ${p.name}.`);
+        if (p && isEligibleForWasher(p)){
+          setSystemMsg(`Same washer again due to failure: ${p.name}`);
           updateUI();
           return;
         }
       }
 
-      // 3) Normal rotation: never same player twice until everyone had a turn
+      // Normal rotation
       resetCycleIfNeeded();
       const eligibleAfterReset = getEligiblePlayers();
-      if (eligibleAfterReset.length === 0) {
+      if (eligibleAfterReset.length === 0){
         state.currentWasherId = null;
         setSystemMsg('No eligible players after reset.');
         updateUI();
         return;
       }
 
-      // Ensure rotationIndex is within bounds of eligible list
       if (state.rotationIndex >= eligibleAfterReset.length) {
         state.rotationIndex = 0;
       }
 
-      // Find next eligible who has not washed this cycle
       let chosen = null;
-      for (let i = 0; i < eligibleAfterReset.length; i++) {
+      for (let i=0;i<eligibleAfterReset.length;i++){
         const idx = (state.rotationIndex + i) % eligibleAfterReset.length;
         const candidate = eligibleAfterReset[idx];
-        if (!candidate.washedThisCycle) {
+        if (!candidate.washedThisCycle){
           chosen = candidate;
           state.rotationIndex = (idx + 1) % eligibleAfterReset.length;
           break;
         }
       }
 
-      if (!chosen) {
-        // If somehow all had washed, reset and pick first
+      if (!chosen){
         eligibleAfterReset.forEach(p => p.washedThisCycle = false);
         chosen = eligibleAfterReset[0];
         state.rotationIndex = 1 % eligibleAfterReset.length;
@@ -215,25 +219,21 @@
 
       state.currentWasherId = chosen.id;
       state.forceSameWasher = false;
-      setSystemMsg(`New washer assigned by rotation: ${chosen.name}.`);
+      setSystemMsg(`New washer assigned: ${chosen.name}`);
       updateUI();
     }
 
-    // -----------------------------
-    // Completion & failure logic
-    // -----------------------------
-    function markWashed() {
+    function markWashed(){
       if (!state.currentWasherId) return;
       const p = getPlayer(state.currentWasherId);
       if (!p) return;
-
       p.washedThisCycle = true;
-      setSystemMsg(`${p.name} successfully washed the pinnies. Rotation advances.`);
+      setSystemMsg(`${p.name} washed the pinnies. Rotation advances.`);
       state.forceSameWasher = false;
       updateUI();
     }
 
-    function reportFailure() {
+    function reportFailure(){
       if (!state.currentWasherId) return;
       const p = getPlayer(state.currentWasherId);
       if (!p) return;
@@ -243,93 +243,15 @@
 
       let msg = `${p.name} failed to wash. `;
 
-      if (p.failCount === 1) {
-        // First failure: 15$ and same player again next game
+      if (p.failCount === 1){
+        // 1st fail: 15$ + same player again
         state.forceSameWasher = true;
-        msg += 'First failure → +15$, same washer again next game.';
-      } else if (p.failCount === 2) {
-        // Second failure: +15$ and 1‑game ban, must wash again after ban
-        const banGames = 1;
-        p.bannedUntilGame = state.currentGame + banGames;
+        msg += '1st fail → +15$, same washer again next game.';
+      } else if (p.failCount === 2){
+        // 2nd fail: +15$ + 1‑game ban, must wash again after ban
+        p.bannedUntilGame = globalState.currentGame + 1;
         state.pendingWasherId = p.id;
         state.forceSameWasher = false;
-        msg += 'Second failure → +15$, 1‑game ban, must wash again after ban.';
-      } else if (p.failCount === 3) {
-        // Third failure: +15$ and 3‑game ban, must wash again after ban
-        const banGames = 3;
-        p.bannedUntilGame = state.currentGame + banGames;
-        state.pendingWasherId = p.id;
-        state.forceSameWasher = false;
-        msg += 'Third failure → +15$, 3‑game ban, must wash again after ban.';
-      } else if (p.failCount >= 4) {
-        // Fourth failure: +15$, 3‑game ban and excluded
-        const banGames = 3;
-        p.bannedUntilGame = state.currentGame + banGames;
-        p.excluded = true;
-        state.pendingWasherId = null;
-        state.forceSameWasher = false;
-        msg += 'Fourth failure → +15$, 3‑game ban and EXCLUDED from the system.';
-      }
-
-      setSystemMsg(msg);
-      updateUI();
-    }
-
-    // -----------------------------
-    // Game progression
-    // -----------------------------
-    function nextGame() {
-      state.currentGame += 1;
-      setSystemMsg(`Game advanced to #${state.currentGame}. Assigning washer...`);
-      assignWasherForCurrentGame();
-    }
-
-    // -----------------------------
-    // Wire up UI
-    // -----------------------------
-    document.getElementById('nextGameBtn').addEventListener('click', () => {
-      nextGame();
-    });
-
-    document.getElementById('markWashedBtn').addEventListener('click', () => {
-      markWashed();
-    });
-
-    document.getElementById('reportFailBtn').addEventListener('click', () => {
-      reportFailure();
-    });
-
-    // Initial assignment for game 1
-    assignWasherForCurrentGame();
-  </script>
-</body>
-</html>
-```
-
-<script type="module">
-  import { enforcePlayerState } from './shared.js';
-  import { pinnieSystem } from './pinnieSystem.js';
-
-  const globalState = { currentGame: 1 };
-
-  // Example: initialize players
-  const players = [
-    { id:'p1', name:'John', failCount:0, fine:0, bannedUntilGame:null, excluded:false },
-    { id:'p2', name:'Marc', failCount:2, fine:30, bannedUntilGame:globalState.currentGame+1, excluded:false },
-    { id:'p3', name:'Alex', failCount:4, fine:60, bannedUntilGame:globalState.currentGame+3, excluded:true }
-  ];
-
-  // Apply enforcement globally
-  players.forEach(p => enforcePlayerState(p));
-
-  // Initialize washing system
-  pinnieSystem.init(players);
-
-  // Example: assign washer
-  const washer = pinnieSystem.assignNextWasher();
-  console.log('Assigned washer:', washer);
-
-  // Example: simulate failure
-  pinnieSystem.reportFailure(washer.id);
-  enforcePlayerState(washer);
-</script>
+        msg += '2nd fail → +15$, 1‑game ban, must wash again after ban.';
+      } else if (p.failCount === 3){
+        // 3rd fail: +15$ + 3‑game ban, must
