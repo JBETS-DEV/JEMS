@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>UNITYVERSE · Elite Pickup Soccer Platform</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --royal: #0033a0;
+      --royal-soft: rgba(0,51,160,0.6);
+      --gold: #d4af37;
+      --gold-soft: rgba(212,175,55,0.35);
+      --red: #c1121f;
+      --bg: #050509;
+      --bg-alt: #0b0c12;
+      --card: #10121b;
+      --border: #222433;
+      --text: #f5f5f7;
+      --muted: #9ca3b5;
+      --shadow: 0 22px 60px rgba(0,0,0,0.75);
+      --radius-lg: 18px;
+      --radius-md: 14px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(0,51,160,0.45), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(193,18,31,0.45), transparent 55%),
+        #020308;
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    a { color: var(--gold); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* Top bar */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      padding: 14px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      backdrop-filter: blur(22px);
+      background: linear-gradient(to right, rgba(5,6,12,0.96), rgba(5,6,12,0.82));
+      border-bottom: 1px solid rgba(212,175,55,0.25);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .crest {
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      background:
+        radial-gradient(circle at 30% 20%, #ffffff, #f5f5f7 18%, #d4af37 19%, #10121b 60%),
+        linear-gradient(135deg, #0033a0, #000814);
+      box-shadow:
+        0 0 0 1px rgba(212,175,55,0.7),
+        0 14px 30px rgba(0,0,0,0.8);
+      position: relative;
+      overflow: hidden;
+    }
+    .crest-inner-v {
+      position: absolute;
+      inset: 7px;
+      border-radius: 12px;
+      border: 2px solid rgba(212,175,55,0.9);
+      clip-path: polygon(50% 100%, 0 0, 18% 0, 50% 70%, 82% 0, 100% 0);
+    }
+    .crest-inner-u {
+      position: absolute;
+      inset: 9px;
+      border-radius: 12px;
+      border: 2px solid rgba(0,51,160,0.9);
+      clip-path: polygon(0 0, 0 60%, 20% 100%, 80% 100%, 100% 60%, 100% 0, 82% 0, 82% 58%, 70% 80%, 30% 80%, 18% 58%, 18% 0);
+    }
+    .brand-text-main {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+    .brand-text-main span {
+      color: var(--gold);
+    }
+    .brand-text-sub {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--muted);
+    }
+
+    nav {
+      display: flex;
+      gap: 18px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+    }
+    nav span {
+      cursor: pointer;
+      padding-bottom: 4px;
+      border-bottom: 2px solid transparent;
+    }
+    nav span.active {
+      color: var(--gold);
+      border-color: var(--gold);
+    }
+
+    /* Layout */
+    main {
+      flex: 1;
+      padding: 20px 22px 30px;
+      max-width: 1360px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(0, 2.1fr) minmax(0, 1.4fr);
+      gap: 18px;
+    }
+    @media (max-width: 980px) {
+      main { grid-template-columns: minmax(0, 1fr); }
+    }
+    .col { display: flex; flex-direction: column; gap: 18px; }
+
+    .card {
+      background:
+        radial-gradient(circle at top left, rgba(212,175,55,0.12), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(0,51,160,0.18), transparent 55%),
+        var(--card);
+      border-radius: var(--radius-lg);
+      padding: 16px 16px 14px;
+      border: 1px solid rgba(148,163,184,0.25);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .card-title {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .card-sub {
+      font-size: 11px;
+      color: var(--muted);
+    }
+    .pill {
+      font-size: 11px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(212,175,55,0.55);
+      color: var(--gold);
+      background: rgba(0,0,0,0.4);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .pill-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 4px rgba(34,197,94,0.25);
+    }
+
+    /* Hero */
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.7fr) minmax(0, 1.1fr);
+      gap: 16px;
+    }
+    @media (max-width: 780px) {
+      .hero { grid-template-columns: minmax(0, 1fr); }
+    }
+    .hero-main-title {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .hero-main-title span {
+      color: var(--gold);
+    }
+    .hero-main-sub {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+    .hero-tag {
+      font-size: 11px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: rgba(5,6,12,0.9);
+      border: 1px solid rgba(148,163,184,0.4);
+      color: var(--muted);
+    }
+    .hero-cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+    .btn {
+      border-radius: 999px;
+      padding: 7px 16px;
+      border: none;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--gold), #ffecb3);
+      color: #050509;
+      box-shadow: 0 16px 40px rgba(212,175,55,0.6);
+    }
+    .btn-ghost {
+      background: rgba(5,6,12,0.9);
+      color: var(--muted);
+      border: 1px solid rgba(148,163,184,0.5);
+    }
+    .hero-metric-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 6px;
+    }
+    .metric {
+      padding: 8px 10px;
+      border-radius: var(--radius-md);
+      background: rgba(5,6,12,0.9);
+      border: 1px solid rgba(148,163,184,0.4);
+    }
+    .metric-label {
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 2px;
+    }
+    .metric-value {
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .metric-chip {
+      font-size: 10px;
+      color: var(--gold);
+    }
+    .pill-game {
+      font-size: 11px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: rgba(5,6,12,0.9);
+      border: 1px solid rgba(148,163,184,0.5);
+      color: var(--muted);
+    }
+
+    /* Lists & tables */
+    .scroll-y {
+      max-height: 260px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+    .scroll-y::-webkit-scrollbar { width: 4px; }
+    .scroll-y::-webkit-scrollbar-thumb {
+      background: rgba(148,163,184,0.7);
+      border-radius: 999px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    th, td {
+      padding: 6px 6px;
+      border-bottom: 1px solid rgba(31,41,55,0.9);
+    }
+    th {
+      text-align: left;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+    }
+    tr:last-child td { border-bottom: none; }
+
+    .badge {
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .badge-ok { background: rgba(34,197,94,0.16); color: #4ade80; }
+    .badge-warn { background: rgba(250,204,21,0.16); color: #facc15; }
+    .badge-ban { background: rgba(249,115,22,0.16); color: #fb923c; }
+    .badge-excl { background: rgba(248,113,113,0.16); color: #f97373; }
+    .badge-info { background: rgba(0,51,160,0.3); color: #bfdbfe; }
+
+    .muted { color: var(--muted); font-size: 11px; }
+
+    .feed-list, .alert-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 12px;
+    }
+    .feed-item, .alert-item {
+      padding: 7px 9px;
+      border-radius: var(--radius-md);
+      background: rgba(5,6,12,0.9);
+      border: 1px solid rgba(31,41,55,0.9);
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .feed-main, .alert-main {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .feed-title, .alert-title {
+      font-size: 12px;
+      font-weight: 500;
+    }
+    .feed-meta, .alert-meta {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+    }
+    .chip {
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: rgba(5,6,12,0.9);
+      border: 1px solid rgba(55,65,81,0.9);
+      color: var(--muted);
+    }
+
+    .input-row {
+      display: flex;
+      gap: 6px;
+      margin-top: 6px;
+      flex-wrap: wrap;
+    }
+    input {
+      background: rgba(5,6,12,0.9);
+      border-radius: 999px;
+      border: 1px solid rgba(55,65,81,0.9);
+      padding: 6px 10px;
+      color: var(--text);
+      font-size: 12px;
+      outline: none;
+      min-width: 0;
+    }
+    input::placeholder { color: rgba(148,163,184,0.7); }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      display: inline-block;
+      margin-right: 4px;
+    }
+    .status-dot-ok { background: #22c55e; }
+    .status-dot-off { background: #6b7280; }
+
+    footer {
+      padding: 10px 22px 16px;
+      font-size: 11px;
+      color: var(--muted);
+      text-align: center;
+      border-top: 1px solid rgba(148,163,184,0.25);
+      background: radial-gradient(circle at top, rgba(0,51,160,0.4), transparent 60%);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="crest">
+        <div class="crest-inner-v"></div>
+        <div class="crest-inner-u"></div>
+      </div>
+      <div>
+        <div class="brand-text-main"><span>UNITY</span>VERSE</div>
+        <div class="brand-text-sub">Elite pickup soccer · Kingston</div>
+      </div>
+    </div>
+    <nav>
+      <span class="active">Home</span>
+      <span>Community</span>
+      <span>Games</span>
+      <span>Players</span>
+      <span>Admin</span>
+    </nav>
+  </header>
+
+  <main>
+    <!-- LEFT COLUMN -->
+    <div class="col">
+      <!-- HERO -->
+      <div class="card">
+        <div class="hero">
+          <div>
+            <div class="hero-main-title"><span>Unityverse</span> · Kingston Nights</div>
+            <div class="hero-main-sub">
+              One portal for presence, payments, sanctions, pinnies, polls, and community—auto‑enforced, zero manual chasing.
+            </div>
+            <div class="hero-tags">
+              <span class="hero-tag">Elite design</span>
+              <span class="hero-tag">Real‑time sanctions</span>
+              <span class="hero-tag">Pinnie rotation</span>
+              <span class="hero-tag">Community feed</span>
+              <span class="hero-tag">Portal & polls</span>
+            </div>
+            <div class="hero-cta-row">
+              <button class="btn btn-primary" id="btnQuickStart">
+                Start game flow
+              </button>
+              <button class="btn btn-ghost" id="btnAdminPanel">
+                Open admin console
+              </button>
+              <span class="pill">
+                <span class="pill-dot"></span>
+                Live session · UNITYVERSE
+              </span>
+            </div>
+          </div>
+          <div>
+            <div class="hero-metric-grid">
+              <div class="metric">
+                <div class="metric-label">Players checked‑in</div>
+                <div class="metric-value" id="metricPresent">0</div>
+                <div class="metric-chip" id="metricPresentChip">waiting</div>
+              </div>
+              <div class="metric">
+                <div class="metric-label">Payments cleared</div>
+                <div class="metric-value" id="metricPaid">0</div>
+                <div class="metric-chip" id="metricPaidChip">$ / game</div>
+              </div>
+              <div class="metric">
+                <div class="metric-label">Active sanctions</div>
+                <div class="metric-value" id="metricSanctions">0</div>
+                <div class="metric-chip" id="metricSanctionsChip">clean sheet</div>
+              </div>
+            </div>
+            <div style="margin-top:10px; font-size:11px; color:var(--muted);">
+              <span class="pill-game">Game #<span id="currentGame">1</span></span>
+              ·
+              <span>Portal: <span class="status-dot status-dot-ok"></span>online</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- COMMUNITY FEED / NEWS -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Community feed & news</div>
+            <div class="card-sub">Announcements, results, and social updates for your pickup group.</div>
+          </div>
+          <span class="pill">Kingston · Live</span>
+        </div>
+        <div class="scroll-y">
+          <ul class="feed-list" id="feedList"></ul>
+        </div>
+      </div>
+
+      <!-- PRESENCE & PAYMENTS -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Presence & payments</div>
+            <div class="card-sub">Who’s here, who’s paid, and who’s locked out by sanctions.</div>
+          </div>
+          <span class="pill">Synced with discipline</span>
+        </div>
+        <div class="scroll-y">
+          <table>
+            <thead>
+              <tr>
+                <th>Player</th>
+                <th>Presence</th>
+                <th>Payment</th>
+                <th>Portal</th>
+                <th>Notifications</th>
+              </tr>
+            </thead>
+            <tbody id="presenceTableBody"></tbody>
+          </table>
+        </div>
+        <div class="muted" style="margin-top:6px;">
+          Suspended players are automatically removed from presence, blocked from portal, and excluded from notifications.
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div class="col">
+      <!-- GAME & PINNIE CONTROL -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Game & pinnie discipline engine</div>
+            <div class="card-sub">Rotation, failures, fines, bans, and exclusions—fully automated.</div>
+          </div>
+          <span class="pill">Sanctions core</span>
+        </div>
+        <div style="font-size:12px; margin-bottom:8px;">
+          <div><strong>Current washer:</strong> <span id="currentWasher">None assigned yet</span></div>
+          <div style="margin-top:4px;">
+            <span class="muted">Ladder:</span>
+            <div class="chip-row">
+              <span class="chip">1st fail → +15$ & same player again</span>
+              <span class="chip">2nd fail → +15$ & 1‑game ban</span>
+              <span class="chip">3rd fail → +15$ & 3‑game ban</span>
+              <span class="chip">4th fail → +15$, 3‑game ban & exclusion</span>
+            </div>
+          </div>
+        </div>
+        <div class="input-row">
+          <button class="btn btn-primary" id="nextGameBtn">Next game & assign washer</button>
+          <button class="btn btn-ghost" id="markWashedBtn" disabled>Mark as washed</button>
+          <button class="btn btn-ghost" id="reportFailBtn" disabled>Report failure</button>
+        </div>
+        <div class="muted" id="systemMsg" style="margin-top:6px;"></div>
+        <div class="scroll-y" style="margin-top:10px;">
+          <table>
+            <thead>
+              <tr>
+                <th>Player</th>
+                <th>Fails</th>
+                <th>Fine</th>
+                <th>Banned until</th>
+                <th>Status</th>
+                <th>Washed</th>
+              </tr>
+            </thead>
+            <tbody id="playersTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ALERTS -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">System alerts</div>
+            <div class="card-sub">Warnings, bans, exclusions, and important notices.</div>
+          </div>
+          <span class="pill">Live log</span>
+        </div>
+        <ul class="alert-list" id="alertList"></ul>
+      </div>
+
+      <!-- POLLS & NOTIFICATIONS -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Polls & notifications</div>
+            <div class="card-sub">Only eligible players receive polls and push alerts.</div>
+          </div>
+          <span class="pill">Respect sanctions</span>
+        </div>
+        <div class="input-row">
+          <input id="pollQuestion" placeholder="Ask the group a question (e.g. 'Who’s in for Sunday?')" />
+          <button class="btn btn-primary" id="sendPollBtn">Send poll</button>
+        </div>
+        <div class="muted" id="pollLog" style="margin-top:6px;"></div>
+      </div>
+
+      <!-- PORTAL LOGIN SIM -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Portal access simulation</div>
+            <div class="card-sub">See how bans and exclusions lock accounts automatically.</div>
+          </div>
+          <span class="pill">Player portal</span>
+        </div>
+        <div class="input-row">
+          <input id="portalPlayerId" placeholder="Player ID (e.g. p1)" />
+          <button class="btn btn-ghost" id="portalLoginBtn">Simulate login</button>
+        </div>
+        <div class="muted" id="portalMsg" style="margin-top:6px;"></div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    UNITYVERSE · Kingston Pickup Soccer · Presence · Payments · Sanctions · Pinnie Rotation · Community · All in one.
+  </footer>
+
+  <script>
+    // -----------------------------
+    // GLOBAL STATE & DATA
+    // -----------------------------
+    const globalState = { currentGame: 1 };
+
+    const state = {
+      players: [
+        { id:'p1', name:'John', failCount:0, fine:0, bannedUntilGame:null, excluded:false, washedThisCycle:false, present:true, paid:true, notificationsEnabled:true, portalAccess:true },
+        { id:'p2', name:'Marc', failCount:0, fine:0, bannedUntilGame:null, excluded:false, washedThisCycle:false, present:true, paid:false, notificationsEnabled:true, portalAccess:true },
+        { id:'p3', name:'Alex', failCount:0, fine:0, bannedUntilGame:null, excluded:false, washedThisCycle:false, present:true, paid:true, notificationsEnabled:true, portalAccess:true },
+        { id:'p4', name:'Sam',  failCount:0, fine:0, bannedUntilGame:null, excluded:false, washedThisCycle:false, present:true, paid:true, notificationsEnabled:true, portalAccess:true }
+      ],
+      rotationIndex: 0,
+      currentWasherId: null,
+      forceSameWasher: false,
+      pendingWasherId: null,
+      alerts: [],
+      feed: [
+        { title:'New season format announced', meta:'Club news · 2h ago' },
+        { title:'Last game highlight', meta:'Match recap · 1d ago' },
+        { title:'New players joined', meta:'Community · 3d ago' },
+        { title:'Weather watch', meta:'Kingston · Tonight' }
+      ]
+    };
+
+    // -----------------------------
+    // HELPERS & ENFORCEMENT
+    // -----------------------------
+    function getPlayer(id){ return state.players.find(p => p.id === id) || null; }
+
+    function enforcePlayerState(player){
+      const nowGame = globalState.currentGame;
+      const suspended = player.excluded === true ||
+        (player.bannedUntilGame != null && player.bannedUntilGame > nowGame);
+
+      if (suspended) {
+        player.notificationsEnabled = false;
+        player.portalAccess = false;
+        player.present = false;
+      } else {
+        player.notificationsEnabled = true;
+        player.portalAccess = true;
+      }
+      return player;
+    }
+
+    function isEligibleForWasher(p){
+      enforcePlayerState(p);
+      return !p.excluded && (!p.bannedUntilGame || p.bannedUntilGame <= globalState.currentGame);
+    }
+
+    function getEligiblePlayers(){
+      return state.players.filter(isEligibleForWasher);
+    }
+
+    function resetCycleIfNeeded(){
+      const eligible = getEligiblePlayers();
+      if (eligible.length === 0) return;
+      const allUsed = eligible.every(p => p.washedThisCycle);
+      if (allUsed) eligible.forEach(p => p.washedThisCycle = false);
+    }
+
+    function pushAlert(type, text){
+      const badgeMap = {
+        info: 'badge-info',
+        warn: 'badge-warn',
+        ban: 'badge-ban',
+        excl: 'badge-excl'
+      };
+      state.alerts.unshift({ type, text, cls: badgeMap[type] || 'badge-info' });
+      if (state.alerts.length > 8) state.alerts.pop();
+      renderAlerts();
+    }
+
+    function setSystemMsg(msg){
+      document.getElementById('systemMsg').textContent = msg || '';
+    }
+
+    // -----------------------------
+    // PINNIE SYSTEM
+    // -----------------------------
+    function assignWasher(){
+      const eligible = getEligiblePlayers();
+      if (eligible.length === 0){
+        state.currentWasherId = null;
+        setSystemMsg('No eligible players (all suspended or excluded).');
+        updateUI();
+        return;
+      }
+
+      if (state.pendingWasherId){
+        const p = getPlayer(state.pendingWasherId);
+        if (p && isEligibleForWasher(p)){
+          state.currentWasherId = p.id;
+          state.pendingWasherId = null;
+          state.forceSameWasher = false;
+          setSystemMsg(`Post‑ban washer: ${p.name}`);
+          pushAlert('info', `${p.name} must wash pinnies after serving ban.`);
+          updateUI();
+          return;
+        }
+      }
+
+      if (state.forceSameWasher && state.currentWasherId){
+        const p = getPlayer(state.currentWasherId);
+        if (p && isEligibleForWasher(p)){
+          setSystemMsg(`Same washer again due to failure: ${p.name}`);
+          updateUI();
+          return;
+        }
+      }
+
+      resetCycleIfNeeded();
+      const eligibleAfterReset = getEligiblePlayers();
+      if (eligibleAfterReset.length === 0){
+        state.currentWasherId = null;
+        setSystemMsg('No eligible players after reset.');
+        updateUI();
+        return;
+      }
+
+      if (state.rotationIndex >= eligibleAfterReset.length) {
+        state.rotationIndex = 0;
+      }
+
+      let chosen = null;
+      for (let i=0;i<eligibleAfterReset.length;i++){
+        const idx = (state.rotationIndex + i) % eligibleAfterReset.length;
+        const candidate = eligibleAfterReset[idx];
+        if (!candidate.washedThisCycle){
+          chosen = candidate;
+          state.rotationIndex = (idx + 1) % eligibleAfterReset.length;
+          break;
+        }
+      }
+
+      if (!chosen){
+        eligibleAfterReset.forEach(p => p.washedThisCycle = false);
+        chosen = eligibleAfterReset[0];
+        state.rotationIndex = 1 % eligibleAfterReset.length;
+      }
+
+      state.currentWasherId = chosen.id;
+      state.forceSameWasher = false;
+      setSystemMsg(`New washer assigned: ${chosen.name}`);
+      pushAlert('info', `${chosen.name} assigned to wash pinnies for game #${globalState.currentGame}.`);
+      updateUI();
+    }
+
+    function markWashed(){
+      if (!state.currentWasherId) return;
+      const p = getPlayer(state.currentWasherId);
+      if (!p) return;
+      p.washedThisCycle = true;
+      setSystemMsg(`${p.name} washed the pinnies. Rotation advances.`);
+      state.forceSameWasher = false;
+      pushAlert('info', `${p.name} completed pinnie duty.`);
+      updateUI();
+    }
+
+    function reportFailure(){
+      if (!state.currentWasherId) return;
+      const p = getPlayer(state.currentWasherId);
+      if (!p) return;
+
+      p.failCount = (p.failCount || 0) + 1;
+      p.fine = (p.fine || 0) + 15;
+
+      let msg = `${p.name} failed to wash. `;
+      if (p.failCount === 1){
+        state.forceSameWasher = true;
+        msg += '1st fail → +15$, same washer again next game.';
+        pushAlert('warn', `${p.name} first failure. Same washer next game +15$.`);
+      } else if (p.failCount === 2){
+        p.bannedUntilGame = globalState.currentGame + 1;
+        state.pendingWasherId = p.id;
+        state.forceSameWasher = false;
+        msg += '2nd fail → +15$, 1‑game ban, must wash again after ban.';
+        pushAlert('ban', `${p.name} second failure. 1‑game ban +15$.`);
+      } else if (p.failCount === 3){
+        p.bannedUntilGame = globalState.currentGame + 3;
+        state.pendingWasherId = p.id;
+        state.forceSameWasher = false;
+        msg += '3rd fail → +15$, 3‑game ban, must wash again after ban.';
+        pushAlert('ban', `${p.name} third failure. 3‑game ban +15$.`);
+      } else if (p.failCount >= 4){
+        p.bannedUntilGame = globalState.currentGame + 3;
+        p.excluded = true;
+        state.pendingWasherId = null;
+        state.forceSameWasher = false;
+        msg += '4th fail → +15$, 3‑game ban & EXCLUDED.';
+        pushAlert('excl', `${p.name} excluded after repeated failures.`);
+      }
+
+      enforcePlayerState(p);
+      setSystemMsg(msg);
+      updateUI();
+    }
+
+    function nextGame(){
+      globalState.currentGame += 1;
+      document.getElementById('currentGame').textContent = globalState.currentGame;
+      setSystemMsg(`Game advanced to #${globalState.currentGame}. Assigning washer...`);
+      pushAlert('info', `Game advanced to #${globalState.currentGame}.`);
+      assignWasher();
+    }
+
+    // -----------------------------
+    // POLLS & NOTIFICATIONS
+    // -----------------------------
+    function sendPoll(){
+      const question = document.getElementById('pollQuestion').value.trim();
+      const logEl = document.getElementById('pollLog');
+      if (!question){
+        logEl.textContent = 'Enter a question before sending a poll.';
+        return;
+      }
+      const recipients = [];
+      state.players.forEach(p=>{
+        enforcePlayerState(p);
+        if (!p.notificationsEnabled) return;
+        recipients.push(p.name);
+      });
+      if (recipients.length === 0){
+        logEl.textContent = 'No eligible players to receive poll (all suspended/excluded).';
+      } else {
+        logEl.textContent = `Poll sent to: ${recipients.join(', ')}`;
+      }
+      pushAlert('info', `Poll sent: "${question}"`);
+      document.getElementById('pollQuestion').value = '';
+    }
+
+    // -----------------------------
+    // PORTAL LOGIN SIM
+    // -----------------------------
+    function simulatePortalLogin(){
+      const id = document.getElementById('portalPlayerId').value.trim();
+      const msgEl = document.getElementById('portalMsg');
+      const p = getPlayer(id);
+      if (!p){
+        msgEl.textContent = 'Player not found.';
+        return;
+      }
+      enforcePlayerState(p);
+      if (!p.portalAccess){
+        msgEl.textContent = `${p.name}: your account is temporarily suspended.`;
+      } else {
+        msgEl.textContent = `${p.name}: portal access granted.`;
+      }
+    }
+
+    // -----------------------------
+    // RENDERING
+    // -----------------------------
+    function renderPresenceAndMetrics(){
+      const tbody = document.getElementById('presenceTableBody');
+      tbody.innerHTML = '';
+      let presentCount = 0;
+      let paidCount = 0;
+      let sanctionsCount = 0;
+
+      state.players.forEach(p=>{
+        enforcePlayerState(p);
+        if (p.present) presentCount++;
+        if (p.paid) paidCount++;
+        if (p.excluded || (p.bannedUntilGame && p.bannedUntilGame > globalState.currentGame)) sanctionsCount++;
+
+        tbody.innerHTML += `
+          <tr>
+            <td>${p.name}</td>
+            <td>${p.present ? '✅' : '❌'}</td>
+            <td>${p.paid ? '💰' : '❌'}</td>
+            <td>${p.portalAccess ? '✅' : '⛔'}</td>
+            <td>${p.notificationsEnabled ? '✅' : '⛔'}</td>
+          </tr>`;
+      });
+
+      document.getElementById('metricPresent').textContent = presentCount;
+      document.getElementById('metricPaid').textContent = paidCount;
+      document.getElementById('metricSanctions').textContent = sanctionsCount;
+      document.getElementById('metricPresentChip').textContent = presentCount ? 'checked‑in' : 'waiting';
+      document.getElementById('metricPaidChip').textContent = paidCount ? 'cleared' : 'pending';
+      document.getElementById('metricSanctionsChip').textContent = sanctionsCount ? 'active cases' : 'clean sheet';
+    }
+
+    function renderPlayersTable(){
+      const tbody = document.getElementById('playersTableBody');
+      tbody.innerHTML = '';
+      state.players.forEach(p=>{
+        enforcePlayerState(p);
+        const status = (() => {
+          if (p.excluded) return {label:'Excluded', cls:'badge-excl'};
+          if (p.bannedUntilGame && p.bannedUntilGame > globalState.currentGame) return {label:'Banned', cls:'badge-ban'};
+          if (p.failCount === 0) return {label:'Clean', cls:'badge-ok'};
+          if (p.failCount === 1) return {label:'Warned', cls:'badge-warn'};
+          if (p.failCount === 2) return {label:'Repeat', cls:'badge-warn'};
+          if (p.failCount === 3) return {label:'High risk', cls:'badge-ban'};
+          return {label:'Excluded', cls:'badge-excl'};
+        })();
+
+        tbody.innerHTML += `
+          <tr>
+            <td>${p.name}</td>
+            <td>${p.failCount}</td>
+            <td>${p.fine.toFixed(2)}</td>
+            <td>${p.bannedUntilGame ?? '-'}</td>
+            <td><span class="badge ${status.cls}">${status.label}</span></td>
+            <td>${p.washedThisCycle ? 'Yes' : 'No'}</td>
+          </tr>`;
+      });
+    }
+
+    function renderAlerts(){
+      const list = document.getElementById('alertList');
+      list.innerHTML = '';
+      state.alerts.forEach(a=>{
+        const li = document.createElement('li');
+        li.className = 'alert-item';
+        li.innerHTML = `
+          <div class="alert-main">
+            <div class="alert-title">${a.text}</div>
+            <div class="alert-meta">System · just now</div>
+          </div>
+          <span class="badge ${a.cls}">${a.type.toUpperCase()}</span>
+        `;
+        list.appendChild(li);
+      });
+    }
+
+    function renderFeed(){
+      const list = document.getElementById('feedList');
+      list.innerHTML = '';
+      state.feed.forEach(item=>{
+        const li = document.createElement('li');
+        li.className = 'feed-item';
+        li.innerHTML = `
+          <div class="feed-main">
+            <div class="feed-title">${item.title}</div>
+            <div class="feed-meta">${item.meta}</div>
+          </div>
+          <span class="badge badge-info">Feed</span>
+        `;
+        list.appendChild(li);
+      });
+    }
+
+    function updateUI(){
+      document.getElementById('currentGame').textContent = globalState.currentGame;
+      const washer = state.currentWasherId ? getPlayer(state.currentWasherId) : null;
+      document.getElementById('currentWasher').textContent = washer ? washer.name : 'None assigned';
+      document.getElementById('markWashedBtn').disabled = !washer;
+      document.getElementById('reportFailBtn').disabled = !washer;
+      renderPresenceAndMetrics();
+      renderPlayersTable();
+    }
+
+    // -----------------------------
+    // EVENT WIRING
+    // -----------------------------
+    document.getElementById('nextGameBtn').addEventListener('click', nextGame);
+    document.getElementById('markWashedBtn').addEventListener('click', markWashed);
+    document.getElementById('reportFailBtn').addEventListener('click', reportFailure);
+    document.getElementById('sendPollBtn').addEventListener('click', sendPoll);
+    document.getElementById('portalLoginBtn').addEventListener('click', simulatePortalLogin);
+
+    document.getElementById('btnQuickStart').addEventListener('click', () => {
+      pushAlert('info', 'Quick game flow started.');
+      nextGame();
+    });
+    document.getElementById('btnAdminPanel').addEventListener('click', () => {
+      pushAlert('info', 'Admin console opened (demo).');
+    });
+
+    // -----------------------------
+    // INITIALIZE
+    // -----------------------------
+    state.players.forEach(enforcePlayerState);
+    renderFeed();
+    assignWasher();
+    updateUI();
+  </script>
+</body>
+</html>
