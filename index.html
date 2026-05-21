@@ -1,1181 +1,307 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>UnityVerse — Where Passion Meets Respect and Fun</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+  <title>JEMS – Pinnie Washing & Sanction System</title>
   <style>
-    :root {
-      /* Core palette: mix of A (gold+royal blue) and C (red+gold+black) */
-      --uv-bg: #05060d;
-      --uv-bg-soft: #0b1030;
-      --uv-panel: #10142b;
-      --uv-panel-alt: #151a36;
-      --uv-card: #12172f;
-      --uv-accent-gold: #f6d46a;
-      --uv-accent-gold-deep: #c89a32;
-      --uv-accent-red: #ff3b3b;
-      --uv-accent-red-deep: #b32020;
-      --uv-text-main: #f9f4ea;   /* warm off‑white */
-      --uv-text-soft: #d4c9b0;
-      --uv-muted: #9ca3c7;
-      --uv-border: #262c4f;
-      --uv-success: #3ddc97;
-      --uv-radius-lg: 20px;
-      --uv-radius-md: 14px;
-      --uv-radius-sm: 9px;
-      --uv-shadow-soft: 0 22px 50px rgba(0, 0, 0, 0.65);
-      --uv-shadow-subtle: 0 12px 28px rgba(0, 0, 0, 0.4);
-      --uv-transition-fast: 0.18s ease-out;
-      --uv-transition-med: 0.25s ease-out;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: var(--uv-text-main);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      padding: 16px;
-      background:
-        linear-gradient(135deg, rgba(255, 59, 59, 0.08), transparent 40%),
-        linear-gradient(225deg, rgba(246, 212, 106, 0.12), transparent 45%),
-        radial-gradient(circle at top, #1b2148 0, #05060d 55%, #020208 100%);
-    }
-
-    /* Subtle luxury grid / panels */
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      background-image:
-        linear-gradient(120deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-        linear-gradient(210deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-      background-size: 120px 120px, 180px 180px;
-      opacity: 0.25;
-      mix-blend-mode: soft-light;
-      z-index: -1;
-    }
-
-    /* MAIN WRAPPER */
-    .uv-shell {
-      width: 100%;
-      max-width: 1200px;
-      background: linear-gradient(145deg, rgba(11, 16, 48, 0.96), rgba(5, 6, 16, 0.98));
-      border-radius: 26px;
-      box-shadow: var(--uv-shadow-soft);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      padding: 16px 16px 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    /* Soft inner glow */
-    .uv-shell::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(circle at top left, rgba(246, 212, 106, 0.18), transparent 55%),
-        radial-gradient(circle at bottom right, rgba(255, 59, 59, 0.16), transparent 55%);
-      opacity: 0.9;
-      pointer-events: none;
-      z-index: -1;
-    }
-
-    /* HEADER */
-    .uv-header {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      padding: 10px 14px;
-      border-radius: 20px;
-      background: linear-gradient(135deg, rgba(16, 20, 60, 0.96), rgba(8, 10, 26, 0.98));
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: var(--uv-shadow-subtle);
-    }
-
-    .uv-logo-block {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .uv-logo {
-      width: 72px;
-      height: 84px;
-      flex-shrink: 0;
-    }
-
-    .uv-title-block {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .uv-title {
-      font-size: 1.5rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      font-weight: 800;
-      background: linear-gradient(90deg, var(--uv-accent-gold), var(--uv-accent-red));
-      -webkit-background-clip: text;
-      color: transparent;
-    }
-
-    .uv-tagline {
-      font-size: 0.9rem;
-      color: var(--uv-text-soft);
-    }
-
-    .uv-header-right {
-      margin-left: auto;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 4px;
-      font-size: 0.8rem;
-      color: var(--uv-muted);
-    }
-
-    .uv-badge {
-      padding: 3px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      background: radial-gradient(circle at top, rgba(246, 212, 106, 0.18), transparent 60%);
-      color: var(--uv-text-soft);
-    }
-
-    /* NAV TABS */
-    .uv-tabs {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 8px;
-      padding: 8px;
-      border-radius: 999px;
-      background: rgba(5, 6, 16, 0.96);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .uv-tab {
-      padding: 8px 16px;
-      border-radius: 999px;
-      border: 1px solid transparent;
-      font-size: 0.85rem;
-      color: var(--uv-muted);
-      cursor: pointer;
-      background: transparent;
-      transition: var(--uv-transition-fast);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      white-space: nowrap;
-    }
-
-    .uv-tab span.icon {
-      font-size: 1rem;
-    }
-
-    .uv-tab:hover {
-      color: var(--uv-text-main);
-      border-color: rgba(255, 255, 255, 0.16);
-      background: rgba(255, 255, 255, 0.03);
-    }
-
-    .uv-tab.active {
-      color: #05060d;
-      background: linear-gradient(135deg, var(--uv-accent-gold), var(--uv-accent-red));
-      border-color: rgba(255, 255, 255, 0.2);
-      font-weight: 600;
-      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.45);
-    }
-
-    /* MAIN CONTENT */
-    .uv-main {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .uv-section {
-      display: none;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .uv-section.active {
-      display: flex;
-    }
-
-    .uv-section-title {
-      font-size: 0.95rem;
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
-      color: var(--uv-text-soft);
-      text-align: center;
-    }
-
-    .uv-section-sub {
-      font-size: 0.8rem;
-      color: var(--uv-muted);
-      text-align: center;
-    }
-
-    /* CARDS / PANELS */
-    .uv-top-row {
-      display: grid;
-      grid-template-columns: minmax(0, 2fr) minmax(0, 1.4fr);
-      gap: 14px;
-    }
-
-    .uv-card {
-      background: linear-gradient(145deg, var(--uv-panel), var(--uv-panel-alt));
-      border-radius: var(--uv-radius-lg);
-      border: 1px solid var(--uv-border);
-      box-shadow: var(--uv-shadow-subtle);
-      padding: 12px 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .uv-card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(135deg, rgba(246, 212, 106, 0.08), transparent 55%),
-        linear-gradient(225deg, rgba(255, 59, 59, 0.06), transparent 55%);
-      opacity: 0.7;
-      pointer-events: none;
-      z-index: -1;
-    }
-
-    .uv-card-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-    }
-
-    .uv-card-title {
-      font-size: 0.95rem;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: var(--uv-text-soft);
-    }
-
-    .uv-chip {
-      font-size: 0.7rem;
-      padding: 3px 8px;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      color: var(--uv-muted);
-      background: rgba(5, 6, 16, 0.8);
-    }
-
-    .uv-card-body {
-      font-size: 0.85rem;
-      color: var(--uv-text-main);
-    }
-
-    .uv-actions-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 4px;
-    }
-
-    .uv-btn {
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      background: rgba(255, 255, 255, 0.02);
-      color: var(--uv-text-main);
-      padding: 6px 12px;
-      font-size: 0.8rem;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: var(--uv-transition-fast);
-    }
-
-    .uv-btn.primary {
-      background: linear-gradient(135deg, var(--uv-accent-gold), var(--uv-accent-red));
-      color: #05060d;
-      border-color: rgba(255, 255, 255, 0.2);
-      font-weight: 600;
-    }
-
-    .uv-btn.danger {
-      border-color: rgba(255, 59, 59, 0.7);
-      color: var(--uv-accent-red);
-    }
-
-    .uv-btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.4);
-    }
-
-    /* TABLES (CENTERED) */
-    .uv-table-wrapper {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-    }
-
-    .uv-table-container {
-      width: 100%;
-      max-width: 1000px;
-      overflow-x: auto;
-      border-radius: var(--uv-radius-md);
-      border: 1px solid var(--uv-border);
-      background: linear-gradient(145deg, #151a36, #0b1030);
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.8rem;
-      min-width: 640px;
-    }
-
-    thead {
-      background: rgba(5, 6, 16, 0.96);
-    }
-
-    th, td {
-      padding: 8px 10px;
-      text-align: left;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-      white-space: nowrap;
-    }
-
-    th {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--uv-muted);
-    }
-
-    tbody tr:nth-child(even) {
-      background: rgba(255, 255, 255, 0.02);
-    }
-
-    tbody tr:hover {
-      background: rgba(255, 255, 255, 0.04);
-    }
-
-    .uv-badge-status {
-      padding: 3px 8px;
-      border-radius: 999px;
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-
-    .uv-badge-status.open {
-      background: rgba(61, 220, 151, 0.12);
-      color: var(--uv-success);
-      border: 1px solid rgba(61, 220, 151, 0.7);
-    }
-
-    .uv-badge-status.full {
-      background: rgba(255, 59, 59, 0.12);
-      color: var(--uv-accent-red);
-      border: 1px solid rgba(255, 59, 59, 0.7);
-    }
-
-    .uv-badge-status.closed {
-      background: rgba(156, 163, 199, 0.12);
-      color: var(--uv-muted);
-      border: 1px solid rgba(156, 163, 199, 0.7);
-    }
-
-    /* RESPONSIVE */
-    @media (max-width: 900px) {
-      .uv-shell {
-        padding: 12px;
-        border-radius: 20px;
-      }
-
-      .uv-header {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .uv-header-right {
-        align-items: flex-start;
-      }
-
-      .uv-top-row {
-        grid-template-columns: minmax(0, 1fr);
-      }
-
-      table {
-        min-width: 520px;
-      }
-    }
-
-    @media (max-width: 640px) {
-      body {
-        padding: 8px;
-      }
-
-      .uv-shell {
-        padding: 10px;
-        border-radius: 18px;
-      }
-
-      .uv-tabs {
-        border-radius: 18px;
-      }
-
-      .uv-logo {
-        width: 62px;
-        height: 74px;
-      }
-
-      .uv-title {
-        font-size: 1.2rem;
-        letter-spacing: 0.16em;
-      }
-
-      .uv-tagline {
-        font-size: 0.8rem;
-      }
-
-      table {
-        min-width: 460px;
-      }
-    }
+    body { font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif; margin: 20px; background:#0b0c10; color:#f5f5f5; }
+    h1, h2, h3 { margin-bottom: 0.4rem; }
+    .card { background:#1f2833; padding:16px; border-radius:8px; margin-bottom:16px; box-shadow:0 0 10px rgba(0,0,0,0.4); }
+    button { padding:8px 14px; margin:4px 4px 4px 0; border-radius:4px; border:none; cursor:pointer; background:#45a29e; color:#0b0c10; font-weight:600; }
+    button:disabled { opacity:0.5; cursor:not-allowed; }
+    input { padding:6px 8px; border-radius:4px; border:1px solid #555; background:#0b0c10; color:#f5f5f5; }
+    table { width:100%; border-collapse:collapse; margin-top:8px; font-size:0.9rem; }
+    th, td { border:1px solid #444; padding:6px 8px; text-align:left; }
+    th { background:#0b0c10; }
+    .badge { padding:2px 6px; border-radius:4px; font-size:0.75rem; }
+    .ok { background:#2ecc71; color:#0b0c10; }
+    .warn { background:#f1c40f; color:#0b0c10; }
+    .ban { background:#e67e22; color:#0b0c10; }
+    .excl { background:#e74c3c; color:#0b0c10; }
+    .muted { color:#aaa; font-size:0.85rem; }
   </style>
 </head>
 <body>
-  <div class="uv-shell">
-    <!-- HEADER -->
-    <header class="uv-header">
-      <div class="uv-logo-block">
-        <!-- UNITYVERSE CREST (modern, warm colors) -->
-        <svg class="uv-logo" viewBox="0 0 180 200" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="uvGold" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#F6D46A"/>
-              <stop offset="100%" stop-color="#C89A32"/>
-            </linearGradient>
-            <linearGradient id="uvNavy" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#111739"/>
-              <stop offset="100%" stop-color="#05060D"/>
-            </linearGradient>
-            <radialGradient id="uvBall" cx="50%" cy="50%" r="65%">
-              <stop offset="0%" stop-color="#FFF9E8"/>
-              <stop offset="100%" stop-color="#D9D0C0"/>
-            </radialGradient>
-          </defs>
+  <h1>JEMS – Pinnie Washing Rotation & Sanctions</h1>
 
-          <!-- V arms -->
-          <path
-            d="M25 30 L60 30 L90 150 L120 30 L155 30"
-            fill="none"
-            stroke="url(#uvGold)"
-            stroke-width="8"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
+  <div class="card">
+    <h2>Game Control</h2>
+    <p><strong>Current game:</strong> <span id="currentGame">1</span></p>
+    <p><strong>Current washer:</strong> <span id="currentWasher">None assigned yet</span></p>
+    <button id="nextGameBtn">Next game & assign washer</button>
+    <button id="markWashedBtn" disabled>Mark as washed (completed)</button>
+    <button id="reportFailBtn" disabled>Report failure</button>
+    <p class="muted" id="systemMsg"></p>
+  </div>
 
-          <!-- U shape -->
-          <path
-            d="M60 55
-               Q60 40 78 40
-               L102 40
-               Q120 40 120 55
-               L120 115
-               Q120 135 105 147
-               Q90 160 75 147
-               Q60 135 60 115 Z"
-            fill="url(#uvNavy)"
-            stroke="#22284F"
-            stroke-width="3"
-          />
-
-          <!-- Soccer ball -->
-          <circle cx="90" cy="100" r="22" fill="url(#uvBall)" stroke="#BFB7A5" stroke-width="2"/>
-          <polygon points="90,82 100,90 96,102 84,102 80,90"
-                   fill="#1A1A1A"/>
-          <path d="M90 82 L80 90 L72 86" stroke="#1A1A1A" stroke-width="1.4" fill="none"/>
-          <path d="M90 82 L100 90 L108 86" stroke="#1A1A1A" stroke-width="1.4" fill="none"/>
-          <path d="M80 90 L76 102 L82 112" stroke="#1A1A1A" stroke-width="1.4" fill="none"/>
-          <path d="M100 90 L104 102 L98 112" stroke="#1A1A1A" stroke-width="1.4" fill="none"/>
-          <path d="M84 102 L90 112 L96 102" stroke="#1A1A1A" stroke-width="1.4" fill="none"/>
-        </svg>
-
-        <div class="uv-title-block">
-          <div class="uv-title">UNITYVERSE</div>
-          <div class="uv-tagline">Where Passion Meets Respect and Fun</div>
-        </div>
-      </div>
-
-      <div class="uv-header-right">
-        <div class="uv-badge">Adaptive Auto Mode • Responsive</div>
-        <div>Pickup Soccer • Activities • Community • Kingston Hub</div>
-      </div>
-    </header>
-
-    <!-- NAV TABS -->
-    <nav class="uv-tabs">
-      <button class="uv-tab active" data-target="home">
-        <span class="icon">🏠</span> Home / Accueil
-      </button>
-      <button class="uv-tab" data-target="alerts">
-        <span class="icon">🚨</span> Alerts & Info
-      </button>
-      <button class="uv-tab" data-target="news">
-        <span class="icon">📰</span> Kingston News
-      </button>
-      <button class="uv-tab" data-target="games">
-        <span class="icon">⚽</span> Games
-      </button>
-      <button class="uv-tab" data-target="activities">
-        <span class="icon">🎉</span> Activities
-      </button>
-      <button class="uv-tab" data-target="community">
-        <span class="icon">🤝</span> Community
-      </button>
-      <button class="uv-tab" data-target="stats">
-        <span class="icon">📊</span> Stats
-      </button>
-      <button class="uv-tab" data-target="settings">
-        <span class="icon">⚙️</span> Settings
-      </button>
-    </nav>
-
-    <!-- MAIN CONTENT -->
-    <main class="uv-main">
-      <!-- HOME / ACCUEIL -->
-      <section id="home" class="uv-section active">
-        <div class="uv-section-title">UnityVerse • Home / Accueil</div>
-        <div class="uv-section-sub">
-          Why this portal exists • What we expect from each member • What we want to show our kids
-        </div>
-
-        <div class="uv-top-row">
-          <div class="uv-card">
-            <div class="uv-card-header">
-              <div class="uv-card-title">Our Vision</div>
-              <div class="uv-chip">Community • Resilience • Legacy</div>
-            </div>
-            <div class="uv-card-body" style="font-size:0.85rem; line-height:1.5;">
-              UnityVerse is more than a soccer portal — it’s a space where we build
-              <strong>brotherhood, black resiliency, autonomy, and responsibility</strong>.
-              We want every member to feel part of something bigger than a game:
-              a community that respects each other, supports each other, and shows up.
-              <br><br>
-              We also know our kids are watching us. Through UnityVerse, we want to model:
-              <ul style="margin-top:6px; margin-left:16px;">
-                <li>Respect on and off the field</li>
-                <li>Commitment and reliability</li>
-                <li>Healthy competition with love and fun</li>
-                <li>Support for each other’s families and journeys</li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="uv-card">
-            <div class="uv-card-header">
-              <div class="uv-card-title">What We Expect From Each Member</div>
-              <div class="uv-chip">Values • Behaviour</div>
-            </div>
-            <div class="uv-card-body" style="font-size:0.85rem; line-height:1.5;">
-              <ul style="list-style:none; display:flex; flex-direction:column; gap:6px;">
-                <li>• Show up when you say you will — your word matters.</li>
-                <li>• Respect everyone: teammates, opponents, referees, and yourself.</li>
-                <li>• Play hard, but never forget fun and safety.</li>
-                <li>• Communicate clearly in the group — no ghosting.</li>
-                <li>• Be a model for the younger ones watching us.</li>
-                <li>• Protect the spirit of the group: no drama, no disrespect.</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div class="uv-card">
-          <div class="uv-card-header">
-            <div class="uv-card-title">Portal Overview</div>
-            <div class="uv-chip">Quick Tour</div>
-          </div>
-          <div class="uv-card-body" style="font-size:0.85rem; line-height:1.6;">
-            <ul style="list-style:none; display:flex; flex-direction:column; gap:6px;">
-              <li><strong>Home / Accueil:</strong> Our values, expectations, and purpose.</li>
-              <li><strong>Alerts & Info:</strong> Urgent updates, last‑minute changes, important notices.</li>
-              <li><strong>Kingston News:</strong> Local news from Kingston Police, City, Hospital, Military, and more.</li>
-              <li><strong>Games:</strong> Saturday pickup games, attendance, team builder, WhatsApp export.</li>
-              <li><strong>Activities:</strong> Dinners, bowling, trips, cost split, carpool.</li>
-              <li><strong>Community:</strong> Announcements, birthdays, celebrations, photos.</li>
-              <li><strong>Stats:</strong> Attendance, streaks, MVP, games played.</li>
-              <li><strong>Settings:</strong> Profile, notifications, theme, language, contact admin.</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <!-- ALERTS & INFO -->
-      <section id="alerts" class="uv-section">
-        <div class="uv-section-title">Alerts & Info</div>
-        <div class="uv-section-sub">Urgent updates • Field changes • Weather • Last‑minute info</div>
-
-        <div class="uv-card">
-          <div class="uv-card-header">
-            <div class="uv-card-title">Current Alerts</div>
-            <div class="uv-chip">Live Board</div>
-          </div>
-          <div class="uv-card-body">
-            <ul style="list-style:none; display:flex; flex-direction:column; gap:6px; font-size:0.85rem;">
-              <li><strong>[Field Change]</strong> This Saturday’s game moved to Field B due to maintenance.</li>
-              <li><strong>[Weather Watch]</strong> Rain expected — final confirmation 2 hours before kickoff.</li>
-              <li><strong>[Reminder]</strong> Please confirm attendance by Thursday night.</li>
-            </ul>
-            <div class="uv-actions-row" style="margin-top:8px;">
-              <button class="uv-btn primary">Post New Alert</button>
-              <button class="uv-btn">Mark All as Read</button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- KINGSTON NEWS HUB -->
-      <section id="news" class="uv-section">
-        <div class="uv-section-title">Kingston News Hub</div>
-        <div class="uv-section-sub">
-          Local updates from Kingston Newspaper, Police, City, Hospital, Military & public organizations
-        </div>
-
-        <div class="uv-top-row">
-          <div class="uv-card">
-            <div class="uv-card-header">
-              <div class="uv-card-title">Local Headlines</div>
-              <div class="uv-chip">Kingston Area</div>
-            </div>
-            <div class="uv-card-body" style="font-size:0.85rem;">
-              <ul style="list-style:none; display:flex; flex-direction:column; gap:6px;">
-                <li>• Kingston Whig‑Standard — Latest city news and community stories.</li>
-                <li>• City of Kingston — Public notices, events, and service updates.</li>
-                <li>• Kingston Police — Safety alerts, traffic, and public advisories.</li>
-              </ul>
-              <div class="uv-actions-row" style="margin-top:8px;">
-                <button class="uv-btn primary">Open Kingston News Feed</button>
-                <button class="uv-btn">View City Notices</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="uv-card">
-            <div class="uv-card-header">
-              <div class="uv-card-title">Health & Military</div>
-              <div class="uv-chip">KGH • RMC • CFB</div>
-            </div>
-            <div class="uv-card-body" style="font-size:0.85rem;">
-              <ul style="list-style:none; display:flex; flex-direction:column; gap:6px;">
-                <li>• Kingston General Hospital — Health advisories and updates.</li>
-                <li>• Canadian Forces Base Kingston / RMC — Military‑related news and events.</li>
-                <li>• Public organizations — Community programs and support services.</li>
-              </ul>
-              <div class="uv-actions-row" style="margin-top:8px;">
-                <button class="uv-btn primary">Open Health Updates</button>
-                <button class="uv-btn">Open Military News</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Placeholder table for future live feeds -->
-        <div class="uv-table-wrapper">
-          <div class="uv-table-container">
-            <table>
-              <thead>
-                <tr>
-                  <th>Source</th>
-                  <th>Category</th>
-                  <th>Headline</th>
-                  <th>Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Kingston Whig‑Standard</td>
-                  <td>City</td>
-                  <td>Sample headline about local community event</td>
-                  <td>May 21</td>
-                </tr>
-                <tr>
-                  <td>Kingston Police</td>
-                  <td>Safety</td>
-                  <td>Sample alert about traffic or public safety</td>
-                  <td>May 20</td>
-                </tr>
-                <tr>
-                  <td>Kingston General Hospital</td>
-                  <td>Health</td>
-                  <td>Sample update about hospital services</td>
-                  <td>May 19</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <!-- GAMES -->
-      <section id="games" class="uv-section">
-        <div class="uv-section-title">Saturday Pickup Games</div>
-        <div class="uv-section-sub">Calendar • Attendance • Teams • WhatsApp Export</div>
-
-        <div class="uv-top-row">
-          <div class="uv-card">
-            <div class="uv-card-header">
-              <div class="uv-card-title">Next Game</div>
-              <div class="uv-chip">Auto Calendar • Holidays Aware</div>
-            </div>
-            <div class="uv-card-body">
-              <div><strong>Date:</strong> Saturday, 10:00 AM</div>
-              <div><strong>Location:</strong> Default Field</div>
-              <div><strong>Format:</strong> 7 vs 7 (auto‑adjusts)</div>
-              <div><strong>Status:</strong> <span class="uv-badge-status open">Open</span></div>
-
-              <div class="uv-actions-row">
-                <button class="uv-btn primary">I’m In</button>
-                <button class="uv-btn">Maybe</button>
-                <button class="uv-btn danger">Not Coming</button>
-                <button class="uv-btn">Bring a Friend</button>
-                <button class="uv-btn">Preferred Position</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="uv-card">
-            <div class="uv-card-header">
-              <div class="uv-card-title">Team Builder</div>
-              <div class="uv-chip">World Giants • Rotation</div>
-            </div>
-            <div class="uv-card-body">
-              <div><strong>Confirmed:</strong> 18 players</div>
-              <div><strong>Teams:</strong> 3 (Real Madrid • Barcelona • Bayern)</div>
-              <div><strong>Mode:</strong> Random + Rotation</div>
-              <div class="uv-actions-row">
-                <button class="uv-btn primary">Generate Teams</button>
-                <button class="uv-btn">Export to WhatsApp</button>
-                <button class="uv-btn">View Attendance</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="uv-table-wrapper">
-          <div class="uv-table-container">
-            <table>
-              <thead>
-                <tr>
-                  <th>Date</th>
-                  <th>Time</th>
-                  <th>Location</th>
-                  <th>Format</th>
-                  <th>Status</th>
-                  <th>Confirmed</th>
-                  <th>Waitlist</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Sat • May 23</td>
-                  <td>10:00 AM</td>
-                  <td>Field A</td>
-                  <td>7 vs 7</td>
-                  <td><span class="uv-badge-status open">Open</span></td>
-                  <td>18</td>
-                  <td>2</td>
-                  <td>
-                    <button class="uv-btn" style="font-size:0.7rem;">Attendance</button>
-                    <button class="uv-btn" style="font-size:0.7rem;">Teams</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Sat • May 30</td>
-                  <td>10:00 AM</td>
-                  <td>Field B</td>
-                  <td>7 vs 7</td>
-                  <td><span class="uv-badge-status.closed">Closed</span></td>
-                  <td>22</td>
-                  <td>4</td>
-                  <td>
-                    <button class="uv-btn" style="font-size:0.7rem;">View</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Sat • Jun 06</td>
-                  <td>10:00 AM</td>
-                  <td>Field A</td>
-                  <td>6 vs 6</td>
-                  <td><span class="uv-badge-status.full">Full</span></td>
-                  <td>24</td>
-                  <td>6</td>
-                  <td>
-                    <button class="uv-btn" style="font-size:0.7rem;">Waitlist</button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <!-- ACTIVITIES -->
-      <section id="activities" class="uv-section">
-        <div class="uv-section-title">Social Activities</div>
-        <div class="uv-section-sub">Dinners • Bowling • Trips • Cost Split • Carpool</div>
-
-        <div class="uv-top-row">
-          <div class="uv-card">
-            <div class="uv-card-header">
-              <div class="uv-card-title">Next Activity</div>
-              <div class="uv-chip">Poll • Cost Split</div>
-            </div>
-            <div class="uv-card-body">
-              <div><strong>Activity:</strong> Team Dinner</div>
-              <div><strong>Date:</strong> Friday, 8:00 PM</div>
-              <div><strong>Location:</strong> Downtown Restaurant</div>
-              <div><strong>Estimated Cost:</strong> $320 total</div>
-              <div><strong>Per Person:</strong> $20 (16 people)</div>
-              <div class="uv-actions-row">
-                <button class="uv-btn primary">Who’s In?</button>
-                <button class="uv-btn">Send WhatsApp Poll</button>
-                <button class="uv-btn">Adjust Cost Split</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="uv-card">
-            <div class="uv-card-header">
-              <div class="uv-card-title">Carpool & Budget</div>
-              <div class="uv-chip">Drivers • Seats • Gas</div>
-            </div>
-            <div class="uv-card-body">
-              <div><strong>Drivers:</strong> 3</div>
-              <div><strong>Seats Available:</strong> 11</div>
-              <div><strong>Gas Split:</strong> $10 / passenger</div>
-              <div class="uv-actions-row">
-                <button class="uv-btn primary">Manage Carpool</button>
-                <button class="uv-btn">Assign Passengers</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="uv-table-wrapper">
-          <div class="uv-table-container">
-            <table>
-              <thead>
-                <tr>
-                  <th>Activity</th>
-                  <th>Date</th>
-                  <th>Type</th>
-                  <th>Cost</th>
-                  <th>Attending</th>
-                  <th>Poll</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Team Dinner</td>
-                  <td>Fri • May 29</td>
-                  <td>Food</td>
-                  <td>$320</td>
-                  <td>16</td>
-                  <td>Sent</td>
-                  <td>
-                    <button class="uv-btn" style="font-size:0.7rem;">Details</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Bowling Night</td>
-                  <td>Sat • Jun 13</td>
-                  <td>Fun</td>
-                  <td>$180</td>
-                  <td>10</td>
-                  <td>Draft</td>
-                  <td>
-                    <button class="uv-btn" style="font-size:0.7rem;">Edit Poll</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Road Trip</td>
-                  <td>Sat • Jul 04</td>
-                  <td>Trip</td>
-                  <td>$600</td>
-                  <td>12</td>
-                  <td>Planned</td>
-                  <td>
-                    <button class="uv-btn" style="font-size:0.7rem;">Carpool</button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <!-- COMMUNITY -->
-      <section id="community" class="uv-section">
-        <div class="uv-section-title">Community Hub</div>
-        <div class="uv-section-sub">Announcements • Chat • Birthdays • Photos</div>
-
-        <div class="uv-top-row">
-          <div class="uv-card">
-            <div class="uv-card-header">
-              <div class="uv-card-title">Announcements</div>
-              <div class="uv-chip">Admin Only</div>
-            </div>
-            <div class="uv-card-body">
-              <ul style="list-style:none; display:flex; flex-direction:column; gap:6px; font-size:0.85rem;">
-                <li><strong>[New]</strong> Summer season starts June 1st.</li>
-                <li><strong>[Info]</strong> Please arrive 15 minutes before kickoff.</li>
-                <li><strong>[Reminder]</strong> Respect, fun, and fair play first.</li>
-              </ul>
-              <div class="uv-actions-row" style="margin-top:8px;">
-                <button class="uv-btn primary">Post Announcement</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="uv-card">
-            <div class="uv-card-header">
-              <div class="uv-card-title">Birthdays & Celebrations</div>
-              <div class="uv-chip">Auto Reminders</div>
-            </div>
-            <div class="uv-card-body">
-              <div><strong>Next Birthday:</strong> June 5 — Alex</div>
-              <div><strong>Idea:</strong> Cake after the game 🎂</div>
-              <div class="uv-actions-row">
-                <button class="uv-btn primary">View All Birthdays</button>
-                <button class="uv-btn">Add Celebration Idea</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="uv-table-wrapper">
-          <div class="uv-table-container">
-            <table>
-              <thead>
-                <tr>
-                  <th>Type</th>
-                  <th>Title</th>
-                  <th>Date</th>
-                  <th>Author</th>
-                  <th>Reactions</th>
-                  <th>Comments</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Announcement</td>
-                  <td>Summer Season Kickoff</td>
-                  <td>May 20</td>
-                  <td>Admin</td>
-                  <td>👍 18</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>Photo Album</td>
-                  <td>Last Saturday Highlights</td>
-                  <td>May 17</td>
-                  <td>Sam</td>
-                  <td>❤️ 24</td>
-                  <td>9</td>
-                </tr>
-                <tr>
-                  <td>Birthday</td>
-                  <td>Happy Birthday Alex!</td>
-                  <td>May 10</td>
-                  <td>Group</td>
-                  <td>🎉 30</td>
-                  <td>12</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <!-- STATS -->
-      <section id="stats" class="uv-section">
-        <div class="uv-section-title">Player & Game Stats</div>
-        <div class="uv-section-sub">Attendance • Streaks • MVP • Games Played</div>
-
-        <div class="uv-top-row">
-          <div class="uv-card">
-            <div class="uv-card-header">
-              <div class="uv-card-title">Your Stats</div>
-              <div class="uv-chip">Sample Data</div>
-            </div>
-            <div class="uv-card-body">
-              <div><strong>Games Played:</strong> 24</div>
-              <div><strong>Attendance Rate:</strong> 86%</div>
-              <div><strong>Current Streak:</strong> 7 games</div>
-              <div><strong>MVP Votes:</strong> 5</div>
-            </div>
-          </div>
-
-          <div class="uv-card">
-            <div class="uv-card-header">
-              <div class="uv-card-title">Group Stats</div>
-              <div class="uv-chip">Season Overview</div>
-            </div>
-            <div class="uv-card-body">
-              <div><strong>Total Games:</strong> 32</div>
-              <div><strong>Average Attendance:</strong> 18.4 players</div>
-              <div><strong>Most Common Format:</strong> 7 vs 7</div>
-              <div><strong>Most Used Team Names:</strong> Real Madrid, Barcelona, Bayern</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="uv-table-wrapper">
-          <div class="uv-table-container">
-            <table>
-              <thead>
-                <tr>
-                  <th>Player</th>
-                  <th>Games</th>
-                  <th>Attendance %</th>
-                  <th>Streak</th>
-                  <th>MVP</th>
-                  <th>Preferred Position</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Alex</td>
-                  <td>24</td>
-                  <td>86%</td>
-                  <td>7</td>
-                  <td>5</td>
-                  <td>Midfield</td>
-                </tr>
-                <tr>
-                  <td>Sam</td>
-                  <td>20</td>
-                  <td>78%</td>
-                  <td>3</td>
-                  <td>2</td>
-                  <td>Forward</td>
-                </tr>
-                <tr>
-                  <td>Jordan</td>
-                  <td>18</td>
-                  <td>72%</td>
-                  <td>4</td>
-                  <td>1</td>
-                  <td>Defender</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <!-- SETTINGS (NO INTERNAL LOGIC EXPLANATION) -->
-      <section id="settings" class="uv-section">
-        <div class="uv-section-title">Portal Settings</div>
-        <div class="uv-section-sub">Profile • Notifications • Theme • Language • Contact Admin</div>
-
-        <div class="uv-top-row">
-          <div class="uv-card">
-            <div class="uv-card-header">
-              <div class="uv-card-title">Profile</div>
-              <div class="uv-chip">Your Info</div>
-            </div>
-            <div class="uv-card-body" style="font-size:0.85rem;">
-              <ul style="list-style:none; display:flex; flex-direction:column; gap:6px;">
-                <li>• Name, phone, and profile photo</li>
-                <li>• Preferred position and foot</li>
-                <li>• Emergency contact (optional)</li>
-              </ul>
-              <div class="uv-actions-row" style="margin-top:8px;">
-                <button class="uv-btn primary">Edit Profile</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="uv-card">
-            <div class="uv-card-header">
-              <div class="uv-card-title">Notifications & Theme</div>
-              <div class="uv-chip">Experience</div>
-            </div>
-            <div class="uv-card-body" style="font-size:0.85rem;">
-              <ul style="list-style:none; display:flex; flex-direction:column; gap:6px;">
-                <li>• Turn email / push notifications on or off.</li>
-                <li>• Choose theme intensity (soft, standard, vivid).</li>
-                <li>• Language: English / French (future).</li>
-              </ul>
-              <div class="uv-actions-row" style="margin-top:8px;">
-                <button class="uv-btn primary">Notification Settings</button>
-                <button class="uv-btn">Theme Options</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="uv-card">
-          <div class="uv-card-header">
-            <div class="uv-card-title">Contact Admin</div>
-            <div class="uv-chip">Support</div>
-          </div>
-          <div class="uv-card-body" style="font-size:0.85rem;">
-            If you have questions, ideas, or issues with the portal, you can contact the admin directly.
-            <div class="uv-actions-row" style="margin-top:8px;">
-              <button class="uv-btn primary">Message Admin</button>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
+  <div class="card">
+    <h2>Players & Status</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Player</th>
+          <th>Fail count</th>
+          <th>Fine owed (CAD)</th>
+          <th>Banned until game</th>
+          <th>Status</th>
+          <th>Washed this cycle</th>
+        </tr>
+      </thead>
+      <tbody id="playersTableBody"></tbody>
+    </table>
+    <p class="muted">
+      Ladder: 1st fail → 15$ & same player again • 2nd fail → +15$ & 1‑game ban • 3rd fail → +15$ & 3‑game ban • 4th fail → +15$, 3‑game ban & excluded.
+    </p>
   </div>
 
   <script>
-    // Simple tab switching
-    const tabs = document.querySelectorAll('.uv-tab');
-    const sections = document.querySelectorAll('.uv-section');
+    // -----------------------------
+    // Core data model
+    // -----------------------------
+    const state = {
+      currentGame: 1,
+      players: [
+        { id: 'p1', name: 'John', failCount: 0, fine: 0, bannedUntilGame: null, excluded: false, washedThisCycle: false },
+        { id: 'p2', name: 'Marc', failCount: 0, fine: 0, bannedUntilGame: null, excluded: false, washedThisCycle: false },
+        { id: 'p3', name: 'Alex', failCount: 0, fine: 0, bannedUntilGame: null, excluded: false, washedThisCycle: false },
+        { id: 'p4', name: 'Sam',  failCount: 0, fine: 0, bannedUntilGame: null, excluded: false, washedThisCycle: false }
+      ],
+      rotationIndex: 0,
+      currentWasherId: null,
+      forceSameWasher: false,
+      pendingWasherId: null // used after bans: they must wash again when back
+    };
 
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        const target = tab.getAttribute('data-target');
+    // -----------------------------
+    // Helpers
+    // -----------------------------
+    function getPlayer(id) {
+      return state.players.find(p => p.id === id) || null;
+    }
 
-        tabs.forEach(t => t.classList.remove('active'));
-        sections.forEach(s => s.classList.remove('active'));
+    function isEligible(p) {
+      if (p.excluded) return false;
+      if (p.bannedUntilGame != null && p.bannedUntilGame > state.currentGame) return false;
+      return true;
+    }
 
-        tab.classList.add('active');
-        document.getElementById(target).classList.add('active');
+    function getEligiblePlayers() {
+      return state.players.filter(isEligible);
+    }
+
+    function resetCycleIfNeeded() {
+      const eligible = getEligiblePlayers();
+      if (eligible.length === 0) return;
+      const allUsed = eligible.every(p => p.washedThisCycle);
+      if (allUsed) {
+        eligible.forEach(p => { p.washedThisCycle = false; });
+      }
+    }
+
+    function setSystemMsg(msg) {
+      document.getElementById('systemMsg').textContent = msg || '';
+    }
+
+    function updateUI() {
+      document.getElementById('currentGame').textContent = state.currentGame;
+
+      const washerSpan = document.getElementById('currentWasher');
+      const washer = state.currentWasherId ? getPlayer(state.currentWasherId) : null;
+      washerSpan.textContent = washer ? `${washer.name} (${washer.id})` : 'None assigned';
+
+      const markBtn = document.getElementById('markWashedBtn');
+      const failBtn = document.getElementById('reportFailBtn');
+      const hasWasher = !!washer;
+      markBtn.disabled = !hasWasher;
+      failBtn.disabled = !hasWasher;
+
+      const tbody = document.getElementById('playersTableBody');
+      tbody.innerHTML = '';
+      state.players.forEach(p => {
+        const tr = document.createElement('tr');
+
+        const status = (() => {
+          if (p.excluded) return { label: 'Excluded', cls: 'excl' };
+          if (p.bannedUntilGame != null && p.bannedUntilGame > state.currentGame) return { label: `Banned (until game ${p.bannedUntilGame})`, cls: 'ban' };
+          if (p.failCount === 0) return { label: 'Clean', cls: 'ok' };
+          if (p.failCount === 1) return { label: 'Warned', cls: 'warn' };
+          if (p.failCount === 2) return { label: 'Repeat offender', cls: 'warn' };
+          if (p.failCount === 3) return { label: 'High risk', cls: 'ban' };
+          return { label: 'Excluded', cls: 'excl' };
+        })();
+
+        tr.innerHTML = `
+          <td>${p.name} (${p.id})</td>
+          <td>${p.failCount}</td>
+          <td>${p.fine.toFixed(2)}</td>
+          <td>${p.bannedUntilGame == null ? '-' : p.bannedUntilGame}</td>
+          <td><span class="badge ${status.cls}">${status.label}</span></td>
+          <td>${p.washedThisCycle ? 'Yes' : 'No'}</td>
+        `;
+        tbody.appendChild(tr);
       });
+    }
+
+    // -----------------------------
+    // Assignment logic
+    // -----------------------------
+    function assignWasherForCurrentGame() {
+      const eligible = getEligiblePlayers();
+
+      if (eligible.length === 0) {
+        state.currentWasherId = null;
+        setSystemMsg('No eligible players (all banned or excluded).');
+        updateUI();
+        return;
+      }
+
+      // 1) If there is a pending washer (coming back from ban), force them
+      if (state.pendingWasherId) {
+        const p = getPlayer(state.pendingWasherId);
+        if (p && isEligible(p)) {
+          state.currentWasherId = p.id;
+          state.forceSameWasher = false;
+          state.pendingWasherId = null;
+          setSystemMsg(`Washer assigned (post‑ban obligation): ${p.name}.`);
+          updateUI();
+          return;
+        }
+      }
+
+      // 2) If we must keep the same washer (first failure), and they are eligible
+      if (state.forceSameWasher && state.currentWasherId) {
+        const p = getPlayer(state.currentWasherId);
+        if (p && isEligible(p)) {
+          setSystemMsg(`Same washer again due to failure: ${p.name}.`);
+          updateUI();
+          return;
+        }
+      }
+
+      // 3) Normal rotation: never same player twice until everyone had a turn
+      resetCycleIfNeeded();
+      const eligibleAfterReset = getEligiblePlayers();
+      if (eligibleAfterReset.length === 0) {
+        state.currentWasherId = null;
+        setSystemMsg('No eligible players after reset.');
+        updateUI();
+        return;
+      }
+
+      // Ensure rotationIndex is within bounds of eligible list
+      if (state.rotationIndex >= eligibleAfterReset.length) {
+        state.rotationIndex = 0;
+      }
+
+      // Find next eligible who has not washed this cycle
+      let chosen = null;
+      for (let i = 0; i < eligibleAfterReset.length; i++) {
+        const idx = (state.rotationIndex + i) % eligibleAfterReset.length;
+        const candidate = eligibleAfterReset[idx];
+        if (!candidate.washedThisCycle) {
+          chosen = candidate;
+          state.rotationIndex = (idx + 1) % eligibleAfterReset.length;
+          break;
+        }
+      }
+
+      if (!chosen) {
+        // If somehow all had washed, reset and pick first
+        eligibleAfterReset.forEach(p => p.washedThisCycle = false);
+        chosen = eligibleAfterReset[0];
+        state.rotationIndex = 1 % eligibleAfterReset.length;
+      }
+
+      state.currentWasherId = chosen.id;
+      state.forceSameWasher = false;
+      setSystemMsg(`New washer assigned by rotation: ${chosen.name}.`);
+      updateUI();
+    }
+
+    // -----------------------------
+    // Completion & failure logic
+    // -----------------------------
+    function markWashed() {
+      if (!state.currentWasherId) return;
+      const p = getPlayer(state.currentWasherId);
+      if (!p) return;
+
+      p.washedThisCycle = true;
+      setSystemMsg(`${p.name} successfully washed the pinnies. Rotation advances.`);
+      state.forceSameWasher = false;
+      updateUI();
+    }
+
+    function reportFailure() {
+      if (!state.currentWasherId) return;
+      const p = getPlayer(state.currentWasherId);
+      if (!p) return;
+
+      p.failCount = (p.failCount || 0) + 1;
+      p.fine = (p.fine || 0) + 15;
+
+      let msg = `${p.name} failed to wash. `;
+
+      if (p.failCount === 1) {
+        // First failure: 15$ and same player again next game
+        state.forceSameWasher = true;
+        msg += 'First failure → +15$, same washer again next game.';
+      } else if (p.failCount === 2) {
+        // Second failure: +15$ and 1‑game ban, must wash again after ban
+        const banGames = 1;
+        p.bannedUntilGame = state.currentGame + banGames;
+        state.pendingWasherId = p.id;
+        state.forceSameWasher = false;
+        msg += 'Second failure → +15$, 1‑game ban, must wash again after ban.';
+      } else if (p.failCount === 3) {
+        // Third failure: +15$ and 3‑game ban, must wash again after ban
+        const banGames = 3;
+        p.bannedUntilGame = state.currentGame + banGames;
+        state.pendingWasherId = p.id;
+        state.forceSameWasher = false;
+        msg += 'Third failure → +15$, 3‑game ban, must wash again after ban.';
+      } else if (p.failCount >= 4) {
+        // Fourth failure: +15$, 3‑game ban and excluded
+        const banGames = 3;
+        p.bannedUntilGame = state.currentGame + banGames;
+        p.excluded = true;
+        state.pendingWasherId = null;
+        state.forceSameWasher = false;
+        msg += 'Fourth failure → +15$, 3‑game ban and EXCLUDED from the system.';
+      }
+
+      setSystemMsg(msg);
+      updateUI();
+    }
+
+    // -----------------------------
+    // Game progression
+    // -----------------------------
+    function nextGame() {
+      state.currentGame += 1;
+      setSystemMsg(`Game advanced to #${state.currentGame}. Assigning washer...`);
+      assignWasherForCurrentGame();
+    }
+
+    // -----------------------------
+    // Wire up UI
+    // -----------------------------
+    document.getElementById('nextGameBtn').addEventListener('click', () => {
+      nextGame();
     });
+
+    document.getElementById('markWashedBtn').addEventListener('click', () => {
+      markWashed();
+    });
+
+    document.getElementById('reportFailBtn').addEventListener('click', () => {
+      reportFailure();
+    });
+
+    // Initial assignment for game 1
+    assignWasherForCurrentGame();
   </script>
 </body>
 </html>
+```
