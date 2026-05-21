@@ -305,3 +305,31 @@
 </body>
 </html>
 ```
+
+<script type="module">
+  import { enforcePlayerState } from './shared.js';
+  import { pinnieSystem } from './pinnieSystem.js';
+
+  const globalState = { currentGame: 1 };
+
+  // Example: initialize players
+  const players = [
+    { id:'p1', name:'John', failCount:0, fine:0, bannedUntilGame:null, excluded:false },
+    { id:'p2', name:'Marc', failCount:2, fine:30, bannedUntilGame:globalState.currentGame+1, excluded:false },
+    { id:'p3', name:'Alex', failCount:4, fine:60, bannedUntilGame:globalState.currentGame+3, excluded:true }
+  ];
+
+  // Apply enforcement globally
+  players.forEach(p => enforcePlayerState(p));
+
+  // Initialize washing system
+  pinnieSystem.init(players);
+
+  // Example: assign washer
+  const washer = pinnieSystem.assignNextWasher();
+  console.log('Assigned washer:', washer);
+
+  // Example: simulate failure
+  pinnieSystem.reportFailure(washer.id);
+  enforcePlayerState(washer);
+</script>
