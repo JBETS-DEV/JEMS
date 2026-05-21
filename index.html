@@ -1,101 +1,585 @@
+You deserve something that feels like the *flagship* version of JEMS, not a downgrade—here’s a **single, modern, all‑in‑one page** you can copy‑paste as `index.html` for `https://jbets-dev.github.io/JEMS`:
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>JEMS — Global Player Management & Pinnie System</title>
+  <title>JEMS · Pickup Soccer Community Platform</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    body { font-family: system-ui, sans-serif; background:#0b0c10; color:#f5f5f5; margin:20px; }
-    h1, h2, h3 { margin-bottom:0.4rem; }
-    .card { background:#1f2833; padding:16px; border-radius:8px; margin-bottom:16px; box-shadow:0 0 10px rgba(0,0,0,0.4); }
-    button { padding:8px 14px; margin:4px 4px 4px 0; border-radius:4px; border:none; cursor:pointer; background:#45a29e; color:#0b0c10; font-weight:600; }
-    button:disabled { opacity:0.5; cursor:not-allowed; }
-    input { padding:6px 8px; border-radius:4px; border:1px solid #555; background:#0b0c10; color:#f5f5f5; }
-    table { width:100%; border-collapse:collapse; margin-top:8px; font-size:0.9rem; }
-    th, td { border:1px solid #444; padding:6px 8px; text-align:left; }
-    th { background:#0b0c10; }
-    .badge { padding:2px 6px; border-radius:4px; font-size:0.75rem; }
-    .ok { background:#2ecc71; color:#0b0c10; }
-    .warn { background:#f1c40f; color:#0b0c10; }
-    .ban { background:#e67e22; color:#0b0c10; }
-    .excl { background:#e74c3c; color:#0b0c10; }
-    .muted { color:#aaa; font-size:0.85rem; }
+    :root {
+      --bg: #050816;
+      --bg-alt: #0b1020;
+      --card: #111827;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56,189,248,0.15);
+      --accent-strong: #0ea5e9;
+      --danger: #f97373;
+      --warn: #facc15;
+      --ok: #4ade80;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: #1f2937;
+      --radius: 14px;
+      --shadow: 0 18px 45px rgba(0,0,0,0.55);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+      background: radial-gradient(circle at top, #0f172a 0, #020617 55%, #000 100%);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* Layout */
+    header {
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(148,163,184,0.2);
+      backdrop-filter: blur(16px);
+      background: linear-gradient(to right, rgba(15,23,42,0.9), rgba(15,23,42,0.6));
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .brand-logo {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      background: radial-gradient(circle at 30% 20%, #38bdf8, #0f172a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 18px;
+      color: #e5f2ff;
+      box-shadow: 0 0 0 1px rgba(148,163,184,0.4);
+    }
+    .brand-text-main { font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; font-size: 14px; }
+    .brand-text-sub { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.16em; }
+
+    nav {
+      display: flex;
+      gap: 18px;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+    }
+    nav span {
+      cursor: pointer;
+      padding-bottom: 4px;
+      border-bottom: 2px solid transparent;
+    }
+    nav span.active {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    main {
+      flex: 1;
+      padding: 20px 24px 32px;
+      max-width: 1320px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(0, 2.1fr) minmax(0, 1.4fr);
+      gap: 18px;
+    }
+    @media (max-width: 980px) {
+      main { grid-template-columns: minmax(0, 1fr); }
+    }
+
+    .col { display: flex; flex-direction: column; gap: 18px; }
+
+    .card {
+      background: radial-gradient(circle at top left, rgba(56,189,248,0.12), transparent 55%), var(--card);
+      border-radius: var(--radius);
+      padding: 16px 16px 14px;
+      border: 1px solid rgba(148,163,184,0.18);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .card-title {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #e5e7eb;
+    }
+    .card-sub {
+      font-size: 11px;
+      color: var(--muted);
+    }
+    .pill {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.4);
+      color: var(--muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .pill-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 4px rgba(34,197,94,0.25);
+    }
+
+    /* Hero / status */
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.1fr);
+      gap: 16px;
+    }
+    @media (max-width: 780px) {
+      .hero { grid-template-columns: minmax(0, 1fr); }
+    }
+    .hero-main-title {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .hero-main-sub {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+    .hero-tag {
+      font-size: 11px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(148,163,184,0.35);
+      color: var(--muted);
+    }
+    .hero-cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+    .btn {
+      border-radius: 999px;
+      padding: 7px 14px;
+      border: none;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-strong), #22c55e);
+      color: #020617;
+      box-shadow: 0 12px 30px rgba(56,189,248,0.45);
+    }
+    .btn-ghost {
+      background: rgba(15,23,42,0.9);
+      color: var(--muted);
+      border: 1px solid rgba(148,163,184,0.4);
+    }
+    .hero-metric-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 6px;
+    }
+    .metric {
+      padding: 8px 10px;
+      border-radius: 12px;
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(148,163,184,0.35);
+    }
+    .metric-label {
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 2px;
+    }
+    .metric-value {
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .metric-chip {
+      font-size: 10px;
+      color: var(--ok);
+    }
+
+    /* Tables & lists */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    th, td {
+      padding: 6px 6px;
+      border-bottom: 1px solid rgba(31,41,55,0.9);
+    }
+    th {
+      text-align: left;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+    tr:last-child td { border-bottom: none; }
+    .badge {
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .badge-ok { background: rgba(34,197,94,0.16); color: #4ade80; }
+    .badge-warn { background: rgba(250,204,21,0.16); color: #facc15; }
+    .badge-ban { background: rgba(249,115,22,0.16); color: #fb923c; }
+    .badge-excl { background: rgba(248,113,113,0.16); color: #f97373; }
+    .badge-info { background: rgba(56,189,248,0.16); color: #38bdf8; }
+
+    .muted { color: var(--muted); font-size: 11px; }
+
+    .news-list, .alert-list, .feed-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 12px;
+    }
+    .news-item, .alert-item, .feed-item {
+      padding: 7px 9px;
+      border-radius: 10px;
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(31,41,55,0.9);
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .news-main, .alert-main, .feed-main {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .news-title, .alert-title, .feed-title {
+      font-size: 12px;
+      font-weight: 500;
+    }
+    .news-meta, .alert-meta, .feed-meta {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+    }
+    .chip {
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(55,65,81,0.9);
+      color: var(--muted);
+    }
+
+    .input-row {
+      display: flex;
+      gap: 6px;
+      margin-top: 6px;
+      flex-wrap: wrap;
+    }
+    input, select {
+      background: rgba(15,23,42,0.9);
+      border-radius: 999px;
+      border: 1px solid rgba(55,65,81,0.9);
+      padding: 6px 10px;
+      color: var(--text);
+      font-size: 12px;
+      outline: none;
+    }
+    input::placeholder { color: rgba(148,163,184,0.7); }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      display: inline-block;
+      margin-right: 4px;
+    }
+    .status-dot-ok { background: #22c55e; }
+    .status-dot-off { background: #6b7280; }
+
+    .small-label { font-size: 11px; color: var(--muted); }
+
+    .scroll-y {
+      max-height: 260px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+    .scroll-y::-webkit-scrollbar { width: 4px; }
+    .scroll-y::-webkit-scrollbar-thumb { background: rgba(148,163,184,0.5); border-radius: 999px; }
+
+    .pill-game {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(55,65,81,0.9);
+      color: var(--muted);
+    }
   </style>
 </head>
 <body>
-  <h1>JEMS — Players, Presence, Payments & Pinnie Washing</h1>
+  <header>
+    <div class="brand">
+      <div class="brand-logo">J</div>
+      <div>
+        <div class="brand-text-main">JEMS</div>
+        <div class="brand-text-sub">Pickup Soccer · Community Engine</div>
+      </div>
+    </div>
+    <nav>
+      <span class="active">Home</span>
+      <span>Community</span>
+      <span>Games</span>
+      <span>Players</span>
+      <span>Admin</span>
+    </nav>
+  </header>
 
-  <!-- GAME + PINNIE CONTROL -->
-  <div class="card">
-    <h2>Game & Pinnie Control</h2>
-    <p><strong>Current Game:</strong> <span id="currentGame">1</span></p>
-    <p><strong>Current Washer:</strong> <span id="currentWasher">None assigned yet</span></p>
-    <button id="nextGameBtn">Next Game & Assign Washer</button>
-    <button id="markWashedBtn" disabled>Mark as Washed</button>
-    <button id="reportFailBtn" disabled>Report Failure</button>
-    <p class="muted" id="systemMsg"></p>
-  </div>
+  <main>
+    <!-- LEFT COLUMN -->
+    <div class="col">
+      <!-- HERO / GLOBAL STATUS -->
+      <div class="card">
+        <div class="hero">
+          <div>
+            <div class="hero-main-title">Tonight’s Pickup · Kingston</div>
+            <div class="hero-main-sub">
+              Live control of players, payments, presence, sanctions, and pinnie washing—fully automated and synced.
+            </div>
+            <div class="hero-tags">
+              <span class="hero-tag">Real‑time community</span>
+              <span class="hero-tag">Presence & payments</span>
+              <span class="hero-tag">Sanctions engine</span>
+              <span class="hero-tag">Pinnie rotation</span>
+              <span class="hero-tag">Polls & alerts</span>
+            </div>
+            <div class="hero-cta-row">
+              <button class="btn btn-primary" id="btnQuickStart">
+                Start Game Flow
+                <span style="font-size:14px;">▶</span>
+              </button>
+              <button class="btn btn-ghost" id="btnAdminPanel">
+                Open Admin Console
+              </button>
+              <span class="pill">
+                <span class="pill-dot"></span>
+                Live session · JEMS
+              </span>
+            </div>
+          </div>
+          <div>
+            <div class="hero-metric-grid">
+              <div class="metric">
+                <div class="metric-label">Players checked‑in</div>
+                <div class="metric-value" id="metricPresent">0</div>
+                <div class="metric-chip" id="metricPresentChip">live</div>
+              </div>
+              <div class="metric">
+                <div class="metric-label">Payments cleared</div>
+                <div class="metric-value" id="metricPaid">0</div>
+                <div class="metric-chip" id="metricPaidChip">$ / game</div>
+              </div>
+              <div class="metric">
+                <div class="metric-label">Active sanctions</div>
+                <div class="metric-value" id="metricSanctions">0</div>
+                <div class="metric-chip" id="metricSanctionsChip">auto‑enforced</div>
+              </div>
+            </div>
+            <div style="margin-top:10px; font-size:11px; color:var(--muted);">
+              <span class="pill-game">Game #<span id="currentGame">1</span></span>
+              ·
+              <span>Portal: <span class="status-dot status-dot-ok"></span>online</span>
+            </div>
+          </div>
+        </div>
+      </div>
 
-  <!-- PLAYERS STATUS -->
-  <div class="card">
-    <h2>Players & Sanctions</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Player</th>
-          <th>Fail Count</th>
-          <th>Fine (CAD)</th>
-          <th>Banned Until Game</th>
-          <th>Status</th>
-          <th>Washed This Cycle</th>
-        </tr>
-      </thead>
-      <tbody id="playersTableBody"></tbody>
-    </table>
-    <p class="muted">
-      Ladder: 1st fail → 15$ & same player again • 2nd fail → +15$ & 1‑game ban •
-      3rd fail → +15$ & 3‑game ban • 4th fail → +15$, 3‑game ban & excluded.
-    </p>
-  </div>
+      <!-- NEWS + COMMUNITY FEED -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Club news & community feed</div>
+            <div class="card-sub">Announcements, results, and social updates for your pickup group.</div>
+          </div>
+          <span class="pill">Auto‑curated</span>
+        </div>
+        <div class="scroll-y">
+          <ul class="feed-list" id="feedList"></ul>
+        </div>
+      </div>
 
-  <!-- PRESENCE & PAYMENTS -->
-  <div class="card">
-    <h2>Presence & Payments</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Player</th>
-          <th>Present?</th>
-          <th>Paid?</th>
-          <th>Portal Access</th>
-          <th>Notifications</th>
-        </tr>
-      </thead>
-      <tbody id="presenceTableBody"></tbody>
-    </table>
-  </div>
+      <!-- PRESENCE & PAYMENTS -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Presence & payments</div>
+            <div class="card-sub">Who’s here, who’s paid, and who’s temporarily locked out.</div>
+          </div>
+          <span class="pill">Synced with sanctions</span>
+        </div>
+        <div class="scroll-y">
+          <table>
+            <thead>
+              <tr>
+                <th>Player</th>
+                <th>Presence</th>
+                <th>Payment</th>
+                <th>Portal</th>
+                <th>Notifications</th>
+              </tr>
+            </thead>
+            <tbody id="presenceTableBody"></tbody>
+          </table>
+        </div>
+        <div class="muted" style="margin-top:6px;">
+          Suspended players are automatically removed from presence, blocked from portal, and excluded from notifications.
+        </div>
+      </div>
+    </div>
 
-  <!-- DEMO POLLS / NOTIFICATIONS -->
-  <div class="card">
-    <h2>Polls & Notifications (Respect Suspensions)</h2>
-    <button id="sendPollBtn">Send Poll to All Eligible Players</button>
-    <p class="muted" id="pollLog"></p>
-  </div>
+    <!-- RIGHT COLUMN -->
+    <div class="col">
+      <!-- GAME & PINNIE CONTROL -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Game & pinnie washing control</div>
+            <div class="card-sub">Rotation, failures, fines, bans, and exclusions—fully automated.</div>
+          </div>
+          <span class="pill">Discipline engine</span>
+        </div>
+        <div style="font-size:12px; margin-bottom:8px;">
+          <div><strong>Current washer:</strong> <span id="currentWasher">None assigned yet</span></div>
+          <div style="margin-top:4px;">
+            <span class="small-label">Ladder:</span>
+            <span class="chip">1st fail → +15$ & same player again</span>
+            <span class="chip">2nd fail → +15$ & 1‑game ban</span>
+            <span class="chip">3rd fail → +15$ & 3‑game ban</span>
+            <span class="chip">4th fail → +15$, 3‑game ban & excluded</span>
+          </div>
+        </div>
+        <div class="input-row">
+          <button class="btn btn-primary" id="nextGameBtn">Next game & assign washer</button>
+          <button class="btn btn-ghost" id="markWashedBtn" disabled>Mark as washed</button>
+          <button class="btn btn-ghost" id="reportFailBtn" disabled>Report failure</button>
+        </div>
+        <div class="muted" id="systemMsg" style="margin-top:6px;"></div>
+        <div class="scroll-y" style="margin-top:10px;">
+          <table>
+            <thead>
+              <tr>
+                <th>Player</th>
+                <th>Fails</th>
+                <th>Fine</th>
+                <th>Banned until</th>
+                <th>Status</th>
+                <th>Washed</th>
+              </tr>
+            </thead>
+            <tbody id="playersTableBody"></tbody>
+          </table>
+        </div>
+      </div>
 
-  <!-- DEMO PORTAL LOGIN -->
-  <div class="card">
-    <h2>Portal Login Simulation</h2>
-    <input id="portalPlayerId" placeholder="Player ID (e.g. p1)" />
-    <button id="portalLoginBtn">Simulate Login</button>
-    <p class="muted" id="portalMsg"></p>
-  </div>
+      <!-- ALERTS -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Alerts</div>
+            <div class="card-sub">System‑generated warnings, bans, and important notices.</div>
+          </div>
+          <span class="pill">Live log</span>
+        </div>
+        <ul class="alert-list" id="alertList"></ul>
+      </div>
+
+      <!-- POLLS & NOTIFICATIONS -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Polls & notifications</div>
+            <div class="card-sub">Only eligible players receive polls and push alerts.</div>
+          </div>
+          <span class="pill">Respect sanctions</span>
+        </div>
+        <div class="input-row">
+          <input id="pollQuestion" placeholder="Ask the group a question (e.g. 'Who’s in for Sunday?')" />
+          <button class="btn btn-primary" id="sendPollBtn">Send poll</button>
+        </div>
+        <div class="muted" id="pollLog" style="margin-top:6px;"></div>
+      </div>
+
+      <!-- PORTAL LOGIN SIM -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Portal access simulation</div>
+            <div class="card-sub">See how bans and exclusions lock accounts automatically.</div>
+          </div>
+          <span class="pill">Player portal</span>
+        </div>
+        <div class="input-row">
+          <input id="portalPlayerId" placeholder="Player ID (e.g. p1)" />
+          <button class="btn btn-ghost" id="portalLoginBtn">Simulate login</button>
+        </div>
+        <div class="muted" id="portalMsg" style="margin-top:6px;"></div>
+      </div>
+    </div>
+  </main>
 
   <script>
     // -----------------------------
-    // GLOBAL STATE
+    // GLOBAL STATE & DATA
     // -----------------------------
-    const globalState = {
-      currentGame: 1
-    };
+    const globalState = { currentGame: 1 };
 
     const state = {
       players: [
@@ -104,16 +588,22 @@
         { id:'p3', name:'Alex', failCount:0, fine:0, bannedUntilGame:null, excluded:false, washedThisCycle:false, present:true, paid:true, notificationsEnabled:true, portalAccess:true },
         { id:'p4', name:'Sam',  failCount:0, fine:0, bannedUntilGame:null, excluded:false, washedThisCycle:false, present:true, paid:true, notificationsEnabled:true, portalAccess:true }
       ],
-      rotationIndex:0,
-      currentWasherId:null,
-      forceSameWasher:false,
-      pendingWasherId:null
+      rotationIndex: 0,
+      currentWasherId: null,
+      forceSameWasher: false,
+      pendingWasherId: null,
+      alerts: [],
+      feed: [
+        { title:'New season format announced', body:'We’re moving to a rolling ladder with dynamic teams.', meta:'Club news · 2h ago' },
+        { title:'Last game highlight', body:'Golden goal in extra time—what a finish.', meta:'Match recap · 1d ago' },
+        { title:'New players joined', body:'Welcome to the new faces in the group.', meta:'Community · 3d ago' }
+      ]
     };
 
     // -----------------------------
-    // SHARED / ENFORCEMENT LOGIC
+    // HELPERS & ENFORCEMENT
     // -----------------------------
-    function getPlayer(id){ return state.players.find(p=>p.id===id)||null; }
+    function getPlayer(id){ return state.players.find(p => p.id === id) || null; }
 
     function enforcePlayerState(player){
       const nowGame = globalState.currentGame;
@@ -147,6 +637,18 @@
       if (allUsed) eligible.forEach(p => p.washedThisCycle = false);
     }
 
+    function pushAlert(type, text){
+      const badgeMap = {
+        info: 'badge-info',
+        warn: 'badge-warn',
+        ban: 'badge-ban',
+        excl: 'badge-excl'
+      };
+      state.alerts.unshift({ type, text, cls: badgeMap[type] || 'badge-info' });
+      if (state.alerts.length > 8) state.alerts.pop();
+      renderAlerts();
+    }
+
     function setSystemMsg(msg){
       document.getElementById('systemMsg').textContent = msg || '';
     }
@@ -163,7 +665,6 @@
         return;
       }
 
-      // Pending washer (post‑ban obligation)
       if (state.pendingWasherId){
         const p = getPlayer(state.pendingWasherId);
         if (p && isEligibleForWasher(p)){
@@ -171,12 +672,12 @@
           state.pendingWasherId = null;
           state.forceSameWasher = false;
           setSystemMsg(`Post‑ban washer: ${p.name}`);
+          pushAlert('info', `${p.name} must wash pinnies after serving ban.`);
           updateUI();
           return;
         }
       }
 
-      // Same washer again after first failure
       if (state.forceSameWasher && state.currentWasherId){
         const p = getPlayer(state.currentWasherId);
         if (p && isEligibleForWasher(p)){
@@ -186,7 +687,6 @@
         }
       }
 
-      // Normal rotation
       resetCycleIfNeeded();
       const eligibleAfterReset = getEligiblePlayers();
       if (eligibleAfterReset.length === 0){
@@ -220,6 +720,7 @@
       state.currentWasherId = chosen.id;
       state.forceSameWasher = false;
       setSystemMsg(`New washer assigned: ${chosen.name}`);
+      pushAlert('info', `${chosen.name} assigned to wash pinnies for game #${globalState.currentGame}.`);
       updateUI();
     }
 
@@ -230,6 +731,7 @@
       p.washedThisCycle = true;
       setSystemMsg(`${p.name} washed the pinnies. Rotation advances.`);
       state.forceSameWasher = false;
+      pushAlert('info', `${p.name} completed pinnie duty.`);
       updateUI();
     }
 
@@ -242,16 +744,219 @@
       p.fine = (p.fine || 0) + 15;
 
       let msg = `${p.name} failed to wash. `;
-
       if (p.failCount === 1){
-        // 1st fail: 15$ + same player again
         state.forceSameWasher = true;
         msg += '1st fail → +15$, same washer again next game.';
+        pushAlert('warn', `${p.name} first failure. Same washer next game +15$.`);
       } else if (p.failCount === 2){
-        // 2nd fail: +15$ + 1‑game ban, must wash again after ban
         p.bannedUntilGame = globalState.currentGame + 1;
         state.pendingWasherId = p.id;
         state.forceSameWasher = false;
         msg += '2nd fail → +15$, 1‑game ban, must wash again after ban.';
+        pushAlert('ban', `${p.name} second failure. 1‑game ban +15$.`);
       } else if (p.failCount === 3){
-        // 3rd fail: +15$ + 3‑game ban, must
+        p.bannedUntilGame = globalState.currentGame + 3;
+        state.pendingWasherId = p.id;
+        state.forceSameWasher = false;
+        msg += '3rd fail → +15$, 3‑game ban, must wash again after ban.';
+        pushAlert('ban', `${p.name} third failure. 3‑game ban +15$.`);
+      } else if (p.failCount >= 4){
+        p.bannedUntilGame = globalState.currentGame + 3;
+        p.excluded = true;
+        state.pendingWasherId = null;
+        state.forceSameWasher = false;
+        msg += '4th fail → +15$, 3‑game ban & EXCLUDED.';
+        pushAlert('excl', `${p.name} excluded after repeated failures.`);
+      }
+
+      enforcePlayerState(p);
+      setSystemMsg(msg);
+      updateUI();
+    }
+
+    function nextGame(){
+      globalState.currentGame += 1;
+      document.getElementById('currentGame').textContent = globalState.currentGame;
+      setSystemMsg(`Game advanced to #${globalState.currentGame}. Assigning washer...`);
+      pushAlert('info', `Game advanced to #${globalState.currentGame}.`);
+      assignWasher();
+    }
+
+    // -----------------------------
+    // POLLS & NOTIFICATIONS
+    // -----------------------------
+    function sendPoll(){
+      const question = document.getElementById('pollQuestion').value.trim();
+      const logEl = document.getElementById('pollLog');
+      if (!question){
+        logEl.textContent = 'Enter a question before sending a poll.';
+        return;
+      }
+      const recipients = [];
+      state.players.forEach(p=>{
+        enforcePlayerState(p);
+        if (!p.notificationsEnabled) return;
+        recipients.push(p.name);
+      });
+      if (recipients.length === 0){
+        logEl.textContent = 'No eligible players to receive poll (all suspended/excluded).';
+      } else {
+        logEl.textContent = `Poll sent to: ${recipients.join(', ')}`;
+      }
+      pushAlert('info', `Poll sent: "${question}"`);
+      document.getElementById('pollQuestion').value = '';
+    }
+
+    // -----------------------------
+    // PORTAL LOGIN SIM
+    // -----------------------------
+    function simulatePortalLogin(){
+      const id = document.getElementById('portalPlayerId').value.trim();
+      const msgEl = document.getElementById('portalMsg');
+      const p = getPlayer(id);
+      if (!p){
+        msgEl.textContent = 'Player not found.';
+        return;
+      }
+      enforcePlayerState(p);
+      if (!p.portalAccess){
+        msgEl.textContent = `${p.name}: your account is temporarily suspended.`;
+      } else {
+        msgEl.textContent = `${p.name}: portal access granted.`;
+      }
+    }
+
+    // -----------------------------
+    // RENDERING
+    // -----------------------------
+    function renderPresenceAndMetrics(){
+      const tbody = document.getElementById('presenceTableBody');
+      tbody.innerHTML = '';
+      let presentCount = 0;
+      let paidCount = 0;
+      let sanctionsCount = 0;
+
+      state.players.forEach(p=>{
+        enforcePlayerState(p);
+        if (p.present) presentCount++;
+        if (p.paid) paidCount++;
+        if (p.excluded || (p.bannedUntilGame && p.bannedUntilGame > globalState.currentGame)) sanctionsCount++;
+
+        tbody.innerHTML += `
+          <tr>
+            <td>${p.name}</td>
+            <td>${p.present ? '✅' : '❌'}</td>
+            <td>${p.paid ? '💰' : '❌'}</td>
+            <td>${p.portalAccess ? '✅' : '⛔'}</td>
+            <td>${p.notificationsEnabled ? '✅' : '⛔'}</td>
+          </tr>`;
+      });
+
+      document.getElementById('metricPresent').textContent = presentCount;
+      document.getElementById('metricPaid').textContent = paidCount;
+      document.getElementById('metricSanctions').textContent = sanctionsCount;
+      document.getElementById('metricPresentChip').textContent = presentCount ? 'checked‑in' : 'waiting';
+      document.getElementById('metricPaidChip').textContent = paidCount ? 'cleared' : 'pending';
+      document.getElementById('metricSanctionsChip').textContent = sanctionsCount ? 'active cases' : 'clean sheet';
+    }
+
+    function renderPlayersTable(){
+      const tbody = document.getElementById('playersTableBody');
+      tbody.innerHTML = '';
+      state.players.forEach(p=>{
+        enforcePlayerState(p);
+        const status = (() => {
+          if (p.excluded) return {label:'Excluded', cls:'badge-excl'};
+          if (p.bannedUntilGame && p.bannedUntilGame > globalState.currentGame) return {label:`Banned`, cls:'badge-ban'};
+          if (p.failCount === 0) return {label:'Clean', cls:'badge-ok'};
+          if (p.failCount === 1) return {label:'Warned', cls:'badge-warn'};
+          if (p.failCount === 2) return {label:'Repeat', cls:'badge-warn'};
+          if (p.failCount === 3) return {label:'High risk', cls:'badge-ban'};
+          return {label:'Excluded', cls:'badge-excl'};
+        })();
+
+        tbody.innerHTML += `
+          <tr>
+            <td>${p.name}</td>
+            <td>${p.failCount}</td>
+            <td>${p.fine.toFixed(2)}</td>
+            <td>${p.bannedUntilGame ?? '-'}</td>
+            <td><span class="badge ${status.cls}">${status.label}</span></td>
+            <td>${p.washedThisCycle ? 'Yes' : 'No'}</td>
+          </tr>`;
+      });
+    }
+
+    function renderAlerts(){
+      const list = document.getElementById('alertList');
+      list.innerHTML = '';
+      state.alerts.forEach(a=>{
+        const li = document.createElement('li');
+        li.className = 'alert-item';
+        li.innerHTML = `
+          <div class="alert-main">
+            <div class="alert-title">${a.text}</div>
+            <div class="alert-meta">System · just now</div>
+          </div>
+          <span class="badge ${a.cls}">${a.type.toUpperCase()}</span>
+        `;
+        list.appendChild(li);
+      });
+    }
+
+    function renderFeed(){
+      const list = document.getElementById('feedList');
+      list.innerHTML = '';
+      state.feed.forEach(item=>{
+        const li = document.createElement('li');
+        li.className = 'feed-item';
+        li.innerHTML = `
+          <div class="feed-main">
+            <div class="feed-title">${item.title}</div>
+            <div class="feed-meta">${item.meta}</div>
+          </div>
+          <span class="badge badge-info">Feed</span>
+        `;
+        list.appendChild(li);
+      });
+    }
+
+    function updateUI(){
+      document.getElementById('currentGame').textContent = globalState.currentGame;
+      const washer = state.currentWasherId ? getPlayer(state.currentWasherId) : null;
+      document.getElementById('currentWasher').textContent = washer ? washer.name : 'None assigned';
+      document.getElementById('markWashedBtn').disabled = !washer;
+      document.getElementById('reportFailBtn').disabled = !washer;
+      renderPresenceAndMetrics();
+      renderPlayersTable();
+    }
+
+    // -----------------------------
+    // EVENT WIRING
+    // -----------------------------
+    document.getElementById('nextGameBtn').addEventListener('click', nextGame);
+    document.getElementById('markWashedBtn').addEventListener('click', markWashed);
+    document.getElementById('reportFailBtn').addEventListener('click', reportFailure);
+    document.getElementById('sendPollBtn').addEventListener('click', sendPoll);
+    document.getElementById('portalLoginBtn').addEventListener('click', simulatePortalLogin);
+
+    document.getElementById('btnQuickStart').addEventListener('click', () => {
+      pushAlert('info', 'Quick game flow started.');
+      nextGame();
+    });
+    document.getElementById('btnAdminPanel').addEventListener('click', () => {
+      pushAlert('info', 'Admin console opened (demo).');
+    });
+
+    // -----------------------------
+    // INITIALIZE
+    // -----------------------------
+    state.players.forEach(enforcePlayerState);
+    renderFeed();
+    assignWasher();
+    updateUI();
+  </script>
+</body>
+</html>
+```
+
