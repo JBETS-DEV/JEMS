@@ -1,67 +1,931 @@
-<!-- UNITYVERSE CREST LOGO -->
-<svg width="180" height="200" viewBox="0 0 180 200" xmlns="http://www.w3.org/2000/svg">
-  <!-- Background glow -->
-  <defs>
-    <radialGradient id="uvGlow" cx="50%" cy="35%" r="60%">
-      <stop offset="0%" stop-color="#1b2550" stop-opacity="1"/>
-      <stop offset="100%" stop-color="#050712" stop-opacity="1"/>
-    </radialGradient>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>UnityVerse — Where Passion Meets Respect and Fun</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <linearGradient id="uvGold" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#FFD700"/>
-      <stop offset="100%" stop-color="#C89A00"/>
-    </linearGradient>
+  <style>
+    :root {
+      --uv-bg: #050712;
+      --uv-bg-soft: #0b0e2d;
+      --uv-card: #11152f;
+      --uv-accent: #ffd700;
+      --uv-accent-soft: #f8e38a;
+      --uv-text: #fdfdfd;
+      --uv-muted: #9ca3c7;
+      --uv-danger: #ff2e2e;
+      --uv-success: #3ddc97;
+      --uv-border: #1f2647;
+      --uv-radius-lg: 18px;
+      --uv-radius-md: 12px;
+      --uv-radius-sm: 8px;
+      --uv-shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.55);
+      --uv-shadow-subtle: 0 10px 25px rgba(0, 0, 0, 0.35);
+      --uv-transition-fast: 0.18s ease-out;
+      --uv-transition-med: 0.25s ease-out;
+    }
 
-    <linearGradient id="uvNavy" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0B0E2D"/>
-      <stop offset="100%" stop-color="#02030A"/>
-    </linearGradient>
-  </defs>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-  <!-- Crest background -->
-  <rect x="0" y="0" width="180" height="200" rx="24" fill="url(#uvGlow)"/>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #151b3f 0, #050712 55%, #02020a 100%);
+      color: var(--uv-text);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 16px;
+    }
 
-  <!-- V arms (embracing) -->
-  <path
-    d="M20 30 L55 30 L90 135 L125 30 L160 30 L105 180 L75 180 Z"
-    fill="url(#uvGold)"
-    stroke="#F5E6A0"
-    stroke-width="2"
-  />
+    /* MAIN WRAPPER (CENTERED) */
+    .uv-shell {
+      width: 100%;
+      max-width: 1200px;
+      background: linear-gradient(145deg, rgba(11, 14, 45, 0.96), rgba(5, 7, 18, 0.98));
+      border-radius: 24px;
+      box-shadow: var(--uv-shadow-soft);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      padding: 16px 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
 
-  <!-- U shape inside -->
-  <path
-    d="M55 60
-       Q55 40 75 40
-       L105 40
-       Q125 40 125 60
-       L125 115
-       Q125 135 115 145
-       Q105 155 90 155
-       Q75 155 65 145
-       Q55 135 55 115 Z"
-    fill="url(#uvNavy)"
-    stroke="#1F2A5C"
-    stroke-width="2"
-  />
+    /* HEADER */
+    .uv-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 10px 14px;
+      border-radius: 18px;
+      background: radial-gradient(circle at top left, #1b2550 0, #050712 60%);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
 
-  <!-- Soccer ball (simplified but realistic enough for now) -->
-  <circle cx="90" cy="100" r="22" fill="#FDFDFD" stroke="#D0D0D0" stroke-width="2"/>
-  <!-- Ball patches -->
-  <polygon points="90,82 100,90 96,102 84,102 80,90"
-           fill="#111111"/>
-  <path d="M90 82 L80 90 L72 86" stroke="#111111" stroke-width="1.5" fill="none"/>
-  <path d="M90 82 L100 90 L108 86" stroke="#111111" stroke-width="1.5" fill="none"/>
-  <path d="M80 90 L76 102 L82 112" stroke="#111111" stroke-width="1.5" fill="none"/>
-  <path d="M100 90 L104 102 L98 112" stroke="#111111" stroke-width="1.5" fill="none"/>
-  <path d="M84 102 L90 112 L96 102" stroke="#111111" stroke-width="1.5" fill="none"/>
+    .uv-logo-block {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
 
-  <!-- UNITYVERSE wordmark -->
-  <text x="50%" y="190" text-anchor="middle"
-        font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-        font-size="16"
-        fill="#FDFDFD"
-        letter-spacing="2">
-    UNITYVERSE
-  </text>
-</svg>
+    .uv-logo {
+      width: 70px;
+      height: 80px;
+      flex-shrink: 0;
+    }
+
+    .uv-title-block {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .uv-title {
+      font-size: 1.4rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .uv-tagline {
+      font-size: 0.85rem;
+      color: var(--uv-muted);
+    }
+
+    .uv-header-right {
+      margin-left: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+      font-size: 0.8rem;
+      color: var(--uv-muted);
+    }
+
+    .uv-badge {
+      padding: 3px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    /* NAV TABS */
+    .uv-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      padding: 8px;
+      border-radius: 999px;
+      background: rgba(5, 7, 18, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .uv-tab {
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-size: 0.85rem;
+      color: var(--uv-muted);
+      cursor: pointer;
+      background: transparent;
+      transition: var(--uv-transition-fast);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .uv-tab span.icon {
+      font-size: 1rem;
+    }
+
+    .uv-tab:hover {
+      color: var(--uv-text);
+      border-color: rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .uv-tab.active {
+      color: #050712;
+      background: var(--uv-accent);
+      border-color: var(--uv-accent-soft);
+      font-weight: 600;
+    }
+
+    /* MAIN CONTENT AREA */
+    .uv-main {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* TOP SUMMARY / QUICK ACTIONS */
+    .uv-top-row {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1.4fr);
+      gap: 14px;
+    }
+
+    .uv-card {
+      background: var(--uv-card);
+      border-radius: var(--uv-radius-lg);
+      border: 1px solid var(--uv-border);
+      box-shadow: var(--uv-shadow-subtle);
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .uv-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .uv-card-title {
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--uv-muted);
+    }
+
+    .uv-chip {
+      font-size: 0.7rem;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--uv-muted);
+    }
+
+    .uv-card-body {
+      font-size: 0.85rem;
+      color: var(--uv-text);
+    }
+
+    .uv-actions-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .uv-btn {
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.02);
+      color: var(--uv-text);
+      padding: 6px 12px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: var(--uv-transition-fast);
+    }
+
+    .uv-btn.primary {
+      background: var(--uv-accent);
+      color: #050712;
+      border-color: var(--uv-accent-soft);
+      font-weight: 600;
+    }
+
+    .uv-btn.danger {
+      border-color: rgba(255, 46, 46, 0.6);
+      color: var(--uv-danger);
+    }
+
+    .uv-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+    }
+
+    /* CENTERED TABLE WRAPPER */
+    .uv-table-wrapper {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    .uv-table-container {
+      width: 100%;
+      max-width: 1000px;
+      overflow-x: auto;
+      border-radius: var(--uv-radius-md);
+      border: 1px solid var(--uv-border);
+      background: radial-gradient(circle at top, #151b3f 0, #050712 70%);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+      min-width: 640px;
+    }
+
+    thead {
+      background: rgba(5, 7, 18, 0.9);
+    }
+
+    th, td {
+      padding: 8px 10px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      white-space: nowrap;
+    }
+
+    th {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--uv-muted);
+    }
+
+    tbody tr:nth-child(even) {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    tbody tr:hover {
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .uv-badge-status {
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .uv-badge-status.open {
+      background: rgba(61, 220, 151, 0.12);
+      color: var(--uv-success);
+      border: 1px solid rgba(61, 220, 151, 0.6);
+    }
+
+    .uv-badge-status.full {
+      background: rgba(255, 46, 46, 0.12);
+      color: var(--uv-danger);
+      border: 1px solid rgba(255, 46, 46, 0.6);
+    }
+
+    .uv-badge-status.closed {
+      background: rgba(156, 163, 199, 0.12);
+      color: var(--uv-muted);
+      border: 1px solid rgba(156, 163, 199, 0.6);
+    }
+
+    /* TABS CONTENT */
+    .uv-section {
+      display: none;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .uv-section.active {
+      display: flex;
+    }
+
+    .uv-section-title {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--uv-muted);
+      text-align: center;
+    }
+
+    .uv-section-sub {
+      font-size: 0.8rem;
+      color: var(--uv-muted);
+      text-align: center;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .uv-shell {
+        padding: 12px;
+        border-radius: 18px;
+      }
+
+      .uv-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .uv-header-right {
+        align-items: flex-start;
+      }
+
+      .uv-top-row {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      table {
+        min-width: 520px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 8px;
+      }
+
+      .uv-shell {
+        padding: 10px;
+        border-radius: 16px;
+      }
+
+      .uv-tabs {
+        flex-wrap: wrap;
+        border-radius: 16px;
+      }
+
+      .uv-logo {
+        width: 60px;
+        height: 70px;
+      }
+
+      .uv-title {
+        font-size: 1.1rem;
+        letter-spacing: 0.12em;
+      }
+
+      .uv-tagline {
+        font-size: 0.78rem;
+      }
+
+      table {
+        min-width: 460px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="uv-shell">
+    <!-- HEADER -->
+    <header class="uv-header">
+      <div class="uv-logo-block">
+        <!-- UNITYVERSE CREST (MODERN) -->
+        <svg class="uv-logo" viewBox="0 0 180 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="uvGold" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#F8E38A"/>
+              <stop offset="100%" stop-color="#C9A43A"/>
+            </linearGradient>
+            <linearGradient id="uvNavy" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#0D122B"/>
+              <stop offset="100%" stop-color="#050712"/>
+            </linearGradient>
+            <radialGradient id="uvBall" cx="50%" cy="50%" r="65%">
+              <stop offset="0%" stop-color="#FFFFFF"/>
+              <stop offset="100%" stop-color="#D9D9D9"/>
+            </radialGradient>
+          </defs>
+
+          <!-- V arms -->
+          <path
+            d="M25 30 L60 30 L90 150 L120 30 L155 30"
+            fill="none"
+            stroke="url(#uvGold)"
+            stroke-width="8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+
+          <!-- U shape -->
+          <path
+            d="M60 55
+               Q60 40 78 40
+               L102 40
+               Q120 40 120 55
+               L120 115
+               Q120 135 105 147
+               Q90 160 75 147
+               Q60 135 60 115 Z"
+            fill="url(#uvNavy)"
+            stroke="#1A2147"
+            stroke-width="3"
+          />
+
+          <!-- Soccer ball -->
+          <circle cx="90" cy="100" r="22" fill="url(#uvBall)" stroke="#BFBFBF" stroke-width="2"/>
+          <polygon points="90,82 100,90 96,102 84,102 80,90"
+                   fill="#1A1A1A"/>
+          <path d="M90 82 L80 90 L72 86" stroke="#1A1A1A" stroke-width="1.4" fill="none"/>
+          <path d="M90 82 L100 90 L108 86" stroke="#1A1A1A" stroke-width="1.4" fill="none"/>
+          <path d="M80 90 L76 102 L82 112" stroke="#1A1A1A" stroke-width="1.4" fill="none"/>
+          <path d="M100 90 L104 102 L98 112" stroke="#1A1A1A" stroke-width="1.4" fill="none"/>
+          <path d="M84 102 L90 112 L96 102" stroke="#1A1A1A" stroke-width="1.4" fill="none"/>
+        </svg>
+
+        <div class="uv-title-block">
+          <div class="uv-title">UNITYVERSE</div>
+          <div class="uv-tagline">Where Passion Meets Respect and Fun</div>
+        </div>
+      </div>
+
+      <div class="uv-header-right">
+        <div class="uv-badge">Adaptive Auto Mode • Responsive</div>
+        <div>Pickup Soccer • Activities • Community Hub</div>
+      </div>
+    </header>
+
+    <!-- NAV TABS -->
+    <nav class="uv-tabs">
+      <button class="uv-tab active" data-target="games">
+        <span class="icon">⚽</span> Games
+      </button>
+      <button class="uv-tab" data-target="activities">
+        <span class="icon">🎉</span> Activities
+      </button>
+      <button class="uv-tab" data-target="community">
+        <span class="icon">🤝</span> Community
+      </button>
+      <button class="uv-tab" data-target="stats">
+        <span class="icon">📊</span> Stats
+      </button>
+      <button class="uv-tab" data-target="settings">
+        <span class="icon">⚙️</span> Settings
+      </button>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main class="uv-main">
+      <!-- GAMES SECTION -->
+      <section id="games" class="uv-section active">
+        <div class="uv-section-title">Saturday Pickup Games</div>
+        <div class="uv-section-sub">Calendar • Attendance • Teams • WhatsApp Export</div>
+
+        <div class="uv-top-row">
+          <!-- Left: Next Game / Quick Actions -->
+          <div class="uv-card">
+            <div class="uv-card-header">
+              <div class="uv-card-title">Next Game</div>
+              <div class="uv-chip">Auto Calendar • Holidays Aware</div>
+            </div>
+            <div class="uv-card-body">
+              <div><strong>Date:</strong> Saturday, 10:00 AM</div>
+              <div><strong>Location:</strong> TBA (Default Field)</div>
+              <div><strong>Format:</strong> 7 vs 7 (auto‑adjusts)</div>
+              <div><strong>Status:</strong> <span class="uv-badge-status open">Open</span></div>
+
+              <div class="uv-actions-row">
+                <button class="uv-btn primary">I’m In</button>
+                <button class="uv-btn">Maybe</button>
+                <button class="uv-btn danger">Not Coming</button>
+                <button class="uv-btn">Bring a Friend</button>
+                <button class="uv-btn">Preferred Position</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Team Builder Summary -->
+          <div class="uv-card">
+            <div class="uv-card-header">
+              <div class="uv-card-title">Team Builder</div>
+              <div class="uv-chip">Auto Teams • Giants Clubs</div>
+            </div>
+            <div class="uv-card-body">
+              <div><strong>Confirmed:</strong> 18 players</div>
+              <div><strong>Teams:</strong> 3 (Real Madrid • Barcelona • Bayern)</div>
+              <div><strong>Mode:</strong> Random + Rotation</div>
+              <div class="uv-actions-row">
+                <button class="uv-btn primary">Generate Teams</button>
+                <button class="uv-btn">Export to WhatsApp</button>
+                <button class="uv-btn">View Attendance</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Games Table (centered) -->
+        <div class="uv-table-wrapper">
+          <div class="uv-table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>Location</th>
+                  <th>Format</th>
+                  <th>Status</th>
+                  <th>Confirmed</th>
+                  <th>Waitlist</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Sat • May 23</td>
+                  <td>10:00 AM</td>
+                  <td>Field A</td>
+                  <td>7 vs 7</td>
+                  <td><span class="uv-badge-status open">Open</span></td>
+                  <td>18</td>
+                  <td>2</td>
+                  <td>
+                    <button class="uv-btn" style="font-size:0.7rem;">Attendance</button>
+                    <button class="uv-btn" style="font-size:0.7rem;">Teams</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Sat • May 30</td>
+                  <td>10:00 AM</td>
+                  <td>Field B</td>
+                  <td>7 vs 7</td>
+                  <td><span class="uv-badge-status.closed">Closed</span></td>
+                  <td>22</td>
+                  <td>4</td>
+                  <td>
+                    <button class="uv-btn" style="font-size:0.7rem;">View</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Sat • Jun 06</td>
+                  <td>10:00 AM</td>
+                  <td>Field A</td>
+                  <td>6 vs 6</td>
+                  <td><span class="uv-badge-status.full">Full</span></td>
+                  <td>24</td>
+                  <td>6</td>
+                  <td>
+                    <button class="uv-btn" style="font-size:0.7rem;">Waitlist</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ACTIVITIES SECTION -->
+      <section id="activities" class="uv-section">
+        <div class="uv-section-title">Social Activities</div>
+        <div class="uv-section-sub">Dinners • Bowling • Trips • Cost Split • Polls</div>
+
+        <div class="uv-top-row">
+          <div class="uv-card">
+            <div class="uv-card-header">
+              <div class="uv-card-title">Next Activity</div>
+              <div class="uv-chip">Poll • Cost Split</div>
+            </div>
+            <div class="uv-card-body">
+              <div><strong>Activity:</strong> Team Dinner</div>
+              <div><strong>Date:</strong> Friday, 8:00 PM</div>
+              <div><strong>Location:</strong> Downtown Restaurant</div>
+              <div><strong>Estimated Cost:</strong> $320 total</div>
+              <div><strong>Per Person:</strong> $20 (16 people)</div>
+              <div class="uv-actions-row">
+                <button class="uv-btn primary">Who’s In?</button>
+                <button class="uv-btn">Send WhatsApp Poll</button>
+                <button class="uv-btn">Adjust Cost Split</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="uv-card">
+            <div class="uv-card-header">
+              <div class="uv-card-title">Carpool & Budget</div>
+              <div class="uv-chip">Drivers • Seats • Gas</div>
+            </div>
+            <div class="uv-card-body">
+              <div><strong>Drivers:</strong> 3</div>
+              <div><strong>Seats Available:</strong> 11</div>
+              <div><strong>Gas Split:</strong> $10 / passenger</div>
+              <div class="uv-actions-row">
+                <button class="uv-btn primary">Manage Carpool</button>
+                <button class="uv-btn">Assign Passengers</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Activities Table (centered) -->
+        <div class="uv-table-wrapper">
+          <div class="uv-table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Activity</th>
+                  <th>Date</th>
+                  <th>Type</th>
+                  <th>Cost</th>
+                  <th>Attending</th>
+                  <th>Poll</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Team Dinner</td>
+                  <td>Fri • May 29</td>
+                  <td>Food</td>
+                  <td>$320</td>
+                  <td>16</td>
+                  <td>Sent</td>
+                  <td>
+                    <button class="uv-btn" style="font-size:0.7rem;">Details</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Bowling Night</td>
+                  <td>Sat • Jun 13</td>
+                  <td>Fun</td>
+                  <td>$180</td>
+                  <td>10</td>
+                  <td>Draft</td>
+                  <td>
+                    <button class="uv-btn" style="font-size:0.7rem;">Edit Poll</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Road Trip</td>
+                  <td>Sat • Jul 04</td>
+                  <td>Trip</td>
+                  <td>$600</td>
+                  <td>12</td>
+                  <td>Planned</td>
+                  <td>
+                    <button class="uv-btn" style="font-size:0.7rem;">Carpool</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- COMMUNITY SECTION -->
+      <section id="community" class="uv-section">
+        <div class="uv-section-title">Community Hub</div>
+        <div class="uv-section-sub">Announcements • Chat • Birthdays • Photos</div>
+
+        <div class="uv-top-row">
+          <div class="uv-card">
+            <div class="uv-card-header">
+              <div class="uv-card-title">Announcements</div>
+              <div class="uv-chip">Admin Only</div>
+            </div>
+            <div class="uv-card-body">
+              <ul style="list-style:none; display:flex; flex-direction:column; gap:6px; font-size:0.8rem;">
+                <li><strong>[New]</strong> Summer season starts June 1st.</li>
+                <li><strong>[Info]</strong> Please arrive 15 minutes before kickoff.</li>
+                <li><strong>[Reminder]</strong> Respect, fun, and fair play first.</li>
+              </ul>
+              <div class="uv-actions-row" style="margin-top:8px;">
+                <button class="uv-btn primary">Post Announcement</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="uv-card">
+            <div class="uv-card-header">
+              <div class="uv-card-title">Birthdays & Celebrations</div>
+              <div class="uv-chip">Auto Reminders</div>
+            </div>
+            <div class="uv-card-body">
+              <div><strong>Next Birthday:</strong> June 5 — Alex</div>
+              <div><strong>Idea:</strong> Cake after the game 🎂</div>
+              <div class="uv-actions-row">
+                <button class="uv-btn primary">View All Birthdays</button>
+                <button class="uv-btn">Add Celebration Idea</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Community Table (centered) -->
+        <div class="uv-table-wrapper">
+          <div class="uv-table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Type</th>
+                  <th>Title</th>
+                  <th>Date</th>
+                  <th>Author</th>
+                  <th>Reactions</th>
+                  <th>Comments</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Announcement</td>
+                  <td>Summer Season Kickoff</td>
+                  <td>May 20</td>
+                  <td>Admin</td>
+                  <td>👍 18</td>
+                  <td>5</td>
+                </tr>
+                <tr>
+                  <td>Photo Album</td>
+                  <td>Last Saturday Highlights</td>
+                  <td>May 17</td>
+                  <td>Sam</td>
+                  <td>❤️ 24</td>
+                  <td>9</td>
+                </tr>
+                <tr>
+                  <td>Birthday</td>
+                  <td>Happy Birthday Alex!</td>
+                  <td>May 10</td>
+                  <td>Group</td>
+                  <td>🎉 30</td>
+                  <td>12</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- STATS SECTION -->
+      <section id="stats" class="uv-section">
+        <div class="uv-section-title">Player & Game Stats</div>
+        <div class="uv-section-sub">Attendance • Streaks • MVP • Games Played</div>
+
+        <div class="uv-top-row">
+          <div class="uv-card">
+            <div class="uv-card-header">
+              <div class="uv-card-title">Your Stats</div>
+              <div class="uv-chip">Sample Data</div>
+            </div>
+            <div class="uv-card-body">
+              <div><strong>Games Played:</strong> 24</div>
+              <div><strong>Attendance Rate:</strong> 86%</div>
+              <div><strong>Current Streak:</strong> 7 games</div>
+              <div><strong>MVP Votes:</strong> 5</div>
+            </div>
+          </div>
+
+          <div class="uv-card">
+            <div class="uv-card-header">
+              <div class="uv-card-title">Group Stats</div>
+              <div class="uv-chip">Season Overview</div>
+            </div>
+            <div class="uv-card-body">
+              <div><strong>Total Games:</strong> 32</div>
+              <div><strong>Average Attendance:</strong> 18.4 players</div>
+              <div><strong>Most Common Format:</strong> 7 vs 7</div>
+              <div><strong>Most Used Team Names:</strong> Real Madrid, Barcelona, Bayern</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stats Table (centered) -->
+        <div class="uv-table-wrapper">
+          <div class="uv-table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Player</th>
+                  <th>Games</th>
+                  <th>Attendance %</th>
+                  <th>Streak</th>
+                  <th>MVP</th>
+                  <th>Preferred Position</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Alex</td>
+                  <td>24</td>
+                  <td>86%</td>
+                  <td>7</td>
+                  <td>5</td>
+                  <td>Midfield</td>
+                </tr>
+                <tr>
+                  <td>Sam</td>
+                  <td>20</td>
+                  <td>78%</td>
+                  <td>3</td>
+                  <td>2</td>
+                  <td>Forward</td>
+                </tr>
+                <tr>
+                  <td>Jordan</td>
+                  <td>18</td>
+                  <td>72%</td>
+                  <td>4</td>
+                  <td>1</td>
+                  <td>Defender</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- SETTINGS SECTION -->
+      <section id="settings" class="uv-section">
+        <div class="uv-section-title">Portal Settings</div>
+        <div class="uv-section-sub">Branding • Formats • Auto Rules • WhatsApp</div>
+
+        <div class="uv-top-row">
+          <div class="uv-card">
+            <div class="uv-card-header">
+              <div class="uv-card-title">Game Rules</div>
+              <div class="uv-chip">Auto Logic</div>
+            </div>
+            <div class="uv-card-body">
+              <ul style="list-style:none; display:flex; flex-direction:column; gap:6px; font-size:0.8rem;">
+                <li>• Default format: 7 vs 7</li>
+                <li>• Can switch to 6 vs 6 if needed</li>
+                <li>• &lt; 18 confirmed → 2 teams</li>
+                <li>• 18–21 confirmed → 3 teams</li>
+                <li>• ≥ 26 confirmed → 4 teams</li>
+                <li>• Teams named after world giants (Real Madrid, Barça, Bayern, etc.)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="uv-card">
+            <div class="uv-card-header">
+              <div class="uv-card-title">Brand & Integration</div>
+              <div class="uv-chip">UnityVerse</div>
+            </div>
+            <div class="uv-card-body">
+              <ul style="list-style:none; display:flex; flex-direction:column; gap:6px; font-size:0.8rem;">
+                <li>• Name: UnityVerse</li>
+                <li>• Tagline: “Where Passion Meets Respect and Fun”</li>
+                <li>• Crest: V arms embracing U + soccer ball</li>
+                <li>• WhatsApp: Polls + Team Export</li>
+                <li>• Auto Mode: Fully responsive (phone, tablet, desktop)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    // Simple tab switching
+    const tabs = document.querySelectorAll('.uv-tab');
+    const sections = document.querySelectorAll('.uv-section');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = tab.getAttribute('data-target');
+
+        tabs.forEach(t => t.classList.remove('active'));
+        sections.forEach(s => s.classList.remove('active'));
+
+        tab.classList.add('active');
+        document.getElementById(target).classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>
