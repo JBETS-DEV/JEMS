@@ -1215,4 +1215,42 @@
         });
       }
 
-      if (btnRegister
+      if (btnRegister) {
+        btnRegister.addEventListener("click", () => {
+          const name = (registerName.value || "").trim();
+          const email = (registerEmail.value || "").trim();
+          const pass = (registerPassword.value || "").trim();
+          if (!name || !email || !pass) {
+            registerStatus.textContent = "Fill all fields to register.";
+            registerStatus.className = "status err";
+            return;
+          }
+          state.user = { name, email };
+          registerStatus.textContent =
+            "Account created locally (demo). Replace with Firebase later.";
+          registerStatus.className = "status ok";
+          updateAuthUI();
+        });
+      }
+
+      updateAuthUI();
+    }
+
+    function initApp() {
+      initTabs();
+      initBottomNav();
+      populateGames();
+      populateAttendance();
+      populatePayments();
+      populateAdmins();
+      populateStats();
+      initPinnieEngine();
+      initCommunity();
+      initPolls();
+      initAuthDemo();
+    }
+
+    window.addEventListener("DOMContentLoaded", initApp);
+  </script>
+</body>
+</html>
