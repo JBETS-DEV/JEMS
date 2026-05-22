@@ -1207,3 +1207,499 @@
               <div class="presence-avatar">S</div>
               <div class="presence-avatar">J</div>
             </div>
+            <div class="presence-status">
+              <div class="presence-dot"></div>
+              Live check-ins
+            </div>
+          </div>
+        </div>
+
+        <div class="feed" id="communityFeed">
+          <div class="feed-item">
+            <div>“Respect FC just wrapped a 7v7 — zero cards, all smiles.”</div>
+            <div class="feed-meta">
+              <span>Downtown Respect FC</span>
+              <span>2 min ago</span>
+            </div>
+          </div>
+          <div class="feed-item">
+            <div>“New players joined the 6v6 chill game. Vibes are immaculate.”</div>
+            <div class="feed-meta">
+              <span>UnityVerse · Auto-feed</span>
+              <span>8 min ago</span>
+            </div>
+          </div>
+        </div>
+
+        <form class="form" id="communityPostForm">
+          <div class="form-row">
+            <label for="communityMessage">Post to your community</label>
+            <textarea id="communityMessage" placeholder="Share a quick update, rule reminder, or Fair Play shoutout..."></textarea>
+          </div>
+          <div class="form-actions">
+            <button type="button" class="btn btn-primary" id="btnPostCommunity">Post</button>
+            <button type="button" class="btn btn-ghost" id="btnClearCommunity">Clear</button>
+          </div>
+          <div class="hint">This is a front-end demo. Wire this to Firestore or Realtime Database to persist posts.</div>
+          <div class="status" id="communityStatus"></div>
+        </form>
+      </section>
+
+      <!-- AUTH CARD -->
+      <section class="card fade" id="authCard">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Access & Identity</div>
+            <div class="card-subtitle">Sign in to sync your universe</div>
+          </div>
+          <div class="chip">
+            <span class="chip-dot"></span>
+            <span id="authModeLabel">Guest</span>
+          </div>
+        </div>
+
+        <div class="tabs-row">
+          <button class="tab-pill active" data-tab="tab-auth-login">
+            <span class="tab-dot"></span> Login
+          </button>
+          <button class="tab-pill" data-tab="tab-auth-register">
+            <span class="tab-dot"></span> Register
+          </button>
+        </div>
+
+        <!-- LOGIN -->
+        <div class="tab-content active" id="tab-auth-login">
+          <form class="form" id="loginForm">
+            <div class="form-row">
+              <label for="loginEmail">Email</label>
+              <input id="loginEmail" type="email" placeholder="you@example.com" />
+            </div>
+            <div class="form-row">
+              <label for="loginPassword">Password</label>
+              <input id="loginPassword" type="password" placeholder="••••••••" />
+            </div>
+            <div class="form-actions">
+              <button type="button" class="btn btn-primary" id="btnLogin">Login</button>
+              <button type="button" class="btn btn-ghost" id="btnLoginDemo">Demo Login</button>
+            </div>
+            <div class="hint">
+              Replace this demo handler with Firebase Auth (email/password, phone, or social providers).
+            </div>
+            <div class="status" id="loginStatus"></div>
+          </form>
+        </div>
+
+        <!-- REGISTER -->
+        <div class="tab-content" id="tab-auth-register">
+          <form class="form" id="registerForm">
+            <div class="form-row">
+              <label for="registerName">Full Name</label>
+              <input id="registerName" type="text" placeholder="Your name" />
+            </div>
+            <div class="form-row">
+              <label for="registerEmail">Email</label>
+              <input id="registerEmail" type="email" placeholder="you@example.com" />
+            </div>
+            <div class="form-row">
+              <label for="registerPassword">Password</label>
+              <input id="registerPassword" type="password" placeholder="Create a password" />
+            </div>
+            <div class="form-actions">
+              <button type="button" class="btn btn-primary" id="btnRegister">Create Account</button>
+            </div>
+            <div class="hint">
+              Wire this to Firebase Auth's createUserWithEmailAndPassword, then store profile in Firestore.
+            </div>
+            <div class="status" id="registerStatus"></div>
+          </form>
+        </div>
+      </section>
+
+      <!-- POLLS / ALERTS -->
+      <section class="card fade" id="pollsCard">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Polls & Alerts</div>
+            <div class="card-subtitle">Let the community shape the session</div>
+          </div>
+          <div class="chip red">
+            <div class="chip-dot red"></div>
+            Live Poll
+          </div>
+        </div>
+
+        <div class="poll" id="pollContainer">
+          <div>Tonight's vibe?</div>
+          <div class="poll-option" data-option="high-tempo">
+            <span>High Tempo · Competitive</span>
+            <span class="badge">0%</span>
+          </div>
+          <div class="poll-option" data-option="balanced">
+            <span>Balanced · Respect First</span>
+            <span class="badge">0%</span>
+          </div>
+          <div class="poll-option" data-option="chill">
+            <span>Chill · Fun & Flow</span>
+            <span class="badge">0%</span>
+          </div>
+          <div class="poll-bar">
+            <div class="poll-bar-fill" id="pollBarFill"></div>
+          </div>
+          <div class="hint">Persist poll votes in Firestore to share across all devices.</div>
+          <div class="status" id="pollStatus"></div>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav">
+    <div class="bottom-item active" data-nav="home">
+      <div class="bottom-item-icon">🏠</div>
+      <div>Home</div>
+    </div>
+    <div class="bottom-item" data-nav="community">
+      <div class="bottom-item-icon">👥</div>
+      <div>Community</div>
+    </div>
+    <div class="bottom-item" data-nav="games">
+      <div class="bottom-item-icon">⚽</div>
+      <div>Games</div>
+    </div>
+    <div class="bottom-item" data-nav="admin">
+      <div class="bottom-item-icon">🛡️</div>
+      <div>Admin</div>
+    </div>
+    <div class="bottom-item" data-nav="profile">
+      <div class="bottom-item-icon">👤</div>
+      <div>Profile</div>
+    </div>
+  </nav>
+
+  <!-- SCRIPT -->
+  <script>
+    // Simple state
+    const state = {
+      user: null,
+      poll: {
+        highTempo: 0,
+        balanced: 0,
+        chill: 0,
+        total: 0,
+        selected: null
+      },
+      pinnies: {
+        gold: 7,
+        dark: 7
+      }
+    };
+
+    // Helpers
+    function $(sel) {
+      return document.querySelector(sel);
+    }
+    function $all(sel) {
+      return Array.from(document.querySelectorAll(sel));
+    }
+
+    function setText(id, text) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = text;
+    }
+
+    // Tabs (main)
+    function initTabs() {
+      const tabButtons = $all(".tab-pill");
+      tabButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+          const tabId = btn.getAttribute("data-tab");
+          if (!tabId) return;
+
+          // If it's auth tabs, only toggle within auth card
+          const isAuthTab = tabId.startsWith("tab-auth-");
+
+          if (isAuthTab) {
+            const authTabs = $all("#authCard .tab-pill");
+            const authContents = $all("#authCard .tab-content");
+            authTabs.forEach(b => b.classList.remove("active"));
+            authContents.forEach(c => c.classList.remove("active"));
+            btn.classList.add("active");
+            const content = document.getElementById(tabId);
+            if (content) content.classList.add("active");
+          } else {
+            // Main game tabs
+            const mainTabs = $all("#homeCard .tab-pill");
+            const mainContents = $all("#homeCard .tab-content");
+            mainTabs.forEach(b => b.classList.remove("active"));
+            mainContents.forEach(c => c.classList.remove("active"));
+            btn.classList.add("active");
+            const content = document.getElementById(tabId);
+            if (content) content.classList.add("active");
+          }
+        });
+      });
+    }
+
+    // Bottom nav (just visual + scroll focus)
+    function initBottomNav() {
+      const items = $all(".bottom-item");
+      items.forEach(item => {
+        item.addEventListener("click", () => {
+          items.forEach(i => i.classList.remove("active"));
+          item.classList.add("active");
+
+          const target = item.getAttribute("data-nav");
+          if (target === "home") {
+            document.getElementById("homeCard")?.scrollIntoView({ behavior: "smooth", block: "start" });
+          } else if (target === "community") {
+            document.getElementById("communityCard")?.scrollIntoView({ behavior: "smooth", block: "start" });
+          } else if (target === "admin") {
+            document.getElementById("tab-admin")?.scrollIntoView({ behavior: "smooth", block: "start" });
+          } else if (target === "games") {
+            document.getElementById("tab-games")?.scrollIntoView({ behavior: "smooth", block: "start" });
+          } else if (target === "profile") {
+            document.getElementById("authCard")?.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        });
+      });
+    }
+
+    // Pinnie engine (demo)
+    function initPinnieEngine() {
+      const btn = document.getElementById("btnRunPinnieEngine");
+      const label = document.getElementById("pinnieSplitLabel");
+      if (!btn || !label) return;
+
+      btn.addEventListener("click", () => {
+        // Simple random tweak for demo
+        const total = 14;
+        const gold = 7 + (Math.random() > 0.5 ? 1 : -1);
+        const clampedGold = Math.max(5, Math.min(9, gold));
+        const dark = total - clampedGold;
+        state.pinnies.gold = clampedGold;
+        state.pinnies.dark = dark;
+        label.textContent = "Gold " + clampedGold + " · Dark " + dark;
+      });
+    }
+
+    // Community posting (front-end only)
+    function initCommunity() {
+      const form = document.getElementById("communityPostForm");
+      const textarea = document.getElementById("communityMessage");
+      const feed = document.getElementById("communityFeed");
+      const status = document.getElementById("communityStatus");
+      const btnPost = document.getElementById("btnPostCommunity");
+      const btnClear = document.getElementById("btnClearCommunity");
+
+      if (!form || !textarea || !feed || !status || !btnPost || !btnClear) return;
+
+      btnPost.addEventListener("click", () => {
+        const msg = textarea.value.trim();
+        if (!msg) {
+          status.textContent = "Write something before posting.";
+          status.className = "status err";
+          return;
+        }
+        const item = document.createElement("div");
+        item.className = "feed-item";
+        const now = new Date();
+        const timeLabel = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+
+        item.innerHTML = `
+          <div>${msg}</div>
+          <div class="feed-meta">
+            <span>${state.user ? state.user.name || "You" : "Guest"}</span>
+            <span>${timeLabel}</span>
+          </div>
+        `;
+        feed.prepend(item);
+        textarea.value = "";
+        status.textContent = "Posted locally. Connect to Firestore to persist.";
+        status.className = "status ok";
+      });
+
+      btnClear.addEventListener("click", () => {
+        textarea.value = "";
+        status.textContent = "";
+        status.className = "status";
+      });
+    }
+
+    // Polls
+    function initPolls() {
+      const options = $all(".poll-option");
+      const barFill = document.getElementById("pollBarFill");
+      const status = document.getElementById("pollStatus");
+      if (!options.length || !barFill || !status) return;
+
+      function updatePollUI() {
+        const total = state.poll.total || 1;
+        options.forEach(opt => {
+          const key = opt.getAttribute("data-option");
+          let count = 0;
+          if (key === "high-tempo") count = state.poll.highTempo;
+          if (key === "balanced") count = state.poll.balanced;
+          if (key === "chill") count = state.poll.chill;
+          const pct = Math.round((count / total) * 100);
+          const badge = opt.querySelector(".badge");
+          if (badge) badge.textContent = pct + "%";
+          if (state.poll.selected === key) {
+            opt.classList.add("selected");
+          } else {
+            opt.classList.remove("selected");
+          }
+        });
+
+        const maxCount = Math.max(state.poll.highTempo, state.poll.balanced, state.poll.chill, 0);
+        const maxPct = state.poll.total ? (maxCount / state.poll.total) * 100 : 0;
+        barFill.style.width = maxPct + "%";
+      }
+
+      options.forEach(opt => {
+        opt.addEventListener("click", () => {
+          const key = opt.getAttribute("data-option");
+          if (!key) return;
+          state.poll.total += 1;
+          if (key === "high-tempo") state.poll.highTempo += 1;
+          if (key === "balanced") state.poll.balanced += 1;
+          if (key === "chill") state.poll.chill += 1;
+          state.poll.selected = key;
+          updatePollUI();
+          status.textContent = "Vote recorded locally. Connect to Firestore to sync across devices.";
+          status.className = "status ok";
+        });
+      });
+
+      updatePollUI();
+    }
+
+    // Auth (demo only; replace with Firebase)
+    function initAuthDemo() {
+      const loginEmail = document.getElementById("loginEmail");
+      const loginPassword = document.getElementById("loginPassword");
+      const loginStatus = document.getElementById("loginStatus");
+      const btnLogin = document.getElementById("btnLogin");
+      const btnLoginDemo = document.getElementById("btnLoginDemo");
+
+      const registerName = document.getElementById("registerName");
+      const registerEmail = document.getElementById("registerEmail");
+      const registerPassword = document.getElementById("registerPassword");
+      const registerStatus = document.getElementById("registerStatus");
+      const btnRegister = document.getElementById("btnRegister");
+
+      const authStatusLabel = document.getElementById("authStatusLabel");
+      const authModeLabel = document.getElementById("authModeLabel");
+      const avatarInitials = document.getElementById("avatarInitials");
+
+      function updateAuthUI() {
+        if (state.user) {
+          authStatusLabel.textContent = "Signed in as " + (state.user.name || state.user.email);
+          authModeLabel.textContent = "Member";
+          const initials = (state.user.name || state.user.email || "UV")
+            .split(" ")
+            .map(p => p[0])
+            .join("")
+            .slice(0, 2)
+            .toUpperCase();
+          avatarInitials.textContent = initials;
+        } else {
+          authStatusLabel.textContent = "Guest mode · Not signed in";
+          authModeLabel.textContent = "Guest";
+          avatarInitials.textContent = "UV";
+        }
+      }
+
+      if (btnLogin) {
+        btnLogin.addEventListener("click", () => {
+          const email = (loginEmail.value || "").trim();
+          const pass = (loginPassword.value || "").trim();
+          if (!email || !pass) {
+            loginStatus.textContent = "Enter email and password.";
+            loginStatus.className = "status err";
+            return;
+          }
+          // Demo only
+          state.user = { email, name: email.split("@")[0] };
+          loginStatus.textContent = "Demo login successful. Replace with Firebase signInWithEmailAndPassword.";
+          loginStatus.className = "status ok";
+          updateAuthUI();
+        });
+      }
+
+      if (btnLoginDemo) {
+        btnLoginDemo.addEventListener("click", () => {
+          state.user = { email: "demo@unityverse.app", name: "Demo Player" };
+          loginStatus.textContent = "Signed in as Demo Player.";
+          loginStatus.className = "status ok";
+          updateAuthUI();
+        });
+      }
+
+      if (btnRegister) {
+        btnRegister.addEventListener("click", () => {
+          const name = (registerName.value || "").trim();
+          const email = (registerEmail.value || "").trim();
+          const pass = (registerPassword.value || "").trim();
+          if (!name || !email || !pass) {
+            registerStatus.textContent = "Fill all fields to register.";
+            registerStatus.className = "status err";
+            return;
+          }
+          // Demo only
+          state.user = { email, name };
+          registerStatus.textContent = "Demo account created. Replace with Firebase createUserWithEmailAndPassword.";
+          registerStatus.className = "status ok";
+          updateAuthUI();
+        });
+      }
+
+      updateAuthUI();
+    }
+
+    // Primary / secondary CTA
+    function initCTAs() {
+      const primary = document.getElementById("btnPrimaryAction");
+      const secondary = document.getElementById("btnSecondaryAction");
+      if (primary) {
+        primary.addEventListener("click", () => {
+          document.getElementById("tab-games")?.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+      }
+      if (secondary) {
+        secondary.addEventListener("click", () => {
+          document.getElementById("communityCard")?.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+      }
+    }
+
+    // Admin tiles (demo)
+    function initAdminTiles() {
+      const tiles = [
+        "adminTileCommunities",
+        "adminTileRules",
+        "adminTileAccess",
+        "adminTileReports"
+      ];
+      tiles.forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.addEventListener("click", () => {
+          alert("Admin panel demo. Wire this tile to a dedicated admin view or route.");
+        });
+      });
+    }
+
+    // Init
+    document.addEventListener("DOMContentLoaded", () => {
+      initTabs();
+      initBottomNav();
+      initPinnieEngine();
+      initCommunity();
+      initPolls();
+      initAuthDemo();
+      initCTAs();
+      initAdminTiles();
+    });
+  </script>
+</body>
+</html>
