@@ -2,76 +2,41 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>UNITYVERSE · Where Passion Meets Respect and Fun!!!</title>
+  <title>UNITYVERSE · Local Demo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    :root {
-      --royal: #0033a0;
-      --gold: #d4af37;
-      --red: #c1121f;
-      --bg: #050509;
-      --text: #f5f5f7;
-      --muted: #9ca3b5;
-      --shadow: 0 22px 60px rgba(0,0,0,0.75);
-      --radius-lg: 18px;
-      --radius-md: 14px;
-      --bottom-nav-height: 64px;
-    }
-    * { box-sizing: border-box; }
     body {
       margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+      font-family: system-ui, sans-serif;
       background: radial-gradient(circle at top left, rgba(0,51,160,0.45), transparent 55%), radial-gradient(circle at bottom right, rgba(193,18,31,0.45), transparent 55%), #020308;
-      color: var(--text);
-      min-height: 100vh;
+      color: #f5f5f7;
       display: flex;
       flex-direction: column;
+      min-height: 100vh;
     }
-    a { color: var(--gold); text-decoration: none; }
-    header {
-      position: sticky; top: 0; z-index: 40;
-      padding: 10px 16px;
-      display: flex; align-items: center; justify-content: space-between;
-      backdrop-filter: blur(22px);
-      background: linear-gradient(to right, rgba(5,6,12,0.96), rgba(5,6,12,0.82));
-      border-bottom: 1px solid rgba(212,175,55,0.25);
-    }
-    .brand { display: flex; align-items: center; gap: 10px; }
-    .brand-name { font-weight: 800; letter-spacing: 0.08em; font-size: 0.9rem; text-transform: uppercase; color: #f9fafb; }
-    .brand-tagline { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.12em; }
-    .pill { padding: 6px 12px; border-radius: 999px; border: 1px solid rgba(212,175,55,0.6); background: radial-gradient(circle at top left, rgba(212,175,55,0.18), transparent 60%); font-size: 0.7rem; color: var(--muted); display: flex; align-items: center; gap: 6px; }
-    .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: #16a34a; box-shadow: 0 0 0 4px rgba(22,163,74,0.35); }
-    .avatar { width: 30px; height: 30px; border-radius: 999px; background: radial-gradient(circle at 30% 20%, #ffffff, #d4af37 40%, #0033a0 80%); box-shadow: 0 0 0 1px rgba(212,175,55,0.7); display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; color: #020617; }
-    main { flex: 1; padding: 12px 12px calc(var(--bottom-nav-height) + 16px); max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 2.2fr) minmax(0, 1.4fr); gap: 12px; }
-    @media (max-width: 900px){ main{ grid-template-columns: 1fr; } }
-    .card { background: rgba(5,6,15,0.96); border-radius: var(--radius-lg); border: 1px solid rgba(34,36,51,0.9); box-shadow: var(--shadow); padding: 14px; }
-    .card-title { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.16em; color: var(--muted); }
-    .hero-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 10px; }
-    .hero-stat { padding: 8px; border-radius: 12px; background: rgba(15,23,42,0.9); border: 1px solid rgba(75,85,99,0.9); display: flex; flex-direction: column; gap: 2px; }
-    .hero-stat-label { font-size: 0.65rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.12em; }
-    .hero-stat-value { font-size: 0.9rem; font-weight: 700; }
-    .bottom-nav { position: fixed; left: 0; right: 0; bottom: 0; height: var(--bottom-nav-height); background: rgba(15,23,42,0.96); border-top: 1px solid rgba(31,41,55,0.95); display: flex; align-items: center; justify-content: space-around; padding: 6px 10px; z-index: 50; backdrop-filter: blur(18px); }
-    .bottom-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 0.65rem; color: var(--muted); cursor: pointer; }
-    .bottom-item.active { color: #fef9c3; }
+    header { padding: 10px 16px; display: flex; justify-content: space-between; background: rgba(5,6,12,0.9); border-bottom: 1px solid rgba(212,175,55,0.25); }
+    main { flex: 1; padding: 16px; max-width: 1100px; margin: auto; display: grid; grid-template-columns: 2fr 1fr; gap: 12px; }
+    .card { background: rgba(15,23,42,0.95); border-radius: 14px; border: 1px solid rgba(55,65,81,0.9); padding: 14px; box-shadow: 0 22px 60px rgba(0,0,0,0.75); }
+    .hero-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; }
+    .hero-stat { background: rgba(24,24,27,0.9); border: 1px solid rgba(75,85,99,0.9); border-radius: 12px; padding: 8px; }
+    .hero-stat-label { font-size: 0.7rem; color: #9ca3b5; text-transform: uppercase; }
+    .hero-stat-value { font-size: 1rem; font-weight: 700; }
+    .poll-option { display: flex; justify-content: space-between; align-items: center; padding: 6px 8px; border-radius: 999px; border: 1px solid rgba(75,85,99,0.9); margin-top: 4px; cursor: pointer; }
+    .poll-option.selected { border-color: rgba(212,175,55,0.9); background: radial-gradient(circle at top left, rgba(212,175,55,0.25), rgba(24,24,27,0.95)); }
+    .poll-bar { height: 4px; border-radius: 999px; background: rgba(31,41,55,0.9); overflow: hidden; margin-top: 3px; }
+    .poll-bar-fill { height: 100%; background: linear-gradient(90deg, #d4af37, #facc15); width: 0%; transition: width 0.25s ease-out; }
+    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: 64px; background: rgba(15,23,42,0.96); display: flex; justify-content: space-around; align-items: center; border-top: 1px solid rgba(31,41,55,0.95); }
   </style>
 </head>
 <body>
   <header>
-    <div class="brand">
-      <div class="brand-text">
-        <div class="brand-name">UNITYVERSE</div>
-        <div class="brand-tagline">Where Passion Meets Respect and Fun!!!</div>
-      </div>
-    </div>
-    <div class="header-actions">
-      <div class="pill"><div class="pill-dot"></div><span id="authStatusLabel">Guest mode · Not signed in</span></div>
-      <div class="avatar" id="avatarInitials">UV</div>
-    </div>
+    <div><strong>UNITYVERSE</strong> · Fair Play First</div>
+    <div id="authStatusLabel">Guest mode · Not signed in</div>
   </header>
 
   <main>
     <section class="card" id="homeCard">
-      <div class="card-title">Matchday Control Center</div>
+      <h3>Matchday Control Center</h3>
       <div class="hero-grid">
         <div class="hero-stat"><div class="hero-stat-label">Players Online</div><div class="hero-stat-value" id="statPlayersOnline">0</div></div>
         <div class="hero-stat"><div class="hero-stat-label">Tonight's Games</div><div class="hero-stat-value" id="statGamesTonight">0</div></div>
@@ -80,24 +45,86 @@
     </section>
 
     <section class="card" id="pollsCard">
-      <div class="card-title">Polls & Alerts</div>
-      <div class="poll" id="pollContainer">
-        <div>Tonight's vibe?</div>
-        <div class="poll-option" data-option="high-tempo"><span>High Tempo · Competitive</span><span class="badge">0%</span></div>
-        <div class="poll-option" data-option="balanced"><span>Balanced · Respect First</span><span class="badge">0%</span></div>
-        <div class="poll-option" data-option="chill"><span>Chill · Fun & Flow</span><span class="badge">0%</span></div>
-        <div class="poll-bar"><div class="poll-bar-fill" id="pollBarFill"></div></div>
-        <div class="status" id="pollStatus"></div>
-      </div>
+      <h3>Polls & Alerts</h3>
+      <div>Tonight's vibe?</div>
+      <div class="poll-option" data-option="high-tempo"><span>High Tempo · Competitive</span><span class="badge">0%</span></div>
+      <div class="poll-option" data-option="balanced"><span>Balanced · Respect First</span><span class="badge">0%</span></div>
+      <div class="poll-option" data-option="chill"><span>Chill · Fun & Flow</span><span class="badge">0%</span></div>
+      <div class="poll-bar"><div class="poll-bar-fill" id="pollBarFill"></div></div>
+      <div class="status" id="pollStatus"></div>
     </section>
   </main>
 
   <nav class="bottom-nav">
-    <div class="bottom-item active" data-nav="home"><div>🏠</div><div>Home</div></div>
-    <div class="bottom-item" data-nav="polls"><div>📊</div><div>Polls</div></div>
+    <div>🏠 Home</div>
+    <div>📊 Polls</div>
   </nav>
 
   <script>
     const state = {
-      user: null,
-      poll: { highTempo: 0, balanced: 0, chill: 0,
+      poll: { highTempo: 0, balanced: 0, chill: 0, total: 0, selected: null }
+    };
+
+    function $(sel){return document.querySelector(sel);}
+    function $all(sel){return Array.from(document.querySelectorAll(sel));}
+    function setText(id,text){const el=document.getElementById(id);if(el)el.textContent=text;}
+
+    // Simulated players.json
+    const players = [
+      { name: "Alex", isAdmin: true },
+      { name: "Maya", isAdmin: false },
+      { name: "Sam", isAdmin: true },
+      { name: "Jordan", isAdmin: false }
+    ];
+
+    // Load local data
+    setText("statPlayersOnline", players.length);
+    const admins = players.filter(p => p.isAdmin);
+    console.log("Admins:", admins);
+    setText("statGamesTonight", 2);
+    setText("statFairPlay", "9.4");
+
+    // Polls (local only)
+    function updatePollUI(){
+      const total = state.poll.total || 1;
+      const options = $all(".poll-option");
+      options.forEach(opt=>{
+        const key = opt.getAttribute("data-option");
+        let count = 0;
+        if(key==="high-tempo") count = state.poll.highTempo;
+        if(key==="balanced") count = state.poll.balanced;
+        if(key==="chill") count = state.poll.chill;
+        const pct = Math.round((count/total)*100);
+        const badge = opt.querySelector(".badge");
+        if(badge) badge.textContent = pct + "%";
+        opt.classList.toggle("selected", state.poll.selected === key);
+      });
+      const maxCount = Math.max(state.poll.highTempo, state.poll.balanced, state.poll.chill, 0);
+      const maxPct = state.poll.total ? (maxCount/state.poll.total)*100 : 0;
+      $("#pollBarFill").style.width = maxPct + "%";
+    }
+
+    function initPolls(){
+      const options = $all(".poll-option");
+      const status = $("#pollStatus");
+      options.forEach(opt=>{
+        opt.addEventListener("click",()=>{
+          const key = opt.getAttribute("data-option");
+          if(!key) return;
+          state.poll.total += 1;
+          if(key==="high-tempo") state.poll.highTempo += 1;
+          if(key==="balanced") state.poll.balanced += 1;
+          if(key==="chill") state.poll.chill += 1;
+          state.poll.selected = key;
+          updatePollUI();
+          status.textContent = "Vote recorded locally.";
+          status.className = "status ok";
+        });
+      });
+      updatePollUI();
+    }
+
+    window.addEventListener("DOMContentLoaded", initPolls);
+  </script>
+</body>
+</html>
