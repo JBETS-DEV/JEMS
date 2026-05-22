@@ -2,129 +2,1217 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>UNITYVERSE · Local Demo</title>
+  <title>UNITYVERSE · Elite Pickup Soccer Platform</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
+    :root {
+      --royal: #0033a0;
+      --gold: #d4af37;
+      --red: #c1121f;
+      --bg: #020308;
+      --card: rgba(10, 12, 24, 0.96);
+      --border-subtle: rgba(55, 65, 81, 0.9);
+      --text: #f9fafb;
+      --muted: #9ca3b5;
+      --radius-lg: 18px;
+      --radius-md: 14px;
+      --shadow: 0 22px 60px rgba(0, 0, 0, 0.75);
+      --bottom-nav-height: 64px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
-      font-family: system-ui, sans-serif;
-      background: radial-gradient(circle at top left, rgba(0,51,160,0.45), transparent 55%), radial-gradient(circle at bottom right, rgba(193,18,31,0.45), transparent 55%), #020308;
-      color: #f5f5f7;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(0, 51, 160, 0.45), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(193, 18, 31, 0.45), transparent 55%),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      min-height: 100vh;
     }
-    header { padding: 10px 16px; display: flex; justify-content: space-between; background: rgba(5,6,12,0.9); border-bottom: 1px solid rgba(212,175,55,0.25); }
-    main { flex: 1; padding: 16px; max-width: 1100px; margin: auto; display: grid; grid-template-columns: 2fr 1fr; gap: 12px; }
-    .card { background: rgba(15,23,42,0.95); border-radius: 14px; border: 1px solid rgba(55,65,81,0.9); padding: 14px; box-shadow: 0 22px 60px rgba(0,0,0,0.75); }
-    .hero-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; }
-    .hero-stat { background: rgba(24,24,27,0.9); border: 1px solid rgba(75,85,99,0.9); border-radius: 12px; padding: 8px; }
-    .hero-stat-label { font-size: 0.7rem; color: #9ca3b5; text-transform: uppercase; }
-    .hero-stat-value { font-size: 1rem; font-weight: 700; }
-    .poll-option { display: flex; justify-content: space-between; align-items: center; padding: 6px 8px; border-radius: 999px; border: 1px solid rgba(75,85,99,0.9); margin-top: 4px; cursor: pointer; }
-    .poll-option.selected { border-color: rgba(212,175,55,0.9); background: radial-gradient(circle at top left, rgba(212,175,55,0.25), rgba(24,24,27,0.95)); }
-    .poll-bar { height: 4px; border-radius: 999px; background: rgba(31,41,55,0.9); overflow: hidden; margin-top: 3px; }
-    .poll-bar-fill { height: 100%; background: linear-gradient(90deg, #d4af37, #facc15); width: 0%; transition: width 0.25s ease-out; }
-    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: 64px; background: rgba(15,23,42,0.96); display: flex; justify-content: space-around; align-items: center; border-top: 1px solid rgba(31,41,55,0.95); }
+
+    a {
+      color: var(--gold);
+      text-decoration: none;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      backdrop-filter: blur(22px);
+      background: linear-gradient(
+        to right,
+        rgba(5, 6, 12, 0.96),
+        rgba(5, 6, 12, 0.82)
+      );
+      border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-logo {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #ffffff, #d4af37 40%, #0033a0 80%);
+      box-shadow: 0 0 0 1px rgba(212, 175, 55, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 800;
+      color: #020617;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .brand-name {
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      color: #f9fafb;
+    }
+
+    .brand-tagline {
+      font-size: 0.7rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .pill {
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(212, 175, 55, 0.6);
+      background: radial-gradient(
+        circle at top left,
+        rgba(212, 175, 55, 0.18),
+        transparent 60%
+      );
+      font-size: 0.7rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pill-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #16a34a;
+      box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.35);
+    }
+
+    .avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #ffffff, #d4af37 40%, #0033a0 80%);
+      box-shadow: 0 0 0 1px rgba(212, 175, 55, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: #020617;
+    }
+
+    main {
+      flex: 1;
+      padding: 12px 12px calc(var(--bottom-nav-height) + 16px);
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(0, 2.2fr) minmax(0, 1.4fr);
+      gap: 12px;
+    }
+
+    @media (max-width: 900px) {
+      main {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--shadow);
+      padding: 14px;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .card-title {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+    }
+
+    .card-subtitle {
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .hero-stat {
+      padding: 8px;
+      border-radius: 12px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(75, 85, 99, 0.9);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .hero-stat-label {
+      font-size: 0.65rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .hero-stat-value {
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    .hero-stat-meta {
+      font-size: 0.65rem;
+      color: var(--muted);
+    }
+
+    .tab-row {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+
+    .tab-pill {
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      font-size: 0.7rem;
+      color: var(--muted);
+      cursor: pointer;
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .tab-pill.active {
+      border-color: rgba(212, 175, 55, 0.9);
+      color: #fef9c3;
+      background: radial-gradient(
+        circle at top left,
+        rgba(212, 175, 55, 0.25),
+        rgba(15, 23, 42, 0.98)
+      );
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .section-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      max-height: 260px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .list-item {
+      padding: 8px 9px;
+      border-radius: 10px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      background: rgba(15, 23, 42, 0.96);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 0.8rem;
+    }
+
+    .list-main {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .list-title {
+      font-weight: 600;
+      font-size: 0.8rem;
+    }
+
+    .list-meta {
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    .badge {
+      font-size: 0.7rem;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(75, 85, 99, 0.9);
+      color: var(--muted);
+    }
+
+    .badge-pill {
+      border-radius: 999px;
+    }
+
+    .badge-gold {
+      border-color: rgba(212, 175, 55, 0.9);
+      color: #fef9c3;
+    }
+
+    .badge-red {
+      border-color: rgba(239, 68, 68, 0.9);
+      color: #fecaca;
+    }
+
+    .badge-green {
+      border-color: rgba(34, 197, 94, 0.9);
+      color: #bbf7d0;
+    }
+
+    .pill-soft {
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      color: var(--muted);
+    }
+
+    .pill-soft-royal {
+      border-color: rgba(59, 130, 246, 0.9);
+      color: #bfdbfe;
+    }
+
+    .pill-soft-gold {
+      border-color: rgba(212, 175, 55, 0.9);
+      color: #fef9c3;
+    }
+
+    .pill-soft-red {
+      border-color: rgba(248, 113, 113, 0.9);
+      color: #fee2e2;
+    }
+
+    .pill-soft-green {
+      border-color: rgba(34, 197, 94, 0.9);
+      color: #bbf7d0;
+    }
+
+    .pill-soft-muted {
+      border-style: dashed;
+    }
+
+    .grid-two {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 6px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      margin-bottom: 8px;
+    }
+
+    .field label {
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    .field input,
+    .field textarea,
+    .field select {
+      border-radius: 10px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      background: rgba(15, 23, 42, 0.96);
+      color: var(--text);
+      padding: 6px 8px;
+      font-size: 0.8rem;
+      outline: none;
+    }
+
+    .field textarea {
+      resize: vertical;
+      min-height: 60px;
+    }
+
+    .btn {
+      border-radius: 999px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      background: rgba(15, 23, 42, 0.96);
+      color: var(--text);
+      padding: 6px 10px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-primary {
+      border-color: rgba(212, 175, 55, 0.9);
+      background: radial-gradient(
+        circle at top left,
+        rgba(212, 175, 55, 0.25),
+        rgba(15, 23, 42, 0.98)
+      );
+      color: #fef9c3;
+    }
+
+    .btn-ghost {
+      border-style: dashed;
+      color: var(--muted);
+    }
+
+    .btn-full {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .status {
+      font-size: 0.7rem;
+      margin-top: 4px;
+      color: var(--muted);
+    }
+
+    .status.ok {
+      color: #bbf7d0;
+    }
+
+    .status.err {
+      color: #fecaca;
+    }
+
+    .poll {
+      margin-top: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .poll-option {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(75, 85, 99, 0.9);
+      cursor: pointer;
+      font-size: 0.8rem;
+      background: rgba(15, 23, 42, 0.96);
+    }
+
+    .poll-option.selected {
+      border-color: rgba(212, 175, 55, 0.9);
+      background: radial-gradient(
+        circle at top left,
+        rgba(212, 175, 55, 0.25),
+        rgba(15, 23, 42, 0.98)
+      );
+    }
+
+    .poll-bar {
+      height: 4px;
+      border-radius: 999px;
+      background: rgba(31, 41, 55, 0.9);
+      overflow: hidden;
+      margin-top: 3px;
+    }
+
+    .poll-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #d4af37, #facc15);
+      width: 0%;
+      transition: width 0.25s ease-out;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: var(--bottom-nav-height);
+      background: rgba(15, 23, 42, 0.96);
+      border-top: 1px solid rgba(31, 41, 55, 0.95);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: 6px 10px;
+      z-index: 50;
+      backdrop-filter: blur(18px);
+    }
+
+    .bottom-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      font-size: 0.65rem;
+      color: var(--muted);
+      cursor: pointer;
+    }
+
+    .bottom-item-icon {
+      font-size: 1.1rem;
+    }
+
+    .bottom-item.active {
+      color: #fef9c3;
+    }
+
+    .feed {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      max-height: 220px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .feed-item {
+      padding: 8px 9px;
+      border-radius: 10px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      background: rgba(15, 23, 42, 0.96);
+      font-size: 0.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .feed-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    .hint {
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
   </style>
 </head>
 <body>
   <header>
-    <div><strong>UNITYVERSE</strong> · Fair Play First</div>
-    <div id="authStatusLabel">Guest mode · Not signed in</div>
+    <div class="brand">
+      <div class="brand-logo">UV</div>
+      <div class="brand-text">
+        <div class="brand-name">UNITYVERSE</div>
+        <div class="brand-tagline">Where Passion Meets Respect and Fun!!!</div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <div class="pill">
+        <div class="pill-dot"></div>
+        <span id="authStatusLabel">Guest mode · Not signed in</span>
+      </div>
+      <div class="avatar" id="avatarInitials">UV</div>
+    </div>
   </header>
 
   <main>
+    <!-- LEFT COLUMN -->
     <section class="card" id="homeCard">
-      <h3>Matchday Control Center</h3>
+      <div class="card-header">
+        <div>
+          <div class="card-title">Matchday Control Center</div>
+          <div class="card-subtitle">Elite pickup soccer · Unity, respect, and fun first.</div>
+        </div>
+        <div class="pill-soft pill-soft-gold" id="authModeLabel">Guest</div>
+      </div>
+
       <div class="hero-grid">
-        <div class="hero-stat"><div class="hero-stat-label">Players Online</div><div class="hero-stat-value" id="statPlayersOnline">0</div></div>
-        <div class="hero-stat"><div class="hero-stat-label">Tonight's Games</div><div class="hero-stat-value" id="statGamesTonight">0</div></div>
-        <div class="hero-stat"><div class="hero-stat-label">Fair Play Score</div><div class="hero-stat-value" id="statFairPlay">—</div></div>
+        <div class="hero-stat">
+          <div class="hero-stat-label">Players Online</div>
+          <div class="hero-stat-value" id="statPlayersOnline">0</div>
+          <div class="hero-stat-meta">Active in the last 24h</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-label">Tonight's Games</div>
+          <div class="hero-stat-value" id="statGamesTonight">0</div>
+          <div class="hero-stat-meta">Across all venues</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-label">Fair Play Score</div>
+          <div class="hero-stat-value" id="statFairPlay">—</div>
+          <div class="hero-stat-meta">Respect · Safety · Fun</div>
+        </div>
+      </div>
+
+      <div class="tab-row">
+        <div class="tab-pill active" data-tab="tab-games">Games</div>
+        <div class="tab-pill" data-tab="tab-pinnies">Pinnies</div>
+        <div class="tab-pill" data-tab="tab-attendance">Attendance</div>
+        <div class="tab-pill" data-tab="tab-payments">Payments</div>
+        <div class="tab-pill" data-tab="tab-admin">Admin</div>
+      </div>
+
+      <!-- GAMES TAB -->
+      <div class="tab-content active" id="tab-games">
+        <div class="section-label">Tonight's Games</div>
+        <div class="list" id="gamesList">
+          <!-- Filled by JS -->
+        </div>
+      </div>
+
+      <!-- PINNIES TAB -->
+      <div class="tab-content" id="tab-pinnies">
+        <div class="section-label">Pinnie Split Engine</div>
+        <div class="list">
+          <div class="list-item">
+            <div class="list-main">
+              <div class="list-title">Auto-balance teams</div>
+              <div class="list-meta">
+                Uses player ratings and positions to suggest fair Gold vs Dark split.
+              </div>
+            </div>
+            <div class="badge badge-pill badge-gold" id="pinnieSplitLabel">
+              Gold 7 · Dark 7
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-full" id="btnRunPinnieEngine">
+          ⚙️ Run Pinnie Engine
+        </button>
+        <div class="hint">
+          This is a local demo. Connect to Firestore later to persist rosters.
+        </div>
+      </div>
+
+      <!-- ATTENDANCE TAB -->
+      <div class="tab-content" id="tab-attendance">
+        <div class="section-label">Attendance & Check-in</div>
+        <div class="list" id="attendanceList">
+          <!-- Filled by JS -->
+        </div>
+      </div>
+
+      <!-- PAYMENTS TAB -->
+      <div class="tab-content" id="tab-payments">
+        <div class="section-label">Payments & Credits</div>
+        <div class="list" id="paymentsList">
+          <!-- Filled by JS -->
+        </div>
+      </div>
+
+      <!-- ADMIN TAB -->
+      <div class="tab-content" id="tab-admin">
+        <div class="section-label">Admin Tools</div>
+        <div class="list" id="adminList">
+          <!-- Filled by JS -->
+        </div>
       </div>
     </section>
 
-    <section class="card" id="pollsCard">
-      <h3>Polls & Alerts</h3>
-      <div>Tonight's vibe?</div>
-      <div class="poll-option" data-option="high-tempo"><span>High Tempo · Competitive</span><span class="badge">0%</span></div>
-      <div class="poll-option" data-option="balanced"><span>Balanced · Respect First</span><span class="badge">0%</span></div>
-      <div class="poll-option" data-option="chill"><span>Chill · Fun & Flow</span><span class="badge">0%</span></div>
-      <div class="poll-bar"><div class="poll-bar-fill" id="pollBarFill"></div></div>
-      <div class="status" id="pollStatus"></div>
+    <!-- RIGHT COLUMN -->
+    <section class="card" id="sideCard">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Community & Control</div>
+          <div class="card-subtitle">Polls, updates, and member access.</div>
+        </div>
+      </div>
+
+      <!-- POLL -->
+      <section>
+        <div class="section-label">Tonight's Vibe Poll</div>
+        <div class="poll" id="pollContainer">
+          <div>Tonight's vibe?</div>
+          <div class="poll-option" data-option="high-tempo">
+            <span>High Tempo · Competitive</span>
+            <span class="badge">0%</span>
+          </div>
+          <div class="poll-option" data-option="balanced">
+            <span>Balanced · Respect First</span>
+            <span class="badge">0%</span>
+          </div>
+          <div class="poll-option" data-option="chill">
+            <span>Chill · Fun & Flow</span>
+            <span class="badge">0%</span>
+          </div>
+          <div class="poll-bar">
+            <div class="poll-bar-fill" id="pollBarFill"></div>
+          </div>
+          <div class="hint">Votes are stored locally for this demo.</div>
+          <div class="status" id="pollStatus"></div>
+        </div>
+      </section>
+
+      <hr style="border: none; border-top: 1px solid rgba(55,65,81,0.9); margin: 10px 0;" />
+
+      <!-- COMMUNITY -->
+      <section id="communityCard">
+        <div class="section-label">Community Feed</div>
+        <form id="communityPostForm" onsubmit="return false;">
+          <div class="field">
+            <label for="communityMessage">Post an update</label>
+            <textarea id="communityMessage" placeholder="Shoutout, reminder, or good vibes only."></textarea>
+          </div>
+          <div style="display:flex; gap:6px; margin-bottom:4px;">
+            <button type="button" class="btn btn-primary" id="btnPostCommunity">Post</button>
+            <button type="button" class="btn btn-ghost" id="btnClearCommunity">Clear</button>
+          </div>
+          <div class="status" id="communityStatus"></div>
+        </form>
+        <div class="feed" id="communityFeed"></div>
+      </section>
+
+      <hr style="border: none; border-top: 1px solid rgba(55,65,81,0.9); margin: 10px 0;" />
+
+      <!-- AUTH -->
+      <section class="card-inner" id="authCard">
+        <div class="section-label">Access & Identity</div>
+        <div class="tab-row">
+          <div class="tab-pill active" data-tab="tab-auth-login">Login</div>
+          <div class="tab-pill" data-tab="tab-auth-register">Register</div>
+        </div>
+
+        <div class="tab-content active" id="tab-auth-login">
+          <div class="field">
+            <label for="loginEmail">Email</label>
+            <input id="loginEmail" type="email" placeholder="you@example.com" />
+          </div>
+          <div class="field">
+            <label for="loginPassword">Password</label>
+            <input id="loginPassword" type="password" placeholder="••••••••" />
+          </div>
+          <div style="display:flex; gap:6px;">
+            <button class="btn btn-primary" type="button" id="btnLogin">Login</button>
+            <button class="btn btn-ghost" type="button" id="btnLoginDemo">
+              Demo Login
+            </button>
+          </div>
+          <div class="status" id="loginStatus"></div>
+        </div>
+
+        <div class="tab-content" id="tab-auth-register">
+          <div class="field">
+            <label for="registerName">Full Name</label>
+            <input id="registerName" type="text" placeholder="Your name" />
+          </div>
+          <div class="field">
+            <label for="registerEmail">Email</label>
+            <input id="registerEmail" type="email" placeholder="you@example.com" />
+          </div>
+          <div class="field">
+            <label for="registerPassword">Password</label>
+            <input id="registerPassword" type="password" placeholder="Create a password" />
+          </div>
+          <button class="btn btn-primary btn-full" type="button" id="btnRegister">
+            Create Account (Local Demo)
+          </button>
+          <div class="status" id="registerStatus"></div>
+        </div>
+      </section>
     </section>
   </main>
 
+  <!-- BOTTOM NAV -->
   <nav class="bottom-nav">
-    <div>🏠 Home</div>
-    <div>📊 Polls</div>
+    <div class="bottom-item active" data-nav="home">
+      <div class="bottom-item-icon">🏠</div>
+      <div>Home</div>
+    </div>
+    <div class="bottom-item" data-nav="community">
+      <div class="bottom-item-icon">👥</div>
+      <div>Community</div>
+    </div>
+    <div class="bottom-item" data-nav="games">
+      <div class="bottom-item-icon">⚽</div>
+      <div>Games</div>
+    </div>
+    <div class="bottom-item" data-nav="admin">
+      <div class="bottom-item-icon">🛡️</div>
+      <div>Admin</div>
+    </div>
+    <div class="bottom-item" data-nav="profile">
+      <div class="bottom-item-icon">👤</div>
+      <div>Profile</div>
+    </div>
   </nav>
 
+  <!-- SCRIPT -->
   <script>
+    // Simple state
     const state = {
-      poll: { highTempo: 0, balanced: 0, chill: 0, total: 0, selected: null }
+      user: null,
+      poll: {
+        highTempo: 0,
+        balanced: 0,
+        chill: 0,
+        total: 0,
+        selected: null
+      },
+      pinnies: {
+        gold: 7,
+        dark: 7
+      }
     };
 
-    function $(sel){return document.querySelector(sel);}
-    function $all(sel){return Array.from(document.querySelectorAll(sel));}
-    function setText(id,text){const el=document.getElementById(id);if(el)el.textContent=text;}
-
-    // Simulated players.json
-    const players = [
-      { name: "Alex", isAdmin: true },
-      { name: "Maya", isAdmin: false },
-      { name: "Sam", isAdmin: true },
-      { name: "Jordan", isAdmin: false }
-    ];
-
-    // Load local data
-    setText("statPlayersOnline", players.length);
-    const admins = players.filter(p => p.isAdmin);
-    console.log("Admins:", admins);
-    setText("statGamesTonight", 2);
-    setText("statFairPlay", "9.4");
-
-    // Polls (local only)
-    function updatePollUI(){
-      const total = state.poll.total || 1;
-      const options = $all(".poll-option");
-      options.forEach(opt=>{
-        const key = opt.getAttribute("data-option");
-        let count = 0;
-        if(key==="high-tempo") count = state.poll.highTempo;
-        if(key==="balanced") count = state.poll.balanced;
-        if(key==="chill") count = state.poll.chill;
-        const pct = Math.round((count/total)*100);
-        const badge = opt.querySelector(".badge");
-        if(badge) badge.textContent = pct + "%";
-        opt.classList.toggle("selected", state.poll.selected === key);
-      });
-      const maxCount = Math.max(state.poll.highTempo, state.poll.balanced, state.poll.chill, 0);
-      const maxPct = state.poll.total ? (maxCount/state.poll.total)*100 : 0;
-      $("#pollBarFill").style.width = maxPct + "%";
+    // Helpers
+    function $(sel) {
+      return document.querySelector(sel);
+    }
+    function $all(sel) {
+      return Array.from(document.querySelectorAll(sel));
     }
 
-    function initPolls(){
+    function setText(id, text) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = text;
+    }
+
+    // Tabs (main + auth)
+    function initTabs() {
+      const tabButtons = $all(".tab-pill");
+      tabButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+          const tabId = btn.getAttribute("data-tab");
+          if (!tabId) return;
+
+          const isAuthTab = tabId.startsWith("tab-auth-");
+
+          if (isAuthTab) {
+            const authTabs = $all("#authCard .tab-pill");
+            const authContents = $all("#authCard .tab-content");
+            authTabs.forEach(b => b.classList.remove("active"));
+            authContents.forEach(c => c.classList.remove("active"));
+            btn.classList.add("active");
+            const content = document.getElementById(tabId);
+            if (content) content.classList.add("active");
+          } else {
+            const mainTabs = $all("#homeCard .tab-pill");
+            const mainContents = $all("#homeCard .tab-content");
+            mainTabs.forEach(b => b.classList.remove("active"));
+            mainContents.forEach(c => c.classList.remove("active"));
+            btn.classList.add("active");
+            const content = document.getElementById(tabId);
+            if (content) content.classList.add("active");
+          }
+        });
+      });
+    }
+
+    // Bottom nav (just visual + scroll focus)
+    function initBottomNav() {
+      const items = $all(".bottom-item");
+      items.forEach(item => {
+        item.addEventListener("click", () => {
+          items.forEach(i => i.classList.remove("active"));
+          item.classList.add("active");
+
+          const target = item.getAttribute("data-nav");
+          if (target === "home") {
+            document
+              .getElementById("homeCard")
+              ?.scrollIntoView({ behavior: "smooth", block: "start" });
+          } else if (target === "community") {
+            document
+              .getElementById("communityCard")
+              ?.scrollIntoView({ behavior: "smooth", block: "start" });
+          } else if (target === "admin") {
+            document
+              .getElementById("tab-admin")
+              ?.scrollIntoView({ behavior: "smooth", block: "start" });
+          } else if (target === "games") {
+            document
+              .getElementById("tab-games")
+              ?.scrollIntoView({ behavior: "smooth", block: "start" });
+          } else if (target === "profile") {
+            document
+              .getElementById("authCard")
+              ?.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        });
+      });
+    }
+
+    // Demo data
+    const demoPlayers = [
+      { name: "Alex", position: "FWD", rating: 4.5, isAdmin: true },
+      { name: "Maya", position: "MID", rating: 4.2, isAdmin: false },
+      { name: "Sam", position: "DEF", rating: 4.0, isAdmin: true },
+      { name: "Jordan", position: "GK", rating: 3.8, isAdmin: false },
+      { name: "Lena", position: "MID", rating: 4.1, isAdmin: false },
+      { name: "Chris", position: "FWD", rating: 3.9, isAdmin: false }
+    ];
+
+    const demoGames = [
+      {
+        id: 1,
+        label: "Game 1 · 7v7",
+        time: "8:00 PM",
+        field: "Field A",
+        vibe: "Balanced",
+        spotsLeft: 2
+      },
+      {
+        id: 2,
+        label: "Game 2 · 7v7",
+        time: "9:15 PM",
+        field: "Field B",
+        vibe: "High Tempo",
+        spotsLeft: 4
+      }
+    ];
+
+    const demoAttendance = [
+      { name: "Alex", status: "Confirmed", game: "Game 1" },
+      { name: "Maya", status: "Confirmed", game: "Game 1" },
+      { name: "Sam", status: "Waitlist", game: "Game 2" },
+      { name: "Jordan", status: "Confirmed", game: "Game 2" }
+    ];
+
+    const demoPayments = [
+      { name: "Alex", status: "Paid", method: "Interac", amount: "$15" },
+      { name: "Maya", status: "Pending", method: "Cash", amount: "$15" },
+      { name: "Sam", status: "Paid", method: "Card", amount: "$15" }
+    ];
+
+    // Populate lists
+    function populateGames() {
+      const list = document.getElementById("gamesList");
+      if (!list) return;
+      list.innerHTML = "";
+      demoGames.forEach(game => {
+        const item = document.createElement("div");
+        item.className = "list-item";
+        item.innerHTML = `
+          <div class="list-main">
+            <div class="list-title">${game.label}</div>
+            <div class="list-meta">${game.time} · ${game.field} · ${game.vibe}</div>
+          </div>
+          <div class="badge badge-pill ${
+            game.spotsLeft <= 2 ? "badge-red" : "badge-green"
+          }">
+            ${game.spotsLeft} spots left
+          </div>
+        `;
+        list.appendChild(item);
+      });
+    }
+
+    function populateAttendance() {
+      const list = document.getElementById("attendanceList");
+      if (!list) return;
+      list.innerHTML = "";
+      demoAttendance.forEach(row => {
+        const item = document.createElement("div");
+        item.className = "list-item";
+        const statusClass =
+          row.status === "Confirmed"
+            ? "badge-green"
+            : row.status === "Waitlist"
+            ? "badge-gold"
+            : "badge-red";
+        item.innerHTML = `
+          <div class="list-main">
+            <div class="list-title">${row.name}</div>
+            <div class="list-meta">${row.game}</div>
+          </div>
+          <div class="badge badge-pill ${statusClass}">
+            ${row.status}
+          </div>
+        `;
+        list.appendChild(item);
+      });
+    }
+
+    function populatePayments() {
+      const list = document.getElementById("paymentsList");
+      if (!list) return;
+      list.innerHTML = "";
+      demoPayments.forEach(row => {
+        const item = document.createElement("div");
+        item.className = "list-item";
+        const statusClass =
+          row.status === "Paid" ? "badge-green" : "badge-red";
+        item.innerHTML = `
+          <div class="list-main">
+            <div class="list-title">${row.name}</div>
+            <div class="list-meta">${row.method} · ${row.amount}</div>
+          </div>
+          <div class="badge badge-pill ${statusClass}">
+            ${row.status}
+          </div>
+        `;
+        list.appendChild(item);
+      });
+    }
+
+    function populateAdmins() {
+      const list = document.getElementById("adminList");
+      if (!list) return;
+      list.innerHTML = "";
+      const admins = demoPlayers.filter(p => p.isAdmin);
+      admins.forEach(admin => {
+        const item = document.createElement("div");
+        item.className = "list-item";
+        item.innerHTML = `
+          <div class="list-main">
+            <div class="list-title">${admin.name}</div>
+            <div class="list-meta">Admin · ${admin.position} · Rating ${admin.rating.toFixed(
+              1
+            )}</div>
+          </div>
+          <div class="badge badge-pill badge-gold">
+            Control
+          </div>
+        `;
+        list.appendChild(item);
+      });
+    }
+
+    function populateStats() {
+      setText("statPlayersOnline", demoPlayers.length.toString());
+      setText("statGamesTonight", demoGames.length.toString());
+      const avgRating =
+        demoPlayers.reduce((sum, p) => sum + p.rating, 0) / demoPlayers.length;
+      setText("statFairPlay", avgRating.toFixed(1));
+    }
+
+    // Pinnie engine (demo)
+    function initPinnieEngine() {
+      const btn = document.getElementById("btnRunPinnieEngine");
+      const label = document.getElementById("pinnieSplitLabel");
+      if (!btn || !label) return;
+
+      btn.addEventListener("click", () => {
+        const total = 14;
+        const gold = 7 + (Math.random() > 0.5 ? 1 : -1);
+        const clampedGold = Math.max(5, Math.min(9, gold));
+        const dark = total - clampedGold;
+        state.pinnies.gold = clampedGold;
+        state.pinnies.dark = dark;
+        label.textContent = "Gold " + clampedGold + " · Dark " + dark;
+      });
+    }
+
+    // Community posting (front-end only)
+    function initCommunity() {
+      const form = document.getElementById("communityPostForm");
+      const textarea = document.getElementById("communityMessage");
+      const feed = document.getElementById("communityFeed");
+      const status = document.getElementById("communityStatus");
+      const btnPost = document.getElementById("btnPostCommunity");
+      const btnClear = document.getElementById("btnClearCommunity");
+
+      if (!form || !textarea || !feed || !status || !btnPost || !btnClear) return;
+
+      btnPost.addEventListener("click", () => {
+        const msg = textarea.value.trim();
+        if (!msg) {
+          status.textContent = "Write something before posting.";
+          status.className = "status err";
+          return;
+        }
+        const item = document.createElement("div");
+        item.className = "feed-item";
+        const now = new Date();
+        const timeLabel = now.toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit"
+        });
+
+        item.innerHTML = `
+          <div>${msg}</div>
+          <div class="feed-meta">
+            <span>${state.user ? state.user.name || "You" : "Guest"}</span>
+            <span>${timeLabel}</span>
+          </div>
+        `;
+        feed.prepend(item);
+        textarea.value = "";
+        status.textContent = "Posted locally. Connect to Firestore to persist.";
+        status.className = "status ok";
+      });
+
+      btnClear.addEventListener("click", () => {
+        textarea.value = "";
+        status.textContent = "";
+        status.className = "status";
+      });
+    }
+
+    // Polls (local)
+    function initPolls() {
       const options = $all(".poll-option");
-      const status = $("#pollStatus");
-      options.forEach(opt=>{
-        opt.addEventListener("click",()=>{
+      const barFill = document.getElementById("pollBarFill");
+      const status = document.getElementById("pollStatus");
+      if (!options.length || !barFill || !status) return;
+
+      function updatePollUI() {
+        const total = state.poll.total || 1;
+        options.forEach(opt => {
           const key = opt.getAttribute("data-option");
-          if(!key) return;
+          let count = 0;
+          if (key === "high-tempo") count = state.poll.highTempo;
+          if (key === "balanced") count = state.poll.balanced;
+          if (key === "chill") count = state.poll.chill;
+          const pct = Math.round((count / total) * 100);
+          const badge = opt.querySelector(".badge");
+          if (badge) badge.textContent = pct + "%";
+          if (state.poll.selected === key) {
+            opt.classList.add("selected");
+          } else {
+            opt.classList.remove("selected");
+          }
+        });
+
+        const maxCount = Math.max(
+          state.poll.highTempo,
+          state.poll.balanced,
+          state.poll.chill,
+          0
+        );
+        const maxPct = state.poll.total
+          ? (maxCount / state.poll.total) * 100
+          : 0;
+        barFill.style.width = maxPct + "%";
+      }
+
+      options.forEach(opt => {
+        opt.addEventListener("click", () => {
+          const key = opt.getAttribute("data-option");
+          if (!key) return;
           state.poll.total += 1;
-          if(key==="high-tempo") state.poll.highTempo += 1;
-          if(key==="balanced") state.poll.balanced += 1;
-          if(key==="chill") state.poll.chill += 1;
+          if (key === "high-tempo") state.poll.highTempo += 1;
+          if (key === "balanced") state.poll.balanced += 1;
+          if (key === "chill") state.poll.chill += 1;
           state.poll.selected = key;
           updatePollUI();
-          status.textContent = "Vote recorded locally.";
+          status.textContent =
+            "Vote recorded locally. Connect to Firestore to sync across devices.";
           status.className = "status ok";
         });
       });
+
       updatePollUI();
     }
 
-    window.addEventListener("DOMContentLoaded", initPolls);
-  </script>
-</body>
-</html>
+    // Auth (demo only; replace with Firebase later)
+    function initAuthDemo() {
+      const loginEmail = document.getElementById("loginEmail");
+      const loginPassword = document.getElementById("loginPassword");
+      const loginStatus = document.getElementById("loginStatus");
+      const btnLogin = document.getElementById("btnLogin");
+      const btnLoginDemo = document.getElementById("btnLoginDemo");
+
+      const registerName = document.getElementById("registerName");
+      const registerEmail = document.getElementById("registerEmail");
+      const registerPassword = document.getElementById("registerPassword");
+      const registerStatus = document.getElementById("registerStatus");
+      const btnRegister = document.getElementById("btnRegister");
+
+      const authStatusLabel = document.getElementById("authStatusLabel");
+      const authModeLabel = document.getElementById("authModeLabel");
+      const avatarInitials = document.getElementById("avatarInitials");
+
+      function updateAuthUI() {
+        if (state.user) {
+          authStatusLabel.textContent =
+            "Signed in as " + (state.user.name || state.user.email);
+          authModeLabel.textContent = "Member";
+          const initials = (state.user.name || state.user.email || "UV")
+            .split(" ")
+            .map(p => p[0])
+            .join("")
+            .slice(0, 2)
+            .toUpperCase();
+          avatarInitials.textContent = initials;
+        } else {
+          authStatusLabel.textContent = "Guest mode · Not signed in";
+          authModeLabel.textContent = "Guest";
+          avatarInitials.textContent = "UV";
+        }
+      }
+
+      if (btnLogin) {
+        btnLogin.addEventListener("click", () => {
+          const email = (loginEmail.value || "").trim();
+          const pass = (loginPassword.value || "").trim();
+          if (!email || !pass) {
+            loginStatus.textContent = "Enter email and password.";
+            loginStatus.className = "status err";
+            return;
+          }
+          state.user = { email, name: email.split("@")[0] };
+          loginStatus.textContent = "Logged in locally (demo only).";
+          loginStatus.className = "status ok";
+          updateAuthUI();
+        });
+      }
+
+      if (btnLoginDemo) {
+        btnLoginDemo.addEventListener("click", () => {
+          state.user = { email: "demo@unityverse.local", name: "Unity Demo" };
+          loginStatus.textContent = "Demo user logged in.";
+          loginStatus.className = "status ok";
+          updateAuthUI();
+        });
+      }
+
+      if (btnRegister
